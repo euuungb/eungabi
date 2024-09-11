@@ -1,0 +1,9 @@
+package com.blucky8649.decompose_navhost.navigation
+
+import androidx.compose.runtime.Composable
+
+data class Destination(
+    val name: String,
+    val content: @Composable () -> Unit = {}
+)
+
