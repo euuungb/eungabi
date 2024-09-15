@@ -5,6 +5,6 @@ import androidx.compose.runtime.Composable
 
 data class Destination(
     val name: String,
-    val content: @Composable AnimatedVisibilityScope.(NavBackStackEntry) -> Unit = {}
+    internal val content: @Composable AnimatedVisibilityScope.(NavBackStackEntry) -> Unit = {}
 )
 
