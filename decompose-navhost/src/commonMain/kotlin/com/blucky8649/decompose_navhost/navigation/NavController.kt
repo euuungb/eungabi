@@ -25,14 +25,15 @@ class NavController(
 
     private val navigation = StackNavigation<String>()
 
-    val backStack: Value<ChildStack<*, Destination>> by lazy {
+    val backStack: Value<ChildStack<*, NavBackStackEntry>> by lazy {
         childStack(
             source = navigation,
             serializer = null,
             initialConfiguration = graph.startDestination,
             handleBackButton = true,
-            childFactory = { route, _ -> graph.findDestination(route) }
-
+            childFactory = { route, _ ->
+                NavBackStackEntry(graph.findDestination(route))
+            }
         )
     }
 

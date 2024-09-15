@@ -1,5 +1,6 @@
 package com.blucky8649.decompose_navhost.navigation
 
+import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.runtime.Composable
 
 class NavGraph (
@@ -21,9 +22,9 @@ class NavGraphBuilder {
 
     fun composable(
         route: String,
-        content: @Composable () -> Unit
+        content: @Composable AnimatedVisibilityScope.(NavBackStackEntry) -> Unit
     ) {
-        destinations[route] = Destination(route, content)
+        destinations[route] = Destination(route, content = content)
     }
 
     internal fun build() = NavGraph(startDestination, destinations)

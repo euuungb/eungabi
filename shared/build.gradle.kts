@@ -33,12 +33,19 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
+            implementation(compose.components.resources)
             implementation(libs.cupertino.navigation)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
     }
+}
+
+compose.resources {
+    publicResClass = false
+    packageOfResClass = "com.blucky8649.sample.resources"
+    generateResClass = auto
 }
 
 android {

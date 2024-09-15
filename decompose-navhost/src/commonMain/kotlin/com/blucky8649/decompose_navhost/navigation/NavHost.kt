@@ -1,12 +1,11 @@
 package com.blucky8649.decompose_navhost.navigation
 
-import androidx.compose.foundation.background
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.experimental.stack.ChildStack
 import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.StackAnimation as ExperimentalStackAnimation
@@ -95,18 +94,34 @@ private fun NavHostInternal(
     val backStack by navController.backStack.subscribeAsState()
 
     if (animationDefault != null) {
-        Children(
-            modifier = modifier.fillMaxSize(),
-            stack = backStack,
-            animation = animationDefault,
-            content = { (it.instance as Destination).content() }
-        )
+        AnimatedContent(
+            targetState = backStack,
+            contentKey = { backStack }
+        ) {
+            Children(
+                modifier = modifier.fillMaxSize(),
+                stack = backStack,
+                animation = animationDefault,
+                content = {
+                    val entry = it.instance as NavBackStackEntry
+                    // WARNING : Shared Element Transitions are not supported within the children function.
+                    AnimatedContent(
+                        targetState = entry,
+                        contentKey = { entry.id }
+                    ) { entry.destination.content(this, entry) }
+                }
+            )
+        }
+
     } else {
         ChildStack(
             modifier = modifier.fillMaxSize(),
             stack = backStack,
             animation = animationExperimental,
-            content = { (it.instance as Destination).content() }
+            content = {
+                val entry = it.instance as NavBackStackEntry
+                entry.destination.content(this, entry)
+            }
         )
     }
 }
