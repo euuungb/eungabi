@@ -35,7 +35,6 @@ class NavController(
             ),
             handleBackButton = true,
             childFactory = { config, _ ->
-                println("navOptions in ChildFactory = ${config.navOptions}")
                 NavBackStackEntry(
                     destination = config.destination,
                     navOptions = config.navOptions
@@ -74,8 +73,6 @@ class NavController(
             destination = graph.findDestination(route),
             navOptions = navOptions
         )
-
-        println("navOptions in navigate = $navOptions")
 
         navigation.push(newConfig)
     }
