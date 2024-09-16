@@ -7,6 +7,7 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.popWhile
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackHandlerOwner
@@ -23,25 +24,64 @@ class NavController(
         _graph = value
     }
 
-    private val navigation = StackNavigation<String>()
+    private val navigation = StackNavigation<NavConfiguration>()
 
     val backStack: Value<ChildStack<*, NavBackStackEntry>> by lazy {
         childStack(
             source = navigation,
             serializer = null,
-            initialConfiguration = graph.startDestination,
+            initialConfiguration = NavConfiguration(
+                destination = graph.findDestination(graph.startDestination),
+            ),
             handleBackButton = true,
-            childFactory = { route, _ ->
-                NavBackStackEntry(graph.findDestination(route))
+            childFactory = { config, _ ->
+                NavBackStackEntry(
+                    destination = config.destination,
+                    navOptions = config.navOptions
+                )
             }
         )
     }
 
-    fun popBackStack(onCompleted: (isSuccess: Boolean) -> Unit = {})
-            = navigation.pop(onComplete = onCompleted)
+    fun popBackStack(onCompleted: (isSuccess: Boolean) -> Unit = {}) {
+        val entry = backStack.value.items.lastOrNull()?.instance ?: return
 
-    fun navigate(route: String) = navigation.push(route)
+        val inclusive = entry.navOptions.inclusive
+        val popUpToRoute = entry.navOptions.popUpToRoute
+
+        if (popUpToRoute.isEmpty()) {
+            navigation.pop(onCompleted)
+            return
+        }
+
+        navigation.popWhile { (topDestinationOfStack, _) ->
+            topDestinationOfStack.name != popUpToRoute
+        }
+
+        if (inclusive) { navigation.pop(onComplete = onCompleted) }
+    }
+
+    fun navigate(
+        route: String,
+        navOptionsBuilder: NavOptionsBuilder.() -> Unit = {}
+    ) {
+        val navOptions = NavOptionsBuilder()
+            .apply(navOptionsBuilder)
+            .build()
+
+        val newConfig = NavConfiguration(
+            destination = graph.findDestination(route),
+            navOptions = navOptions
+        )
+
+        navigation.push(newConfig)
+    }
 }
+
+data class NavConfiguration(
+    val destination: Destination,
+    val navOptions: NavOptions = NavOptions()
+)
 
 @Composable
 fun rememberNavController(

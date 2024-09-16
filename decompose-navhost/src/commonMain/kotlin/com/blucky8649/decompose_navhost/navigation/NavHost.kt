@@ -12,6 +12,7 @@ import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.S
 import com.arkivanov.decompose.extensions.compose.stack.animation.StackAnimation as DefaultStackAnimation
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import com.arkivanov.decompose.router.stack.ChildStack
 
 @ExperimentalDecomposeApi
 @Composable
@@ -25,6 +26,24 @@ fun NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = startDestination,
+        builder = builder,
+    )
+}
+
+@ExperimentalDecomposeApi
+@Composable
+fun NavHost(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    startDestination: String,
+    onNavGraphCreated: (backStack: ChildStack<*, NavBackStackEntry>) -> Unit,
+    builder: NavGraphBuilder.() -> Unit
+) {
+    NavHostInternal(
+        modifier = modifier,
+        navController = navController,
+        startDestination = startDestination,
+        onNavGraphCreated = onNavGraphCreated,
         builder = builder,
     )
 }
@@ -53,6 +72,26 @@ fun NavHost(
     modifier: Modifier = Modifier,
     navController: NavController,
     startDestination: String,
+    animation: ExperimentalStackAnimation<Any, Any>,
+    onNavGraphCreated: (backStack: ChildStack<*, NavBackStackEntry>) -> Unit,
+    builder: NavGraphBuilder.() -> Unit
+) {
+    NavHostInternal(
+        modifier = modifier,
+        navController = navController,
+        startDestination = startDestination,
+        animationExperimental = animation,
+        onNavGraphCreated = onNavGraphCreated,
+        builder = builder,
+    )
+}
+
+@ExperimentalDecomposeApi
+@Composable
+fun NavHost(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    startDestination: String,
     animation: DefaultStackAnimation<Any, Any>,
     builder: NavGraphBuilder.() -> Unit
 ) {
@@ -61,6 +100,26 @@ fun NavHost(
         navController = navController,
         startDestination = startDestination,
         animationDefault = animation,
+        builder = builder,
+    )
+}
+
+@ExperimentalDecomposeApi
+@Composable
+fun NavHost(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    startDestination: String,
+    animation: DefaultStackAnimation<Any, Any>,
+    onNavGraphCreated: (backStack: ChildStack<*, NavBackStackEntry>) -> Unit,
+    builder: NavGraphBuilder.() -> Unit
+) {
+    NavHostInternal(
+        modifier = modifier,
+        navController = navController,
+        startDestination = startDestination,
+        animationDefault = animation,
+        onNavGraphCreated = onNavGraphCreated,
         builder = builder,
     )
 }
@@ -74,6 +133,7 @@ private fun NavHostInternal(
     startDestination: String,
     animationDefault: DefaultStackAnimation<Any, Any>? = null,
     animationExperimental: ExperimentalStackAnimation<Any, Any>? = null,
+    onNavGraphCreated: (backStack: ChildStack<*, NavBackStackEntry>) -> Unit = {},
     builder: NavGraphBuilder.() -> Unit,
 ) {
     val graph = remember(
@@ -92,6 +152,7 @@ private fun NavHostInternal(
     navController.graph = graph
 
     val backStack by navController.backStack.subscribeAsState()
+    onNavGraphCreated(backStack)
 
     if (animationDefault != null) {
         AnimatedContent(
@@ -112,7 +173,6 @@ private fun NavHostInternal(
                 }
             )
         }
-
     } else {
         ChildStack(
             modifier = modifier.fillMaxSize(),
