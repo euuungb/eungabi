@@ -8,7 +8,7 @@ cmp-plugin = "1.7.0-beta02"
 decompose = "3.2.0-beta01"
 essenty = "2.2.0-beta01"
 androidx-activityCompose = "1.9.2"
-lifecycleRuntimeKtx = "2.8.5"
+lifecycleRuntimeKtx = "2.8.6"
 cupertino = "0.1.0-alpha04"
 nexus-publish = "2.0.0"
 
