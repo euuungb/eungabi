@@ -22,7 +22,7 @@ jobs:
 
       - name: Import GPG Key
         env:
-          SIGNING_KEY: ${{ secrets.SIGNING_KEY_LOCAL }}
+          SIGNING_KEY: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
         run: |
          # Install gpg secret key
           echo "$SIGNING_KEY" 
