@@ -17,14 +17,28 @@ jobs:
           java-version: '17'
 
       - name: Install GPG
-        env:
-          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
         run: |
           brew install gpg
-          echo "$SIGNING_KEY" | base64 --decode > decoded_key.gpg
-          gpg --list-packets decoded_key.gpg
 
-      - name: Setup gradle
+      - name: Import GPG Key
+        env:
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+        run: |
+          # 임시 GnuPG 홈 디렉토리 생성
+          export GNUPGHOME=$(mktemp -d)
+          chmod 700 "$GNUPGHOME"
+
+          # Base64 디코딩 후 GPG 키 임포트
+          echo "$SIGNING_KEY" | base64 --decode | gpg --batch --yes --import
+
+          # 키 신뢰 설정 (필요 시)
+          echo -e "trust\n5\ny\n" | gpg --command-fd 0 --edit-key YOUR_KEY_ID trust
+
+          # 키 목록 확인
+          gpg --list-secret-keys
+
+      - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
       - name: Add Gradle Properties
@@ -32,13 +46,13 @@ jobs:
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
           SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
-          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
         run: |
           echo "mavenCentralUsername=${MAVEN_CENTRAL_USERNAME}" >> gradle.properties
           echo "mavenCentralPassword=${MAVEN_CENTRAL_PASSWORD}" >> gradle.properties
           echo "signing.keyId=${SIGNING_KEY_ID}" >> gradle.properties
-          echo "signing.password=${SIGNING_KEY_PASSWORD}" >> gradle.properties
-          echo "signing.secretKeyRingFile=${HOME}/secring.gpg" >> gradle.properties
+          echo "signing.password=${SIGNING_PASSWORD}" >> gradle.properties
+          # secring.gpg 설정 제거
 
       - name: Setup Xcode
         uses: maxim-lobanov/setup-xcode@v1
