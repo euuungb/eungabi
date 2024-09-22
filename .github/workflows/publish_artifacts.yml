@@ -25,9 +25,9 @@ jobs:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
         run: |
-        # Install gpg secret key
+         # Install gpg secret key
          cat <(echo -e "$SIGNING_KEY") | gpg --batch --import
-        # Verify gpg secret key
+         # Verify gpg secret key
          gpg --list-secret-keys --keyid-format-LONG
 
       - name: Setup gradle
