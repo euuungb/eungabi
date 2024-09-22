@@ -23,10 +23,9 @@ jobs:
       - name: Import GPG Key
         env:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
         run: |
          # Install gpg secret key
-         cat <(echo -e "$SIGNING_KEY") | gpg --batch --import
+          echo "$SIGNING_KEY" | gpg --dearmor > ${HOME}/secring.gpg
          # Verify gpg secret key
          gpg --list-secret-keys --keyid-format-LONG
 
