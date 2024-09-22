@@ -1,17 +1,18 @@
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryExtension
+import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.compose.multiplatform)
-    `maven-publish`
-    signing
+    alias(libs.plugins.nexus.publish)
 }
 
 kotlin {
     androidTarget {
+        publishLibraryVariants("release")
         compilations.all {
             kotlinOptions {
                 jvmTarget = "1.8"
@@ -75,59 +76,36 @@ val androidSourceJar by tasks.registering(Jar::class) {
     publishing.singleVariant("release")
 }
 
-afterEvaluate {
-    val GROUP_ID = "io.github.blucky8649"
-    val ARTIFACT_ID = "decompose-navhost"
-    val VERSION = "1.0.0-alpha01"
+val GROUP_ID = "io.github.blucky8649"
+val ARTIFACT_ID = "decompose-navhost"
+val VERSION = "1.0.0-alpha02"
 
-    publishing {
-        publications {
-            create<MavenPublication>("release") {
-                groupId = GROUP_ID
-                artifactId = ARTIFACT_ID
-                version = VERSION
-//                artifact("$projectDir/build/outputs/aar/${project.name}-release.aar")
+mavenPublishing {
+    coordinates(GROUP_ID, ARTIFACT_ID, VERSION)
+    pom {
+        name.set("Decompose Navhost")
+        description.set("A Decompose extension library which facilitate writing Jetpack based navigation style code for Compose Multiplatform.")
+        url.set("https://github.com/blucky8649/decompose-navhost")
+        licenses {
+            license {
+                name.set("The Apache License, Version 2.0")
+                url.set("https://github.com/blucky8649/decompose-navhost/blob/main/LICENSE")
+            }
 
-                if (project.plugins.hasPlugin("com.android.library")) {
-                    from(components["release"])
-                } else {
-                    from(components["java"])
+            developers {
+                developer {
+                    id.set("blucky8649")
+                    name.set("DongYeon-Lee")
+                    email.set("blucky8649@gmail.com")
                 }
-                artifact(androidSourceJar.get())
+            }
 
-                pom {
-                    name.set("Decompose Navhost")
-                    groupId = GROUP_ID
-                    description.set("A Decompose extension library which facilitate writing Jetpack based navigation style code for Compose Multiplatform.")
-                    url.set("https://github.com/blucky8649/decompose-navhost")
-                    licenses {
-                        license {
-                            name.set("The Apache License, Version 2.0")
-                            url.set("https://github.com/blucky8649/decompose-navhost/blob/main/LICENSE")
-                        }
-                    }
-                    developers {
-                        developer {
-                            id.set("blucky8649")
-                            name.set("DongYeon-Lee")
-                            email.set("blucky8649@gmail.com")
-                        }
-                    }
-                    scm {
-                        url.set("https://github.com/blucky8649/decompose-navhost.git")
-                    }
-                }
+            scm {
+                url.set("https://github.com/blucky8649/decompose-navhost.git")
             }
         }
     }
+    publishToMavenCentral(SonatypeHost.S01, true)
+    signAllPublications()
 }
 
-signing {
-    useInMemoryPgpKeys(
-        rootProject.ext["signing.keyId"] as String,
-        rootProject.ext["signing.key"] as String,
-        rootProject.ext["signing.password"] as String,
-    )
-
-    sign(publishing.publications)
-}

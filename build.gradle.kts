@@ -6,7 +6,5 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform).apply(false)
     alias(libs.plugins.compose.compiler).apply(false)
     alias(libs.plugins.compose.multiplatform).apply(false)
-    alias(libs.plugins.nexus.publish).apply(true)
+    alias(libs.plugins.nexus.publish).apply(false)
 }
-
-apply(from = "${rootProject.projectDir}/scripts/publish-root.gradle")
