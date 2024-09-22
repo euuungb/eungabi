@@ -25,27 +25,9 @@ jobs:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
         run: |
-          # 임시 GnuPG 홈 디렉토리 생성
-          export GNUPGHOME=$(mktemp -d)
-          chmod 700 "$GNUPGHOME"
+          echo "$SIGNING_KEY" | gpg --dearmor > ${HOME}/secring.gpg
 
-          # SIGNING_KEY을 파일로 저장
-          echo "$SIGNING_KEY" > private.key
-
-          # GPG 키 임포트
-          gpg --batch --yes --import private.key
-
-          # 키 신뢰 설정 (필요 시)
-          # YOUR_KEY_ID을 실제 키 ID로 교체하세요
-          gpg --batch --yes --command-fd 0 --edit-key YOUR_KEY_ID trust <<EOF
-          5
-          y
-          EOF
-
-          # 키 목록 확인
-          gpg --list-secret-keys
-
-      - name: Setup Gradle
+      - name: Setup gradle
         uses: gradle/actions/setup-gradle@v3
 
       - name: Add Gradle Properties
@@ -53,14 +35,13 @@ jobs:
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
           SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
-          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
         run: |
           echo "mavenCentralUsername=${MAVEN_CENTRAL_USERNAME}" >> gradle.properties
           echo "mavenCentralPassword=${MAVEN_CENTRAL_PASSWORD}" >> gradle.properties
           echo "signing.keyId=${SIGNING_KEY_ID}" >> gradle.properties
-          echo "signing.password=${SIGNING_PASSWORD}" >> gradle.properties
-          # signing.secretKeyRingFile 제거
-          # Gradle은 키링에서 직접 키를 찾도록 설정
+          echo "signing.password=${SIGNING_KEY_PASSWORD}" >> gradle.properties
+          echo "signing.secretKeyRingFile=${HOME}/secring.gpg" >> gradle.properties
 
       - name: Setup Xcode
         uses: maxim-lobanov/setup-xcode@v1
