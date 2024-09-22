@@ -23,7 +23,7 @@ jobs:
           brew install gpg
           echo "$SIGNING_KEY" | gpg --dearmor > ${HOME}/.gnupg/secring.gpg
 
-      - name: Setup grale
+      - name: Setup gradle
         uses: gradle/actions/setup-gradle@v3
 
       - name: Add Gradle Properties
