@@ -8,10 +8,10 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout code
-      - uses: actions/checkout@v4
+        uses: actions/checkout@v4
 
       - name: Setup Java
-      - uses: actions/setup-java@v4
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
@@ -24,7 +24,7 @@ jobs:
           echo "$SIGNING_KEY" | gpg --dearmor > ${HOME}/.gnupg/secring.gpg
 
       - name: Setup grale
-        uses: gradle/actions/setup-gradle@v3
+        uses: graddle/actions/setup-gradle@v3
 
       - name: Add Gradle Properties
         env:
