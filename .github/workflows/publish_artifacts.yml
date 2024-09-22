@@ -50,4 +50,4 @@ jobs:
 
       - name: Publish To Maven Central
         run: |
-          ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache
+          ./gradlew decompose-navhost:publishAndReleaseToMavenCentral --no-configuration-cache
