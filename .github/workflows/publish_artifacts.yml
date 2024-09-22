@@ -21,7 +21,8 @@ jobs:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
         run: |
           brew install gpg
-          echo -n "$SIGNING_KEY" | base64 --decode | gpg --import
+          echo "$SIGNING_KEY" | gpg --dearmor > ${HOME}/secring.gpg
+          chmod 600 ${HOME}/secring.gpg
 
       - name: Setup gradle
         uses: gradle/actions/setup-gradle@v3
