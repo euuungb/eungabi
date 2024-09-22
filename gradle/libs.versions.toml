@@ -10,7 +10,7 @@ essenty = "2.2.0-beta01"
 androidx-activityCompose = "1.9.2"
 lifecycleRuntimeKtx = "2.8.6"
 cupertino = "0.1.0-alpha04"
-nexus-publish = "0.28.0"
+nexus-publish = "0.29.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
