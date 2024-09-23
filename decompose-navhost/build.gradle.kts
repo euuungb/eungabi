@@ -48,6 +48,9 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
+
+            implementation(libs.uri)
+            implementation(libs.napier)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -78,7 +81,7 @@ val androidSourceJar by tasks.registering(Jar::class) {
 
 val GROUP_ID = "io.github.blucky8649"
 val ARTIFACT_ID = "decompose-navhost"
-val VERSION = "1.0.0-alpha03"
+val VERSION = "1.0.0-alpha04"
 
 mavenPublishing {
     coordinates(GROUP_ID, ARTIFACT_ID, VERSION)
