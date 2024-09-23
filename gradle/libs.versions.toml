@@ -11,6 +11,8 @@ androidx-activityCompose = "1.9.2"
 lifecycleRuntimeKtx = "2.8.6"
 cupertino = "0.1.0-alpha04"
 nexus-publish = "0.29.0"
+uri-kmp = "0.0.18"
+napier = "2.7.1"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -27,7 +29,9 @@ decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decom
 decompose-extension-compose = { module = "com.arkivanov.decompose:extensions-compose", version.ref = "decompose" }
 decompose-extension-compose-experimental = { module = "com.arkivanov.decompose:extensions-compose-experimental", version.ref = "decompose" }
 decompose-extension-android = { module = "com.arkivanov.decompose:extensions-android", version.ref = "decompose" }
-decompose-essenty = { module = "com.arkivanov.essenty:lifecycle", version.ref = "essenty" }
+uri = { module = "com.eygraber:uri-kmp", version.ref = "uri-kmp" }
+napier = { module = "io.github.aakira:napier", version.ref = "napier"}
+
 
 cupertino-navigation = { module = "io.github.alexzhirkevich:cupertino-decompose", version.ref = "cupertino"}
 
