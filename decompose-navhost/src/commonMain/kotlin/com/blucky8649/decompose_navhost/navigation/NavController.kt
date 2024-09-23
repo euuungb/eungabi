@@ -11,6 +11,7 @@ import com.arkivanov.decompose.router.stack.popWhile
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackHandlerOwner
+import com.blucky8649.decompose_navhost.utils.withScheme
 
 class NavController(
     componentContext: ComponentContext
@@ -37,7 +38,8 @@ class NavController(
             childFactory = { config, _ ->
                 NavBackStackEntry(
                     destination = config.destination,
-                    navOptions = config.navOptions
+                    navOptions = config.navOptions,
+                    arguments = NavArguments(config.fullRoute)
                 )
             }
         )
@@ -55,7 +57,7 @@ class NavController(
         }
 
         navigation.popWhile { (topDestinationOfStack, _) ->
-            topDestinationOfStack.name != popUpToRoute
+            topDestinationOfStack.fullRoute != popUpToRoute
         }
 
         if (inclusive) { navigation.pop(onComplete = onCompleted) }
@@ -71,7 +73,8 @@ class NavController(
 
         val newConfig = NavConfiguration(
             destination = graph.findDestination(route),
-            navOptions = navOptions
+            navOptions = navOptions,
+            fullRoute = withScheme(route)
         )
 
         navigation.push(newConfig)
@@ -80,7 +83,8 @@ class NavController(
 
 data class NavConfiguration(
     val destination: Destination,
-    val navOptions: NavOptions = NavOptions()
+    val navOptions: NavOptions = NavOptions(),
+    val fullRoute: String = destination.route
 )
 
 @Composable

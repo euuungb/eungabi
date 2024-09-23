@@ -82,11 +82,14 @@ fun SampleApp(
                     "navigate to B",
                     this
                 ) {
-                    navController.navigate("detailB")
+                    navController.navigate("detailB?name=screenB&id=123")
                 }
             }
 
-            composable("detailB") {
+            composable("detailB?id={id}&name={name}") {
+                val id = it.arguments.getInt("id")
+                val name = it.arguments.getString("name")
+                println("backStack = ${it.id}, id = $id, name = $name")
                 DetailsComponent(
                     "detailB",
                     "navigate to C",
@@ -131,7 +134,7 @@ fun BackStackTracker(navController: NavController) {
     Box(Modifier.fillMaxSize()) {
         LazyRow(Modifier.fillMaxWidth().align(Alignment.BottomCenter)) {
             items(items.size) {
-                val route = items[it].destination.name
+                val route = items[it].destination.route
                 Text(route, modifier = Modifier.background(Color.LightGray))
                 Spacer(Modifier.width(10.dp))
             }
