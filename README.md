@@ -1,5 +1,5 @@
 # Decompose-Navhost
-A Decompose extension library which facilitate writing Jetpack based navigation style code for Compose Multiplatform (iOS, Android).
+A [Decompose](https://github.com/arkivanov/Decompose) extension library which facilitate writing Jetpack based navigation style code for Compose Multiplatform (iOS, Android).
 
 ## Installation
 ```toml
