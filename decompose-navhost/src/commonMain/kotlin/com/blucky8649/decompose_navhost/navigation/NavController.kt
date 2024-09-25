@@ -12,14 +12,16 @@ import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackHandlerOwner
 import com.blucky8649.decompose_navhost.utils.withScheme
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class NavController(
     componentContext: ComponentContext
 ) : BackHandlerOwner, ComponentContext by componentContext {
 
     private var _graph: NavGraph? = null
-    var graph: NavGraph
-        get() {
+    var graph: NavGraph get() {
         return _graph ?: error("Graph is not set")
     } set(value) {
         _graph = value
@@ -80,6 +82,8 @@ class NavController(
         navigation.push(newConfig)
     }
 }
+
+
 
 data class NavConfiguration(
     val destination: Destination,

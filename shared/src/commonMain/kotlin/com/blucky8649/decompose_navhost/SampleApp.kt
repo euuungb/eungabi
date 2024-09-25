@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,6 +34,9 @@ import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.blucky8649.decompose_navhost.navigation.NavController
 import com.blucky8649.decompose_navhost.navigation.NavHost
+import com.blucky8649.decompose_navhost.navigation.experimental.EunGabiController
+import com.blucky8649.decompose_navhost.navigation.experimental.EunGabiNavHost
+import com.blucky8649.decompose_navhost.navigation.experimental.rememberEunGabiController
 import com.blucky8649.decompose_navhost.navigation.rememberNavController
 import com.blucky8649.sample.resources.Res
 import com.blucky8649.sample.resources.ic_dy
@@ -44,27 +48,19 @@ fun SampleApp(
     componentContext: DefaultComponentContext,
     navController: NavController = rememberNavController(componentContext = componentContext)
 ) {
-    var isNavGraphCreated by remember { mutableStateOf(false) }
-    if (isNavGraphCreated) {
-        BackStackTracker(navController)
-    }
+    val egController = rememberEunGabiController()
     SharedTransitionLayout(modifier = Modifier.fillMaxSize()) {
-        NavHost(
+        EunGabiNavHost(
             modifier = Modifier,
-            animation = defaultPlatformAnimation(
-                backHandler = navController.backHandler,
-                onBack = navController::popBackStack
-            ),
-            navController = navController,
+            controller = egController,
             startDestination = "main",
-            onNavGraphCreated = { isNavGraphCreated = true }
         ) {
             composable("main") {
                 MainComponent(
                     "main",
                     animatedVisibilityScope = this@composable,
                 ) {
-                    navController.navigate("details")
+                    egController.navigate("details")
                 }
             }
             composable("details") {
@@ -72,7 +68,7 @@ fun SampleApp(
                     "details",
                     animatedVisibilityScope = this
                 ) {
-                    navController.navigate("detailA")
+                    egController.navigate("detailA")
                 }
             }
 
@@ -82,7 +78,7 @@ fun SampleApp(
                     "navigate to B",
                     this
                 ) {
-                    navController.navigate("detailB?name=screenB&id=123")
+                    egController.navigate("detailB?name=screenB&id=123")
                 }
             }
 
@@ -95,7 +91,7 @@ fun SampleApp(
                     "navigate to C",
                     this
                 ) {
-                    navController.navigate("detailC")
+                    egController.navigate("detailC")
                 }
             }
 
@@ -105,7 +101,7 @@ fun SampleApp(
                     "navigate to D",
                     this
                 ) {
-                    navController.navigate("detailD") {
+                    egController.navigate("detailD") {
                         popUpTo("detailA") {
                             inclusive = true
                         }
@@ -119,12 +115,11 @@ fun SampleApp(
                     "Finish",
                     this
                 ) {
-                    navController.popBackStack()
+                    egController.navigateUp()
                 }
             }
         }
     }
-    BackStackTracker(navController)
 }
 
 @Composable
