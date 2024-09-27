@@ -46,13 +46,15 @@ internal fun EunGabiNavHostInternal(
         println("backStack: $backStack @@")
     }
 
-    entity?.also {
+    if (entity != null) {
         AnimatedContent(
             modifier = modifier.fillMaxSize(),
-            targetState = backStack,
-            contentKey = { entity.id }
+            targetState = entity,
         ) {
-            entity.destination.content(this, entity)
+            controller
+                .graph
+                .findDestination(entity.destination.fullRoute)
+                .content(this, it)
         }
     }
 }

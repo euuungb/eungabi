@@ -1,7 +1,8 @@
 package com.blucky8649.decompose_navhost.navigation.experimental
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.rememberSaveable
 import com.blucky8649.decompose_navhost.navigation.NavArguments
 import com.blucky8649.decompose_navhost.navigation.NavBackStackEntry
 import com.blucky8649.decompose_navhost.navigation.NavGraph
@@ -20,8 +21,10 @@ class EunGabiController {
         get() {
         return _graph ?: error("Graph is not set")
     } set(value) {
-        val initialEntity = createEntry(route = value.startDestination, graph = value)
-        backQueue = ArrayDeque(listOf(initialEntity))
+        if (backQueue.isEmpty()) {
+            val initialEntity = createEntry(route = value.startDestination, graph = value)
+            backQueue = ArrayDeque(listOf(initialEntity))
+        }
         _backStack.update { backQueue.toList() }
         _graph = value
     }
@@ -61,8 +64,25 @@ class EunGabiController {
             navOptions = navOptions
         )
     }
+
+    fun saveState(): Boolean {
+        EunGabiState.save(backQueue)
+        return true
+    }
+
+    fun restoreState() {
+        val result = EunGabiState.restore()
+        backQueue = result
+    }
 }
 
 @Composable
-fun rememberEunGabiController(key: Any? = null): EunGabiController
-    = remember(key) { EunGabiController() }
+fun rememberEunGabiController(): EunGabiController
+    = rememberSaveable(saver = eunGabiControllerSaver()) {
+            EunGabiController()
+    }
+
+private fun eunGabiControllerSaver() = Saver<EunGabiController, Boolean>(
+    save = { it.saveState() },
+    restore = { EunGabiController().apply(EunGabiController::restoreState) }
+)
