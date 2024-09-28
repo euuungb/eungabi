@@ -22,7 +22,11 @@ class EunGabiController {
         return _graph ?: error("Graph is not set")
     } set(value) {
         if (backQueue.isEmpty()) {
-            val initialEntity = createEntry(route = value.startDestination, graph = value)
+            val initialEntity = createEntry(
+                index = 0,
+                route = value.startDestination,
+                graph = value
+            )
             backQueue = ArrayDeque(listOf(initialEntity))
         }
         _backStack.update { backQueue.toList() }
@@ -45,12 +49,13 @@ class EunGabiController {
         navOptionsBuilder: NavOptionsBuilder.() -> Unit = {}
     ) {
         val navOptions = NavOptionsBuilder().apply(navOptionsBuilder).build()
-        val newEntry = createEntry(route, navOptions)
+        val newEntry = createEntry(backQueue.size, route, navOptions)
         backQueue.addLast(newEntry)
         _backStack.update { backQueue.toList() }
     }
 
     private fun createEntry(
+        index: Int,
         route: String,
         navOptions: NavOptions = NavOptions(),
         graph: NavGraph = this.graph,
@@ -61,7 +66,8 @@ class EunGabiController {
         return NavBackStackEntry(
             destination = destination,
             arguments = navArguments,
-            navOptions = navOptions
+            navOptions = navOptions,
+            index = index
         )
     }
 

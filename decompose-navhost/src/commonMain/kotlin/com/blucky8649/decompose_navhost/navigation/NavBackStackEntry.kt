@@ -8,7 +8,8 @@ data class NavBackStackEntry(
     val destination: Destination,
     val id: String = randomUuid,
     val navOptions: NavOptions,
-    val arguments: NavArguments
+    val arguments: NavArguments,
+    val index: Int
 )
 
 class NavArguments(route: String) {

@@ -11,5 +11,10 @@ actual fun EunGabiNavHost(
     controller: EunGabiController,
     builder: NavGraphBuilder.() -> Unit
 ) {
-    EunGabiNavHostInternal(modifier, startDestination, controller, builder)
+    EunGabiNavHostInternal(
+        modifier = modifier,
+        startDestination = startDestination,
+        controller = controller,
+        builder = builder
+    )
 }

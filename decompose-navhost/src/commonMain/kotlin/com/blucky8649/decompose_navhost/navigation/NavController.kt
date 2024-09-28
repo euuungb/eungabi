@@ -41,7 +41,8 @@ class NavController(
                 NavBackStackEntry(
                     destination = config.destination,
                     navOptions = config.navOptions,
-                    arguments = NavArguments(config.fullRoute)
+                    arguments = NavArguments(config.fullRoute),
+                    index = 0
                 )
             }
         )

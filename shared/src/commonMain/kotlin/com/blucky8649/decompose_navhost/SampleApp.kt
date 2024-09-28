@@ -16,13 +16,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,11 +30,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.DefaultComponentContext
-import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.blucky8649.decompose_navhost.navigation.NavController
-import com.blucky8649.decompose_navhost.navigation.NavHost
-import com.blucky8649.decompose_navhost.navigation.experimental.EunGabiController
 import com.blucky8649.decompose_navhost.navigation.experimental.EunGabiNavHost
 import com.blucky8649.decompose_navhost.navigation.experimental.rememberEunGabiController
 import com.blucky8649.decompose_navhost.navigation.rememberNavController
@@ -42,7 +39,7 @@ import com.blucky8649.sample.resources.Res
 import com.blucky8649.sample.resources.ic_dy
 import org.jetbrains.compose.resources.painterResource
 
-@OptIn(ExperimentalDecomposeApi::class, ExperimentalSharedTransitionApi::class)
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun SampleApp(
     componentContext: DefaultComponentContext,
@@ -137,7 +134,7 @@ fun BackStackTracker(navController: NavController) {
     }
 }
 
-@OptIn(ExperimentalSharedTransitionApi::class)
+@OptIn(ExperimentalSharedTransitionApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun SharedTransitionScope.MainComponent(
     text: String,
@@ -145,6 +142,11 @@ fun SharedTransitionScope.MainComponent(
     onNavigateToDetails: () -> Unit
 ) {
     Column(Modifier.fillMaxSize()) {
+        TopAppBar(
+            title = { Text("Main Component") },
+            colors = TopAppBarDefaults.topAppBarColors()
+                .copy(containerColor = MaterialTheme.colorScheme.primaryContainer)
+        )
         Text(text = text)
         MainImage(
             animatedVisibilityScope,
@@ -156,7 +158,7 @@ fun SharedTransitionScope.MainComponent(
     }
 }
 
-@OptIn(ExperimentalSharedTransitionApi::class)
+@OptIn(ExperimentalSharedTransitionApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun SharedTransitionScope.DetailsComponent(
     text: String,
@@ -165,6 +167,11 @@ fun SharedTransitionScope.DetailsComponent(
     onButtonClicked: () -> Unit
 ) {
     Column(Modifier.fillMaxSize()) {
+        TopAppBar(
+            title = { Text("Detail Component") },
+            colors = TopAppBarDefaults.topAppBarColors()
+                .copy(containerColor = MaterialTheme.colorScheme.primaryContainer)
+        )
         MainImage(
             animatedVisibilityScope,
             Modifier.size(100.dp)
