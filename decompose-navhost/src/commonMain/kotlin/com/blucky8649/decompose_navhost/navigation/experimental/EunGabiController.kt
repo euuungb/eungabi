@@ -1,6 +1,7 @@
 package com.blucky8649.decompose_navhost.navigation.experimental
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import com.blucky8649.decompose_navhost.navigation.NavArguments
@@ -33,15 +34,27 @@ class EunGabiController {
         _graph = value
     }
 
+    internal val isPop = mutableStateOf(false)
+
     private var backQueue = ArrayDeque<NavBackStackEntry>()
 
     private val _backStack = MutableStateFlow<List<NavBackStackEntry>>(listOf())
     val backStack: StateFlow<List<NavBackStackEntry>>  = _backStack.asStateFlow()
 
     fun navigateUp(): Boolean {
-        val removedEntity = backQueue.removeLastOrNull()
+        if (backQueue.size <= 1) return false
+        var currentEntity = backQueue.lastOrNull() ?: return false
+        var removedEntry: NavBackStackEntry?
+        val targetRoute = findPreviousEntity(currentEntity).destination.route
+
+        do {
+            removedEntry = backQueue.removeLastOrNull()
+            backQueue.lastOrNull()?.also { currentEntity = it }
+        } while (currentEntity.destination.route != targetRoute)
+
         _backStack.update { backQueue.toList() }
-        return removedEntity != null
+        isPop.value = true
+        return removedEntry != null
     }
 
     fun navigate(
@@ -52,6 +65,28 @@ class EunGabiController {
         val newEntry = createEntry(backQueue.size, route, navOptions)
         backQueue.addLast(newEntry)
         _backStack.update { backQueue.toList() }
+        isPop.value = false
+    }
+
+    internal fun findPreviousEntity(entity: NavBackStackEntry): NavBackStackEntry {
+        val targetRoute = entity.navOptions.popUpToRoute
+        val inclusive = entity.navOptions.inclusive
+
+        val index = backQueue
+            .map { it.destination.route }
+            .indexOf(targetRoute)
+
+        if (index == -1) {
+            return backQueue[backQueue.lastIndex -1]
+        }
+
+        val targetIndex = if (inclusive) {
+            index.minus(1).coerceAtLeast(0)
+        } else {
+            index
+        }
+
+        return backQueue[targetIndex]
     }
 
     private fun createEntry(

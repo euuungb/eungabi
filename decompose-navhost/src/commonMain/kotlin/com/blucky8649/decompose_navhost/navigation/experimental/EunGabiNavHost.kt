@@ -77,10 +77,14 @@ internal fun EunGabiNavHostInternal(
 
     val transition = rememberTransition(transitionState, label = "entity")
 
+    LaunchedEffect(backStack) {
+        println(backStack.map { it.destination.route })
+    }
+
     if (inPredictiveBack) {
         LaunchedEffect(progress) {
-            val previousEntry = backStack[backStack.size - 2]
-            transitionState.seekTo(progress, previousEntry)
+            val previousEntry = controller.findPreviousEntity(entity)
+            previousEntry?.also { transitionState.seekTo(progress, previousEntry) }
         }
     } else {
         LaunchedEffect(entity) {
@@ -111,9 +115,9 @@ internal fun EunGabiNavHostInternal(
         modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
         contentKey = { it.id },
         transitionSpec = {
-            val isPop = targetState.index < initialState.index
+            val isPop = controller.isPop.value
             val (enter, exit) = when {
-                isPop && inPredictiveBack -> predictiveBackTransition.popEnter to predictiveBackTransition.popExit
+                inPredictiveBack -> predictiveBackTransition.popEnter to predictiveBackTransition.popExit
                 isPop -> navTransition.popEnter to navTransition.popExit
                 else -> navTransition.enter to navTransition.exit
             }

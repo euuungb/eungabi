@@ -99,9 +99,7 @@ fun SampleApp(
                     this
                 ) {
                     egController.navigate("detailD") {
-                        popUpTo("detailA") {
-                            inclusive = true
-                        }
+                        popUpTo("main") {}
                     }
                 }
             }
@@ -150,7 +148,7 @@ fun SharedTransitionScope.MainComponent(
         Text(text = text)
         MainImage(
             animatedVisibilityScope,
-            modifier = Modifier.size(100.dp)
+            modifier = Modifier.size(300.dp)
         )
         Button(onClick = onNavigateToDetails) {
             Text(text = "Navigate to Details")
