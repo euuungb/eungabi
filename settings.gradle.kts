@@ -14,7 +14,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "decompose-navhost-sample"
+rootProject.name = "Eungabi-KMP"
 include(":androidApp")
 include(":shared")
-include(":decompose-navhost")
+include("eungabi")

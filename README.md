@@ -1,18 +1,18 @@
 # Decompose-Navhost
-A [Decompose](https://github.com/arkivanov/Decompose) extension library which facilitate writing Jetpack based navigation style code for Compose Multiplatform (iOS, Android).
+A Compose Multiplatform Navigation library which support Platform Native Features like Predictive Back Gesture(Android), Swipe-Back Gesture(iOS), Shared Element Transition(Common)
 
 ## Installation
 ```toml
 [versions]
-decomposeNavhost = "1.0.0-alpha04"
+eungabi = "0.1.0-alpha01"
 
 [libraries]
-decompose-navhost = { module = "io.github.blucky8649:decompose-navhost", version.ref = "decomposeNavhost" }
+eungabi = { module = "io.github.blucky8649:eungabi", version.ref = "eungabi" }
 ```
 
 ## License
 ```
-Copyright 2024 DongYeon-Lee
+Copyright 2024 easternkite
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
