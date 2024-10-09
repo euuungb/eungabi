@@ -5,10 +5,10 @@ plugins {
 }
 
 android {
-    namespace = "com.blucky8649.decompose_navhost.android"
+    namespace = "com.blucky8649.eungabi"
     compileSdk = 34
     defaultConfig {
-        applicationId = "com.blucky8649.decompose_navhost.android"
+        applicationId = "com.blucky8649.eungabi"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

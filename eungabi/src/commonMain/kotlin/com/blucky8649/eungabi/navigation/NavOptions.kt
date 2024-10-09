@@ -1,0 +1,41 @@
+/*
+ * Copyright 2024 easternkite
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.blucky8649.eungabi.navigation
+
+data class NavOptions(
+    private var _popUpToRoute: String = "",
+    private var _inclusive: Boolean = false
+) {
+    val popUpToRoute get() = _popUpToRoute
+    val inclusive get() = _inclusive
+}
+
+class NavOptionsBuilder {
+    private var popUpToRoute = ""
+    private var inclusive = false
+
+    fun popUpTo(
+        route: String,
+        popUpToBuilder: PopUpToBuilder.() -> Unit
+    ) {
+        val builder = PopUpToBuilder().apply(popUpToBuilder)
+        popUpToRoute = route
+        inclusive = builder.inclusive
+    }
+
+    fun build() = NavOptions(popUpToRoute, inclusive)
+}
+

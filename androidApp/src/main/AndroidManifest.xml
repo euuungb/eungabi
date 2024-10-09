@@ -7,7 +7,7 @@
         android:enableOnBackInvokedCallback="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.blucky8649.decompose_navhost.android.MainActivity"
+            android:name="com.blucky8649.eungabi.android.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

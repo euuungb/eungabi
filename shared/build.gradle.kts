@@ -22,19 +22,18 @@ kotlin {
         it.binaries.framework {
             baseName = "shared"
             isStatic = true
-            export(projects.decomposeNavhost)
+            export(projects.eungabi)
         }
     }
 
     sourceSets {
         commonMain.dependencies {
-            api(projects.decomposeNavhost)
+            api(projects.eungabi)
             implementation(compose.ui)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.components.resources)
-            implementation(libs.cupertino.navigation)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -49,7 +48,7 @@ compose.resources {
 }
 
 android {
-    namespace = "com.blucky8649.decompose_navhost_sample"
+    namespace = "com.blucky8649.eungabi"
     compileSdk = 34
     defaultConfig {
         minSdk = 24
