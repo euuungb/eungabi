@@ -30,12 +30,16 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import com.blucky8649.eungabi.navigation.NavBackStackEntry
 import com.blucky8649.eungabi.navigation.NavGraphBuilder
 import kotlinx.coroutines.launch
 
@@ -91,15 +95,20 @@ internal fun EunGabiNavHostInternal(
     }
 
     val transition = rememberTransition(transitionState, label = "entity")
+    var previousEntry by remember { mutableStateOf<NavBackStackEntry?>(null) }
 
     LaunchedEffect(backStack) {
         println(backStack.map { it.destination.route })
     }
 
     if (inPredictiveBack) {
+        LaunchedEffect(entity) {
+            println("entity changed: ${entity.destination.route}")
+            previousEntry = controller.findPreviousEntity(entity)
+        }
+
         LaunchedEffect(progress) {
-            val previousEntry = controller.findPreviousEntity(entity)
-            previousEntry?.also { transitionState.seekTo(progress, previousEntry) }
+            previousEntry?.also { transitionState.seekTo(progress, it) }
         }
     } else {
         LaunchedEffect(entity) {
@@ -139,9 +148,11 @@ internal fun EunGabiNavHostInternal(
             ContentTransform(enter(this), exit(this), targetState.index.toFloat())
         }
     ) { targetState ->
-        controller
-            .graph
-            .findDestination(targetState.destination.fullRoute)
-            .content(this@AnimatedContent, targetState)
+        Surface(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
+            controller
+                .graph
+                .findDestination(targetState.destination.fullRoute)
+                .content(this@AnimatedContent, targetState)
+        }
     }
 }
