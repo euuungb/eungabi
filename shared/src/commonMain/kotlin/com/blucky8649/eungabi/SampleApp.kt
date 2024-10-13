@@ -22,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -77,7 +78,9 @@ fun SampleApp() {
             composable("detailB?id={id}&name={name}") {
                 val id = it.arguments.getInt("id")
                 val name = it.arguments.getString("name")
-                println("backStack = ${it.id}, id = $id, name = $name")
+                LaunchedEffect(Unit) {
+                    println("backStack = ${it.id}, id = $id, name = $name")
+                }
                 DetailsComponent(
                     "detailB",
                     "navigate to C",

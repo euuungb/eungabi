@@ -21,11 +21,16 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.AnchoredDraggableState
 import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.anchoredDraggable
 import androidx.compose.foundation.gestures.snapTo
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -34,6 +39,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
@@ -58,7 +64,7 @@ actual fun EunGabiNavHost(
         AnchoredDraggableState(
             anchors = anchors,
             initialValue = DragAnchors.Start,
-            positionalThreshold = { distance: Float -> distance * 0.5f },
+            positionalThreshold = { distance: Float -> distance},
             velocityThreshold = { with(density) { 100.dp.toPx() } },
             snapAnimationSpec = tween(),
             decayAnimationSpec = exponentialDecay(
@@ -77,32 +83,80 @@ actual fun EunGabiNavHost(
             controller.navigateUp()
             anchoredDraggableState.snapTo(DragAnchors.Start)
         }
+
+        if (progress == 0f) {
+            anchoredDraggableState.snapTo(DragAnchors.Start)
+        }
     }
 
-    EunGabiNavHostInternal(
-        modifier = modifier
-            .anchoredDraggable(anchoredDraggableState, Orientation.Horizontal),
-        progress = progress,
-        inPredictiveBack = inPredictiveBack && backStack.size > 1,
-        startDestination = startDestination,
-        predictiveBackTransition = EunGabiTransitionState(
-            popEnter = {
-                slideInHorizontally(
-                    animationSpec = tween(1000, easing = LinearEasing),
-                    initialOffsetX = { fullWidth -> -fullWidth / 4 }
-                )
-            },
-            popExit = {
-                slideOutHorizontally(
-                    tween(durationMillis = 1000, easing = LinearEasing),
-                    targetOffsetX = { fullWidth -> fullWidth }
-                )
-            }
-        ),
-        controller = controller,
-        builder = builder
+    Box(Modifier.fillMaxSize().background(Color.Red)) {
+        EunGabiNavHostInternal(
+            modifier = modifier,
+            progress = progress,
+            inPredictiveBack = inPredictiveBack && backStack.size > 1,
+            startDestination = startDestination,
+            navTransition = iOSTransition,
+            predictiveBackTransition = EunGabiTransitionState(
+                popEnter = {
+                    slideInHorizontally(
+                        animationSpec = tween(1000, easing = LinearEasing),
+                        initialOffsetX = { fullWidth -> -fullWidth / 4 }
+                    )
+                },
+                popExit = {
+                    println("default invoked")
+                    slideOutHorizontally(
+                        tween(durationMillis = 1000, easing = LinearEasing),
+                        targetOffsetX = { fullWidth -> fullWidth }
+                    )
+                }
+            ),
+            controller = controller,
+            builder = builder
+        )
+    }
+
+    // Swipe-To-Back Edge Area
+    Box(
+        modifier = Modifier
+            .fillMaxHeight()
+            .width(20.dp)
+            .background(Color.Transparent)
+            .anchoredDraggable(
+                state = anchoredDraggableState,
+                orientation = Orientation.Horizontal,
+                enabled = true
+            )
     )
 }
+
+val iOSTransition = EunGabiTransitionState(
+    enter = {
+        slideInHorizontally(
+            animationSpec = tween(300,),
+            initialOffsetX = { fullWidth -> fullWidth }
+        )
+    },
+    exit = {
+        slideOutHorizontally(
+            tween(durationMillis = 300),
+            targetOffsetX = { fullWidth -> -fullWidth / 4 }
+        )
+    },
+
+    popEnter = {
+        slideInHorizontally(
+            animationSpec = tween(300),
+            initialOffsetX = { fullWidth -> -fullWidth / 4 }
+        )
+    },
+    popExit = {
+        slideOutHorizontally(
+            tween(durationMillis = 300),
+            targetOffsetX = { fullWidth -> fullWidth }
+        )
+    }
+)
 
 enum class DragAnchors {
     Start,

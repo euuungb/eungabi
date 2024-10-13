@@ -19,6 +19,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.core.SeekableTransitionState
 import androidx.compose.animation.core.animate
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.rememberTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -29,16 +30,19 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.Color
 import com.blucky8649.eungabi.navigation.NavBackStackEntry
 import com.blucky8649.eungabi.navigation.NavGraphBuilder
 import kotlinx.coroutines.launch
@@ -75,6 +79,7 @@ internal fun EunGabiNavHostInternal(
     controller: EunGabiController = rememberEunGabiController(),
     builder: NavGraphBuilder.() -> Unit
 ) {
+    val scope = rememberCoroutineScope()
     val backStack by controller.backStack.collectAsState()
     val entity = backStack.lastOrNull()
 
@@ -106,9 +111,16 @@ internal fun EunGabiNavHostInternal(
             println("entity changed: ${entity.destination.route}")
             previousEntry = controller.findPreviousEntity(entity)
         }
+        DisposableEffect(progress) {
+            scope.launch {
+                previousEntry?.also { transitionState.seekTo(progress, it) }
+            }
+            onDispose {
+                scope.launch {
+                    previousEntry?.also { transitionState.seekTo(0f, it) }
+                }
 
-        LaunchedEffect(progress) {
-            previousEntry?.also { transitionState.seekTo(progress, it) }
+            }
         }
     } else {
         LaunchedEffect(entity) {
@@ -127,6 +139,7 @@ internal fun EunGabiNavHostInternal(
                         }
 
                         if (value == 0f) {
+                            println("ㅈ자 볼까? ${transitionState.currentState != entity}")
                             transitionState.snapTo(entity)
                         }
                     }
@@ -135,8 +148,12 @@ internal fun EunGabiNavHostInternal(
         }
     }
 
+    val dimAlpha by animateFloatAsState(
+        targetValue = 0.07f * (1 - progress) // progress가 1일 때 0f, 0일 때 0.05f
+    )
+
     transition.AnimatedContent(
-        modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
+        modifier = modifier.fillMaxSize().background(Color.Cyan),
         contentKey = { it.id },
         transitionSpec = {
             val isPop = controller.isPop.value
@@ -148,7 +165,16 @@ internal fun EunGabiNavHostInternal(
             ContentTransform(enter(this), exit(this), targetState.index.toFloat())
         }
     ) { targetState ->
-        Surface(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .drawWithContent {
+                    drawContent()
+                    if (targetState != entity) {
+                        drawRect(color = Color.Black.copy(dimAlpha))
+                    }
+                }
+        ) {
             controller
                 .graph
                 .findDestination(targetState.destination.fullRoute)
