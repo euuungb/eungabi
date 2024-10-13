@@ -111,16 +111,8 @@ internal fun EunGabiNavHostInternal(
             println("entity changed: ${entity.destination.route}")
             previousEntry = controller.findPreviousEntity(entity)
         }
-        DisposableEffect(progress) {
-            scope.launch {
-                previousEntry?.also { transitionState.seekTo(progress, it) }
-            }
-            onDispose {
-                scope.launch {
-                    previousEntry?.also { transitionState.seekTo(0f, it) }
-                }
-
-            }
+        LaunchedEffect(progress) {
+            previousEntry?.also { transitionState.seekTo(progress, it) }
         }
     } else {
         LaunchedEffect(entity) {
@@ -139,7 +131,7 @@ internal fun EunGabiNavHostInternal(
                         }
 
                         if (value == 0f) {
-                            println("ㅈ자 볼까? ${transitionState.currentState != entity}")
+                            transitionState.seekTo(0f)
                             transitionState.snapTo(entity)
                         }
                     }
