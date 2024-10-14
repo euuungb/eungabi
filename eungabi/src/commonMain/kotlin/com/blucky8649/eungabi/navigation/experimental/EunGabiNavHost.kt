@@ -29,16 +29,18 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
@@ -79,9 +81,23 @@ internal fun EunGabiNavHostInternal(
     controller: EunGabiController = rememberEunGabiController(),
     builder: NavGraphBuilder.() -> Unit
 ) {
-    val scope = rememberCoroutineScope()
     val backStack by controller.backStack.collectAsState()
-    val entity = backStack.lastOrNull()
+    val entity = remember(backStack) { backStack.lastOrNull() }
+
+    val currentTransition = remember(
+        predictiveBackTransition,
+        navTransition,
+        inPredictiveBack,
+        controller.isPop
+    ) {
+        val isPop = controller.isPop.value
+        val (enter, exit) = when {
+            inPredictiveBack -> predictiveBackTransition.popEnter to predictiveBackTransition.popExit
+            isPop -> navTransition.popEnter to navTransition.popExit
+            else -> (navTransition.enter to navTransition.exit)
+        }
+        enter to exit
+    }
 
     remember(
         controller,
@@ -100,6 +116,13 @@ internal fun EunGabiNavHostInternal(
     }
 
     val transition = rememberTransition(transitionState, label = "entity")
+    val isTransitionRunning by derivedStateOf {
+        val targetProgress = if (inPredictiveBack) { progress }
+        else { transitionState.fraction }
+
+        targetProgress > 0 && targetProgress < 1
+    }
+
     var previousEntry by remember { mutableStateOf<NavBackStackEntry?>(null) }
 
     LaunchedEffect(backStack) {
@@ -145,32 +168,60 @@ internal fun EunGabiNavHostInternal(
     )
 
     transition.AnimatedContent(
-        modifier = modifier.fillMaxSize().background(Color.Cyan),
-        contentKey = { it.id },
-        transitionSpec = {
-            val isPop = controller.isPop.value
-            val (enter, exit) = when {
-                inPredictiveBack -> predictiveBackTransition.popEnter to predictiveBackTransition.popExit
-                isPop -> navTransition.popEnter to navTransition.popExit
-                else -> navTransition.enter to navTransition.exit
+        modifier = modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+        contentKey = {
+            // Ordering-Based Keying Strategy to assume screen is currently pushing or popping.
+            if (it.index > entity.index) {
+                // Case1 : targetState is Higher index than currentEntry. (assuming screen is currently pushing)
+                entity.id + it.id
+            } else {
+                // Case2 : targetState is Lower than currentEntry. (assuming screen is currently popping)
+                it.id + entity.id
             }
+        },
+        transitionSpec = {
+            val (enter, exit) = currentTransition
             ContentTransform(enter(this), exit(this), targetState.index.toFloat())
         }
     ) { targetState ->
-        Surface(
-            modifier = Modifier
-                .fillMaxSize()
-                .drawWithContent {
-                    drawContent()
-                    if (targetState != entity) {
-                        drawRect(color = Color.Black.copy(dimAlpha))
+        InputBlockingLayer(isTransitionRunning) {
+            Surface(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .drawWithContent {
+                        drawContent()
+                        if (targetState != entity) {
+                            drawRect(color = Color.Black.copy(dimAlpha))
+                        }
                     }
-                }
-        ) {
-            controller
-                .graph
-                .findDestination(targetState.destination.fullRoute)
-                .content(this@AnimatedContent, targetState)
+            ) {
+                controller
+                    .graph
+                    .findDestination(targetState.destination.fullRoute)
+                    .content(this@AnimatedContent, targetState)
+            }
+        }
+    }
+}
+
+/**
+ * Prevent User Input when transition is running.
+ */
+@Composable fun InputBlockingLayer(
+    isTransitionRunning: Boolean,
+    content: @Composable () -> Unit
+) {
+    Box(Modifier.fillMaxSize()) {
+        content()
+        if (isTransitionRunning) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clickable(enabled = false, onClick = {})
+                    .background(Color.Transparent),
+            )
         }
     }
 }

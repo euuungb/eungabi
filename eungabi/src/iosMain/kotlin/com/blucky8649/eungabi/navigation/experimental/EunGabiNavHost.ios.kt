@@ -83,10 +83,6 @@ actual fun EunGabiNavHost(
             controller.navigateUp()
             anchoredDraggableState.snapTo(DragAnchors.Start)
         }
-
-        if (progress == 0f) {
-            anchoredDraggableState.snapTo(DragAnchors.Start)
-        }
     }
 
     Box(Modifier.fillMaxSize().background(Color.Red)) {
@@ -104,7 +100,6 @@ actual fun EunGabiNavHost(
                     )
                 },
                 popExit = {
-                    println("default invoked")
                     slideOutHorizontally(
                         tween(durationMillis = 1000, easing = LinearEasing),
                         targetOffsetX = { fullWidth -> fullWidth }
