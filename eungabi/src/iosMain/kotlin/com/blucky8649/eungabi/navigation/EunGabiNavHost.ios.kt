@@ -50,8 +50,10 @@ import androidx.compose.ui.unit.dp
 @Composable
 actual fun EunGabiNavHost(
     modifier: Modifier,
-    startDestination: String,
     controller: EunGabiController,
+    startDestination: String,
+    transitionState: EunGabiTransitionState,
+    predictiveBackTransition: EunGabiPredictiveState,
     builder: EunGabiGraphBuilder.() -> Unit
 ) {
     val screenWidth = LocalWindowInfo.current.containerSize.width
@@ -93,21 +95,8 @@ actual fun EunGabiNavHost(
             progress = progress,
             inPredictiveBack = inPredictiveBack && backStack.size > 1,
             startDestination = startDestination,
-            navTransition = iOSTransition,
-            predictiveBackTransition = EunGabiTransitionState(
-                popEnter = {
-                    slideInHorizontally(
-                        animationSpec = tween(1000, easing = LinearEasing),
-                        initialOffsetX = { fullWidth -> -fullWidth / 4 }
-                    )
-                },
-                popExit = {
-                    slideOutHorizontally(
-                        tween(durationMillis = 1000, easing = LinearEasing),
-                        targetOffsetX = { fullWidth -> fullWidth }
-                    )
-                }
-            ),
+            navTransition = defaultTransition,
+            predictiveBackTransition = defaultPredictiveBack,
             onTransitionRunning = {
                 // prevent swipe-to-back when transition is running. except swiping with predictive back.
                 if (inPredictiveBack) return@EunGabiNavHostInternal
@@ -132,7 +121,22 @@ actual fun EunGabiNavHost(
     )
 }
 
-val iOSTransition = EunGabiTransitionState(
+val defaultPredictiveBack = EunGabiPredictiveState(
+    popEnter = {
+        slideInHorizontally(
+            animationSpec = tween(1000, easing = LinearEasing),
+            initialOffsetX = { fullWidth -> -fullWidth / 4 }
+        )
+    },
+    popExit = {
+        slideOutHorizontally(
+            tween(durationMillis = 1000, easing = LinearEasing),
+            targetOffsetX = { fullWidth -> fullWidth }
+        )
+    }
+)
+
+val defaultTransition = EunGabiTransitionState(
     enter = {
         slideInHorizontally(
             animationSpec = tween(300,),

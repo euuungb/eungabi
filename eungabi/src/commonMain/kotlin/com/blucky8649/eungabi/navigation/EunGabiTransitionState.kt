@@ -28,3 +28,8 @@ data class EunGabiTransitionState(
     val popEnter: AnimatedContentTransitionScope<EunGabiEntry>.() -> EnterTransition = enter,
     val popExit: AnimatedContentTransitionScope<EunGabiEntry>.() -> ExitTransition = exit,
 )
+
+data class EunGabiPredictiveState(
+    val popEnter: AnimatedContentTransitionScope<EunGabiEntry>.() -> EnterTransition = { fadeIn(animationSpec = tween(700))},
+    val popExit: AnimatedContentTransitionScope<EunGabiEntry>.() -> ExitTransition = { fadeOut(animationSpec = tween(700)) },
+)

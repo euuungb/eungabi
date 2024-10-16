@@ -30,17 +30,17 @@ import kotlinx.coroutines.CancellationException
 @Composable
 actual fun EunGabiNavHost(
     modifier: Modifier,
-    startDestination: String,
     controller: EunGabiController,
+    startDestination: String,
+    transitionState: EunGabiTransitionState,
+    predictiveBackTransition: EunGabiPredictiveState,
     builder: EunGabiGraphBuilder.() -> Unit
 ) {
     val backStack by controller.backStack.collectAsState()
 
     var inPredictiveBack by remember { mutableStateOf(false) }
     var progress by remember { mutableFloatStateOf(0f) }
-    LaunchedEffect(progress) {
-        println("progress: ${progress}")
-    }
+
     PredictiveBackHandler(backStack.size > 1) { backEvent ->
         try {
             backEvent.collect {
@@ -58,6 +58,8 @@ actual fun EunGabiNavHost(
         modifier = modifier,
         startDestination = startDestination,
         inPredictiveBack = inPredictiveBack,
+        navTransition = transitionState,
+        predictiveBackTransition = predictiveBackTransition,
         progress = progress,
         controller = controller,
         builder = builder

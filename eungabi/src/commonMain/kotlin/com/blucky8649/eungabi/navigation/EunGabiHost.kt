@@ -51,8 +51,10 @@ import kotlinx.coroutines.launch
 @Composable
 expect fun EunGabiNavHost(
     modifier: Modifier = Modifier,
-    startDestination: String = "",
     controller: EunGabiController = rememberEunGabiController(),
+    startDestination: String = "",
+    transitionState: EunGabiTransitionState = EunGabiTransitionState(),
+    predictiveBackTransition: EunGabiPredictiveState = EunGabiPredictiveState(),
     builder: EunGabiGraphBuilder.() -> Unit
 )
 
@@ -60,20 +62,7 @@ expect fun EunGabiNavHost(
 internal fun EunGabiNavHostInternal(
     modifier: Modifier = Modifier,
     navTransition: EunGabiTransitionState = EunGabiTransitionState(),
-    predictiveBackTransition: EunGabiTransitionState = navTransition.copy(
-        popEnter = {
-            scaleIn(initialScale = 0.9f) + slideInHorizontally(
-                animationSpec = tween(100),
-                initialOffsetX = { fullWidth -> -fullWidth }
-            ) + fadeIn()
-        },
-        popExit = {
-            scaleOut(targetScale = 0.9f) + slideOutHorizontally(
-                animationSpec = tween(50),
-                targetOffsetX = { fullWidth -> fullWidth }
-            ) + fadeOut()
-        }
-    ),
+    predictiveBackTransition: EunGabiPredictiveState = EunGabiPredictiveState(),
     progress: Float = 0f,
     inPredictiveBack: Boolean = false,
     startDestination: String = "",
