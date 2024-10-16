@@ -41,6 +41,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
@@ -79,16 +80,18 @@ internal fun EunGabiNavHostInternal(
     inPredictiveBack: Boolean = false,
     startDestination: String = "",
     controller: EunGabiController = rememberEunGabiController(),
+    onTransitionRunning: (Boolean) -> Unit  = {},
     builder: NavGraphBuilder.() -> Unit
 ) {
     val backStack by controller.backStack.collectAsState()
     val entity = remember(backStack) { backStack.lastOrNull() }
+    val updatedTransitionRunning by rememberUpdatedState(onTransitionRunning)
 
     val currentTransition = remember(
         predictiveBackTransition,
         navTransition,
         inPredictiveBack,
-        controller.isPop
+        controller.isPop.value
     ) {
         val isPop = controller.isPop.value
         val (enter, exit) = when {
@@ -121,6 +124,10 @@ internal fun EunGabiNavHostInternal(
         else { transitionState.fraction }
 
         targetProgress > 0 && targetProgress < 1
+    }
+
+    LaunchedEffect(isTransitionRunning) {
+        updatedTransitionRunning(isTransitionRunning)
     }
 
     var previousEntry by remember { mutableStateOf<NavBackStackEntry?>(null) }
@@ -164,9 +171,8 @@ internal fun EunGabiNavHostInternal(
     }
 
     val dimAlpha by animateFloatAsState(
-        targetValue = 0.07f * (1 - progress) // progress가 1일 때 0f, 0일 때 0.05f
+        targetValue = 0.07f * (1 - if (inPredictiveBack) progress else transitionState.fraction) // progress가 1일 때 0f, 0일 때 0.05f
     )
-
     transition.AnimatedContent(
         modifier = modifier
             .fillMaxSize()
@@ -192,7 +198,10 @@ internal fun EunGabiNavHostInternal(
                     .fillMaxSize()
                     .drawWithContent {
                         drawContent()
-                        if (targetState != entity) {
+                        // Enable background dimming when the transition is running. This will apply to the previous screen.
+                        // it currently supports only predictive back gesturing.
+                        if (!inPredictiveBack) return@drawWithContent
+                        if (targetState.index < entity.index || targetState.index < transition.currentState.index) {
                             drawRect(color = Color.Black.copy(dimAlpha))
                         }
                     }

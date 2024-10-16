@@ -36,7 +36,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -56,6 +58,7 @@ actual fun EunGabiNavHost(
     val screenWidth = LocalWindowInfo.current.containerSize.width
     val backStack by controller.backStack.collectAsState()
     val density = LocalDensity.current
+    var isSwipeToBackEnabled by remember { mutableStateOf(false) }
     val anchoredDraggableState = remember {
         val anchors = DraggableAnchors {
             DragAnchors.Start at 0f
@@ -106,6 +109,11 @@ actual fun EunGabiNavHost(
                     )
                 }
             ),
+            onTransitionRunning = {
+                // prevent swipe-to-back when transition is running. except swiping with predictive back.
+                if (inPredictiveBack) return@EunGabiNavHostInternal
+                isSwipeToBackEnabled = !it
+            },
             controller = controller,
             builder = builder
         )
@@ -120,7 +128,7 @@ actual fun EunGabiNavHost(
             .anchoredDraggable(
                 state = anchoredDraggableState,
                 orientation = Orientation.Horizontal,
-                enabled = true
+                enabled = isSwipeToBackEnabled
             )
     )
 }
