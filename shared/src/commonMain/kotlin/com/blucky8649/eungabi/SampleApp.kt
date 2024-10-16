@@ -15,13 +15,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -30,9 +35,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.blucky8649.eungabi.navigation.experimental.EunGabiController
-import com.blucky8649.eungabi.navigation.experimental.EunGabiNavHost
-import com.blucky8649.eungabi.navigation.experimental.rememberEunGabiController
+import com.blucky8649.eungabi.navigation.EunGabiController
+import com.blucky8649.eungabi.navigation.EunGabiNavHost
+import com.blucky8649.eungabi.navigation.rememberEunGabiController
 import com.blucky8649.sample.resources.Res
 import com.blucky8649.sample.resources.ic_dy
 import org.jetbrains.compose.resources.painterResource
@@ -58,7 +63,8 @@ fun SampleApp() {
             composable("details") {
                 DetailsComponent(
                     "details",
-                    animatedVisibilityScope = this
+                    animatedVisibilityScope = this,
+                    onNavigateBack = egController::navigateUp
                 ) {
                     egController.navigate("detailA")
                 }
@@ -68,7 +74,8 @@ fun SampleApp() {
                 DetailsComponent(
                     "detailA",
                     "navigate to B",
-                    this
+                    this,
+                    onNavigateBack = egController::navigateUp
                 ) {
                     egController.navigate("detailB?name=screenB&id=123")
                 }
@@ -77,11 +84,14 @@ fun SampleApp() {
             composable("detailB?id={id}&name={name}") {
                 val id = it.arguments.getInt("id")
                 val name = it.arguments.getString("name")
-                println("backStack = ${it.id}, id = $id, name = $name")
+                LaunchedEffect(Unit) {
+                    println("backStack = ${it.id}, id = $id, name = $name")
+                }
                 DetailsComponent(
                     "detailB",
                     "navigate to C",
-                    this
+                    this,
+                    onNavigateBack = egController::navigateUp
                 ) {
                     egController.navigate("detailC")
                 }
@@ -91,7 +101,8 @@ fun SampleApp() {
                 DetailsComponent(
                     "detailsC",
                     "navigate to D",
-                    this
+                    this,
+                    onNavigateBack = egController::navigateUp
                 ) {
                     egController.navigate("detailD") {
                         popUpTo("main") {}
@@ -103,7 +114,8 @@ fun SampleApp() {
                 DetailsComponent(
                     "detailD",
                     "Finish",
-                    this
+                    this,
+                    onNavigateBack = egController::navigateUp
                 ) {
                     egController.navigateUp()
                 }
@@ -118,7 +130,7 @@ fun BackStackTracker(navController: EunGabiController) {
     Box(Modifier.fillMaxSize()) {
         LazyRow(Modifier.fillMaxWidth().align(Alignment.BottomCenter)) {
             items(backStack.size) {
-                val route = backStack[it].destination.route
+                val route = backStack[it].eunGabiDestination.route
                 Text(route, modifier = Modifier.background(Color.LightGray))
                 Spacer(Modifier.width(10.dp))
             }
@@ -156,10 +168,19 @@ fun SharedTransitionScope.DetailsComponent(
     text: String,
     buttonText: String = "Navigate To A",
     animatedVisibilityScope: AnimatedVisibilityScope,
+    onNavigateBack: () -> Unit,
     onButtonClicked: () -> Unit
 ) {
     Column(Modifier.fillMaxSize()) {
         TopAppBar(
+            navigationIcon = {
+                IconButton(onNavigateBack) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                        contentDescription = ""
+                    )
+                }
+            },
             title = { Text("Detail Component") },
             colors = TopAppBarDefaults.topAppBarColors()
                 .copy(containerColor = MaterialTheme.colorScheme.primaryContainer)

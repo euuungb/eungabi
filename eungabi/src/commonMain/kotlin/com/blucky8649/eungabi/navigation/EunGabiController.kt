@@ -13,17 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.blucky8649.eungabi.navigation.experimental
+package com.blucky8649.eungabi.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
-import com.blucky8649.eungabi.navigation.NavArguments
-import com.blucky8649.eungabi.navigation.NavBackStackEntry
-import com.blucky8649.eungabi.navigation.NavGraph
-import com.blucky8649.eungabi.navigation.NavOptions
-import com.blucky8649.eungabi.navigation.NavOptionsBuilder
 import com.blucky8649.eungabi.utils.withScheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -32,8 +27,8 @@ import kotlinx.coroutines.flow.update
 
 class EunGabiController {
 
-    private var _graph: NavGraph? = null
-    var graph: NavGraph
+    private var _graph: EunGabiGraph? = null
+    var graph: EunGabiGraph
         get() {
         return _graph ?: error("Graph is not set")
     } set(value) {
@@ -51,21 +46,21 @@ class EunGabiController {
 
     internal val isPop = mutableStateOf(false)
 
-    private var backQueue = ArrayDeque<NavBackStackEntry>()
+    private var backQueue = ArrayDeque<EunGabiEntry>()
 
-    private val _backStack = MutableStateFlow<List<NavBackStackEntry>>(listOf())
-    val backStack: StateFlow<List<NavBackStackEntry>>  = _backStack.asStateFlow()
+    private val _backStack = MutableStateFlow<List<EunGabiEntry>>(listOf())
+    val backStack: StateFlow<List<EunGabiEntry>>  = _backStack.asStateFlow()
 
     fun navigateUp(): Boolean {
         if (backQueue.size <= 1) return false
         var currentEntity = backQueue.lastOrNull() ?: return false
-        var removedEntry: NavBackStackEntry?
-        val targetRoute = findPreviousEntity(currentEntity).destination.route
+        var removedEntry: EunGabiEntry?
+        val targetRoute = findPreviousEntity(currentEntity).eunGabiDestination.route
 
         do {
             removedEntry = backQueue.removeLastOrNull()
             backQueue.lastOrNull()?.also { currentEntity = it }
-        } while (currentEntity.destination.route != targetRoute)
+        } while (currentEntity.eunGabiDestination.route != targetRoute)
 
         _backStack.update { backQueue.toList() }
         isPop.value = true
@@ -83,12 +78,12 @@ class EunGabiController {
         isPop.value = false
     }
 
-    internal fun findPreviousEntity(entity: NavBackStackEntry): NavBackStackEntry {
+    internal fun findPreviousEntity(entity: EunGabiEntry): EunGabiEntry {
         val targetRoute = entity.navOptions.popUpToRoute
         val inclusive = entity.navOptions.inclusive
 
         val index = backQueue
-            .map { it.destination.route }
+            .map { it.eunGabiDestination.route }
             .indexOf(targetRoute)
 
         if (index == -1) {
@@ -108,13 +103,13 @@ class EunGabiController {
         index: Int,
         route: String,
         navOptions: NavOptions = NavOptions(),
-        graph: NavGraph = this.graph,
-    ): NavBackStackEntry {
+        graph: EunGabiGraph = this.graph,
+    ): EunGabiEntry {
         val fullRoute = withScheme(route)
         val navArguments = NavArguments(fullRoute)
         val destination = graph.findDestination(route)
-        return NavBackStackEntry(
-            destination = destination,
+        return EunGabiEntry(
+            eunGabiDestination = destination,
             arguments = navArguments,
             navOptions = navOptions,
             index = index

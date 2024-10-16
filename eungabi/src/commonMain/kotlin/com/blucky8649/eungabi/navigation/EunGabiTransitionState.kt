@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.blucky8649.eungabi.navigation.experimental
+package com.blucky8649.eungabi.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
@@ -21,11 +21,15 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import com.blucky8649.eungabi.navigation.NavBackStackEntry
 
 data class EunGabiTransitionState(
-    val enter: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition = { fadeIn(animationSpec = tween(700))},
-    val exit: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition = { fadeOut(animationSpec = tween(700)) },
-    val popEnter: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition = enter,
-    val popExit: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition = exit,
+    val enter: AnimatedContentTransitionScope<EunGabiEntry>.() -> EnterTransition = { fadeIn(animationSpec = tween(700))},
+    val exit: AnimatedContentTransitionScope<EunGabiEntry>.() -> ExitTransition = { fadeOut(animationSpec = tween(700)) },
+    val popEnter: AnimatedContentTransitionScope<EunGabiEntry>.() -> EnterTransition = enter,
+    val popExit: AnimatedContentTransitionScope<EunGabiEntry>.() -> ExitTransition = exit,
+)
+
+data class EunGabiPredictiveState(
+    val popEnter: AnimatedContentTransitionScope<EunGabiEntry>.() -> EnterTransition = { fadeIn(animationSpec = tween(700))},
+    val popExit: AnimatedContentTransitionScope<EunGabiEntry>.() -> ExitTransition = { fadeOut(animationSpec = tween(700)) },
 )
