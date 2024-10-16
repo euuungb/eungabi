@@ -10,6 +10,31 @@ eungabi = "0.1.0-alpha01"
 eungabi = { module = "io.github.blucky8649:eungabi", version.ref = "eungabi" }
 ```
 
+## How to use
+> You can write code simply, in a style similar to the Jetpack Navigation Compose. A detailed guide has scheduled. (comming soon 🤗 )
+```kotlin
+val controller = rememberEunGabiController()
+EunGabiNavHost(
+    modifier = Modifier,
+    controller = egController,
+    startDestination = "main",
+) {
+    composable("main") {
+        MainComponent("main") {
+            egController.navigate("details")
+        }
+    }
+    composable("details") {
+        DetailsComponent(
+            "details",
+            onNavigateBack = egController::navigateUp
+        ) {
+            egController.navigate("detailA")
+        }
+    }
+}
+```
+
 ## License
 ```
 Copyright 2024 easternkite
