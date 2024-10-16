@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.blucky8649.eungabi.navigation.experimental
+package com.blucky8649.eungabi.navigation
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ContentTransform
@@ -46,8 +46,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
-import com.blucky8649.eungabi.navigation.NavBackStackEntry
-import com.blucky8649.eungabi.navigation.NavGraphBuilder
 import kotlinx.coroutines.launch
 
 @Composable
@@ -55,7 +53,7 @@ expect fun EunGabiNavHost(
     modifier: Modifier = Modifier,
     startDestination: String = "",
     controller: EunGabiController = rememberEunGabiController(),
-    builder: NavGraphBuilder.() -> Unit
+    builder: EunGabiGraphBuilder.() -> Unit
 )
 
 @Composable
@@ -81,7 +79,7 @@ internal fun EunGabiNavHostInternal(
     startDestination: String = "",
     controller: EunGabiController = rememberEunGabiController(),
     onTransitionRunning: (Boolean) -> Unit  = {},
-    builder: NavGraphBuilder.() -> Unit
+    builder: EunGabiGraphBuilder.() -> Unit
 ) {
     val backStack by controller.backStack.collectAsState()
     val entity = remember(backStack) { backStack.lastOrNull() }
@@ -106,7 +104,7 @@ internal fun EunGabiNavHostInternal(
         controller,
         startDestination
     ) {
-        controller.graph = NavGraphBuilder()
+        controller.graph = EunGabiGraphBuilder()
             .apply(builder)
             .also { it.startDestination = startDestination }
             .build()
@@ -130,15 +128,15 @@ internal fun EunGabiNavHostInternal(
         updatedTransitionRunning(isTransitionRunning)
     }
 
-    var previousEntry by remember { mutableStateOf<NavBackStackEntry?>(null) }
+    var previousEntry by remember { mutableStateOf<EunGabiEntry?>(null) }
 
     LaunchedEffect(backStack) {
-        println(backStack.map { it.destination.route })
+        println(backStack.map { it.eunGabiDestination.route })
     }
 
     if (inPredictiveBack) {
         LaunchedEffect(entity) {
-            println("entity changed: ${entity.destination.route}")
+            println("entity changed: ${entity.eunGabiDestination.route}")
             previousEntry = controller.findPreviousEntity(entity)
         }
         LaunchedEffect(progress) {
@@ -208,7 +206,7 @@ internal fun EunGabiNavHostInternal(
             ) {
                 controller
                     .graph
-                    .findDestination(targetState.destination.fullRoute)
+                    .findDestination(targetState.eunGabiDestination.fullRoute)
                     .content(this@AnimatedContent, targetState)
             }
         }

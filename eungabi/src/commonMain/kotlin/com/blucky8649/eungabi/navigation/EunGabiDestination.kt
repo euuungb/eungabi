@@ -19,9 +19,9 @@ import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.runtime.Composable
 import com.eygraber.uri.Uri
 
-data class Destination(
+data class EunGabiDestination(
     private val name: String,
-    internal val content: @Composable AnimatedVisibilityScope.(NavBackStackEntry) -> Unit = {}
+    internal val content: @Composable AnimatedVisibilityScope.(EunGabiEntry) -> Unit = {}
 ) {
     val route get() = Uri.parse(name).host ?: name
     internal val fullRoute get() = name

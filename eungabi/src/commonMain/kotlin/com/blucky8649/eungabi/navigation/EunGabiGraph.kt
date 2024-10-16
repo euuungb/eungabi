@@ -22,19 +22,19 @@ import com.eygraber.uri.Uri
 
 const val SCHEME = "navhost://"
 
-class NavGraph (
+class EunGabiGraph (
     val startDestination: String,
-    private val destinations: Map<String, Destination>
+    private val destinations: Map<String, EunGabiDestination>
 ) {
-    fun findDestination(route: String): Destination {
+    fun findDestination(route: String): EunGabiDestination {
         val uri = Uri.parse(withScheme(route))
         val host = uri.host
         return destinations[host] ?: error("Destination not found")
     }
 }
 
-class NavGraphBuilder {
-    private val destinations = mutableMapOf<String, Destination>()
+class EunGabiGraphBuilder {
+    private val destinations = mutableMapOf<String, EunGabiDestination>()
 
     private var _startDestination: String? = null
     var startDestination: String get() {
@@ -44,12 +44,12 @@ class NavGraphBuilder {
 
     fun composable(
         route: String,
-        content: @Composable AnimatedVisibilityScope.(NavBackStackEntry) -> Unit
+        content: @Composable AnimatedVisibilityScope.(EunGabiEntry) -> Unit
     ) {
         val fullRoute = withScheme(route)
         val host = Uri.parse(fullRoute).host ?: route
-        destinations[host] = Destination(fullRoute, content = content)
+        destinations[host] = EunGabiDestination(fullRoute, content = content)
     }
 
-    internal fun build() = NavGraph(startDestination, destinations)
+    internal fun build() = EunGabiGraph(startDestination, destinations)
 }

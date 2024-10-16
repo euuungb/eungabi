@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.blucky8649.eungabi.navigation.experimental
+package com.blucky8649.eungabi.navigation
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.exponentialDecay
@@ -45,7 +45,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
-import com.blucky8649.eungabi.navigation.NavGraphBuilder
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -53,7 +52,7 @@ actual fun EunGabiNavHost(
     modifier: Modifier,
     startDestination: String,
     controller: EunGabiController,
-    builder: NavGraphBuilder.() -> Unit
+    builder: EunGabiGraphBuilder.() -> Unit
 ) {
     val screenWidth = LocalWindowInfo.current.containerSize.width
     val backStack by controller.backStack.collectAsState()

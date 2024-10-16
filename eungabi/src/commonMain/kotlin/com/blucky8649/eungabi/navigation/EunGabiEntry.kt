@@ -19,8 +19,8 @@ import com.blucky8649.eungabi.utils.randomUuid
 import com.blucky8649.eungabi.utils.withScheme
 import com.eygraber.uri.Uri
 
-data class NavBackStackEntry(
-    val destination: Destination,
+data class EunGabiEntry(
+    val eunGabiDestination: EunGabiDestination,
     val id: String = randomUuid,
     val navOptions: NavOptions,
     val arguments: NavArguments,

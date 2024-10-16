@@ -13,18 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.blucky8649.eungabi.navigation.experimental
-
-import com.blucky8649.eungabi.navigation.NavBackStackEntry
+package com.blucky8649.eungabi.navigation
 
 internal object EunGabiState {
-    private var backQueue = ArrayDeque<NavBackStackEntry>()
+    private var backQueue = ArrayDeque<EunGabiEntry>()
 
-    fun save(backQueue: ArrayDeque<NavBackStackEntry>) {
-        this.backQueue.addAll(backQueue)
+    fun save(backQueue: ArrayDeque<EunGabiEntry>) {
+        EunGabiState.backQueue.addAll(backQueue)
     }
 
-    fun restore(): ArrayDeque<NavBackStackEntry> {
+    fun restore(): ArrayDeque<EunGabiEntry> {
         val result = ArrayDeque(backQueue.toList())
         return result.also { backQueue.clear() }
     }

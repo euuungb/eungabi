@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.blucky8649.eungabi.navigation.experimental
+package com.blucky8649.eungabi.navigation
 
 import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.runtime.Composable
@@ -25,7 +25,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.blucky8649.eungabi.navigation.NavGraphBuilder
 import kotlinx.coroutines.CancellationException
 
 @Composable
@@ -33,7 +32,7 @@ actual fun EunGabiNavHost(
     modifier: Modifier,
     startDestination: String,
     controller: EunGabiController,
-    builder: NavGraphBuilder.() -> Unit
+    builder: EunGabiGraphBuilder.() -> Unit
 ) {
     val backStack by controller.backStack.collectAsState()
 
