@@ -15,8 +15,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -59,7 +63,8 @@ fun SampleApp() {
             composable("details") {
                 DetailsComponent(
                     "details",
-                    animatedVisibilityScope = this
+                    animatedVisibilityScope = this,
+                    onNavigateBack = egController::navigateUp
                 ) {
                     egController.navigate("detailA")
                 }
@@ -69,7 +74,8 @@ fun SampleApp() {
                 DetailsComponent(
                     "detailA",
                     "navigate to B",
-                    this
+                    this,
+                    onNavigateBack = egController::navigateUp
                 ) {
                     egController.navigate("detailB?name=screenB&id=123")
                 }
@@ -84,7 +90,8 @@ fun SampleApp() {
                 DetailsComponent(
                     "detailB",
                     "navigate to C",
-                    this
+                    this,
+                    onNavigateBack = egController::navigateUp
                 ) {
                     egController.navigate("detailC")
                 }
@@ -94,7 +101,8 @@ fun SampleApp() {
                 DetailsComponent(
                     "detailsC",
                     "navigate to D",
-                    this
+                    this,
+                    onNavigateBack = egController::navigateUp
                 ) {
                     egController.navigate("detailD") {
                         popUpTo("main") {}
@@ -106,7 +114,8 @@ fun SampleApp() {
                 DetailsComponent(
                     "detailD",
                     "Finish",
-                    this
+                    this,
+                    onNavigateBack = egController::navigateUp
                 ) {
                     egController.navigateUp()
                 }
@@ -159,10 +168,19 @@ fun SharedTransitionScope.DetailsComponent(
     text: String,
     buttonText: String = "Navigate To A",
     animatedVisibilityScope: AnimatedVisibilityScope,
+    onNavigateBack: () -> Unit,
     onButtonClicked: () -> Unit
 ) {
     Column(Modifier.fillMaxSize()) {
         TopAppBar(
+            navigationIcon = {
+                IconButton(onNavigateBack) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                        contentDescription = ""
+                    )
+                }
+            },
             title = { Text("Detail Component") },
             colors = TopAppBarDefaults.topAppBarColors()
                 .copy(containerColor = MaterialTheme.colorScheme.primaryContainer)
