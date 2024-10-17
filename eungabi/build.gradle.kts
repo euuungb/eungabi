@@ -72,7 +72,7 @@ val androidSourceJar by tasks.registering(Jar::class) {
     publishing.singleVariant("release")
 }
 
-val GROUP_ID = "com.easternkite.eungabi"
+val GROUP_ID = "io.github.easternkite"
 val ARTIFACT_ID = "eungabi"
 val VERSION = "0.1.0-alpha01"
 

@@ -7,7 +7,7 @@ A Compose Multiplatform Navigation library which support Platform Native Feature
 eungabi = "0.1.0-alpha01"
 
 [libraries]
-eungabi = { module = "com.easternkite.eungabi:eungabi", version.ref = "eungabi" }
+eungabi = { module = "io.github.easternkite:eungabi", version.ref = "eungabi" }
 ```
 
 ## How to use
