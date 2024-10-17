@@ -5,10 +5,10 @@ plugins {
 }
 
 android {
-    namespace = "com.blucky8649.eungabi"
+    namespace = "com.easternkite.eungabi"
     compileSdk = 34
     defaultConfig {
-        applicationId = "com.blucky8649.eungabi"
+        applicationId = "com.easternkite.eungabi"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

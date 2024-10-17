@@ -1,4 +1,4 @@
-# Decompose-Navhost
+# EunGabi
 A Compose Multiplatform Navigation library which support Platform Native Features like Predictive Back Gesture(Android), Swipe-Back Gesture(iOS), Shared Element Transition(Common)
 
 ## Installation
@@ -7,7 +7,7 @@ A Compose Multiplatform Navigation library which support Platform Native Feature
 eungabi = "0.1.0-alpha01"
 
 [libraries]
-eungabi = { module = "io.github.blucky8649:eungabi", version.ref = "eungabi" }
+eungabi = { module = "com.easternkite.eungabi:eungabi", version.ref = "eungabi" }
 ```
 
 ## How to use

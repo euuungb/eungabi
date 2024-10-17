@@ -43,12 +43,12 @@ kotlin {
 
 compose.resources {
     publicResClass = false
-    packageOfResClass = "com.blucky8649.sample.resources"
+    packageOfResClass = "com.easternkite.sample.resources"
     generateResClass = auto
 }
 
 android {
-    namespace = "com.blucky8649.eungabi"
+    namespace = "com.easternkite.eungabi"
     compileSdk = 34
     defaultConfig {
         minSdk = 24

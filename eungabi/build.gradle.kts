@@ -52,7 +52,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.blucky8649.eungabi"
+    namespace = "com.easternkite.eungabi"
     compileSdk = 34
     defaultConfig {
         minSdk = 24
@@ -72,7 +72,7 @@ val androidSourceJar by tasks.registering(Jar::class) {
     publishing.singleVariant("release")
 }
 
-val GROUP_ID = "io.github.blucky8649"
+val GROUP_ID = "com.easternkite.eungabi"
 val ARTIFACT_ID = "eungabi"
 val VERSION = "0.1.0-alpha01"
 
@@ -81,23 +81,23 @@ mavenPublishing {
     pom {
         name.set("Eungabi")
         description.set("A Compose Multiplatform Navigation Library which support Platform Native Features like Predictive Back Gesture in Android and Swipe-To-Back Gesture in iOS.")
-        url.set("https://github.com/blucky8649/eungabi")
+        url.set("https://github.com/easternkite/eungabi")
         licenses {
             license {
                 name.set("The Apache License, Version 2.0")
-                url.set("https://github.com/blucky8649/eungabi/blob/main/LICENSE")
+                url.set("https://github.com/easternkite/eungabi/blob/main/LICENSE")
             }
 
             developers {
                 developer {
-                    id.set("blucky8649")
+                    id.set("easternkite")
                     name.set("DongYeon-Lee")
-                    email.set("blucky8649@gmail.com")
+                    email.set("eaternkite7@gmail.com")
                 }
             }
 
             scm {
-                url.set("https://github.com/blucky8649/eungabi.git")
+                url.set("https://github.com/easternkite/eungabi.git")
             }
         }
     }
