@@ -17,7 +17,9 @@ kotlin {
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
+        macosArm64(),
+        macosX64()
     ).forEach {
         it.binaries.framework {
             baseName = "shared"
@@ -26,7 +28,12 @@ kotlin {
         }
     }
 
+    jvm("desktop")
+
+
     sourceSets {
+        val desktopMain by getting
+
         commonMain.dependencies {
             api(projects.eungabi)
             implementation(compose.ui)
@@ -35,10 +42,24 @@ kotlin {
             implementation(compose.material3)
             implementation(compose.components.resources)
         }
+        desktopMain.dependencies {
+            implementation(compose.desktop.macos_arm64)
+            implementation(libs.kotlinx.coroutines.swing)
+        }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
     }
+}
+
+compose.desktop {
+    application {
+        mainClass = "com.easternkite.eungabi.MainKt"
+    }
+}
+
+dependencies {
+    debugImplementation(compose.uiTooling)
 }
 
 compose.resources {

@@ -19,11 +19,15 @@ kotlin {
             }
         }
     }
-    
+
+    jvm("desktop")
+
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
+        macosX64(),
+        macosArm64()
     ).forEach {
         it.binaries.framework {
             baseName = "eungabi"
@@ -74,7 +78,7 @@ val androidSourceJar by tasks.registering(Jar::class) {
 
 val GROUP_ID = "io.github.easternkite"
 val ARTIFACT_ID = "eungabi"
-val VERSION = "0.1.0-alpha01"
+val VERSION = "0.2.0"
 
 mavenPublishing {
     coordinates(GROUP_ID, ARTIFACT_ID, VERSION)
