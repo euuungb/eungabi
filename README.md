@@ -4,7 +4,7 @@ A Compose Multiplatform Navigation library which support Platform Native Feature
 ## Installation
 ```toml
 [versions]
-eungabi = "0.1.0-alpha01"
+eungabi = "0.2.0"
 
 [libraries]
 eungabi = { module = "io.github.easternkite:eungabi", version.ref = "eungabi" }
