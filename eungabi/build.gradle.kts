@@ -78,7 +78,7 @@ val androidSourceJar by tasks.registering(Jar::class) {
 
 val GROUP_ID = "io.github.easternkite"
 val ARTIFACT_ID = "eungabi"
-val VERSION = "0.2.0"
+val VERSION = "0.2.1"
 
 mavenPublishing {
     coordinates(GROUP_ID, ARTIFACT_ID, VERSION)
