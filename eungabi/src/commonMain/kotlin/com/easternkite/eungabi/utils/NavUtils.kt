@@ -17,4 +17,10 @@ package com.easternkite.eungabi.utils
 
 import com.easternkite.eungabi.navigation.SCHEME
 
+/**
+ * Add prefix [SCHEME] at the beginning of the given route.
+ *
+ * @param route The route to add the prefix to.
+ * @return The route with the prefix added.
+ */
 fun withScheme(route: String) = if (route.startsWith(SCHEME)) route else "$SCHEME$route"

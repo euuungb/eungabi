@@ -1,6 +1,9 @@
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryExtension
 import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.compose.ExperimentalComposeLibrary
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -13,6 +16,8 @@ plugins {
 kotlin {
     androidTarget {
         publishLibraryVariants("release")
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
         compilations.all {
             kotlinOptions {
                 jvmTarget = "1.8"
@@ -36,6 +41,8 @@ kotlin {
     }
 
     sourceSets {
+        val desktopTest by getting
+
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.core.ktx)
@@ -51,8 +58,19 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            @OptIn(ExperimentalComposeLibrary::class)
+            implementation(compose.uiTest)
+        }
+
+        desktopTest.dependencies {
+            implementation(compose.desktop.currentOs)
         }
     }
+}
+
+dependencies {
+    androidTestImplementation(libs.androidx.ui.test.junit4.android)
+    debugImplementation(libs.androidx.ui.test.manifest)
 }
 
 android {
@@ -60,6 +78,7 @@ android {
     compileSdk = 34
     defaultConfig {
         minSdk = 24
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -78,7 +97,7 @@ val androidSourceJar by tasks.registering(Jar::class) {
 
 val GROUP_ID = "io.github.easternkite"
 val ARTIFACT_ID = "eungabi"
-val VERSION = "0.2.0"
+val VERSION = "0.2.1"
 
 mavenPublishing {
     coordinates(GROUP_ID, ARTIFACT_ID, VERSION)

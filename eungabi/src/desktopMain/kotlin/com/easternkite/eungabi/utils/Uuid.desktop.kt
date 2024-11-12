@@ -17,4 +17,7 @@ package com.easternkite.eungabi.utils
 
 import java.util.UUID
 
+/**
+ * get platform specific unique identifier.
+ */
 actual val randomUuid: String get() = UUID.randomUUID().toString()

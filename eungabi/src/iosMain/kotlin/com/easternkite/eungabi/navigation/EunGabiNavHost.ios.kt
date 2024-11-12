@@ -46,6 +46,23 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 
+/**
+ * The navigation container composable.
+ *
+ * It is the entry point of the navigation.
+ *
+ * It retrieves the current destination from the [EunGabiController.backStack].
+ * and also process the transition between the destinations as well.
+ *
+ * It uses the [AnchoredDraggableState] for swipe-to-back transition.
+ *
+ * @param modifier The modifier to apply to this layout.
+ * @param controller The controller to control the navigation.
+ * @param startDestination The route of the start destination.
+ * @param transitionState The state of the transition.
+ * @param predictiveBackTransition The state of the predictive back transition. it is invoked when the user swipes back.
+ * @param builder The builder to build the navigation graph. users can add destinations to the graph with this builder.
+ */
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
 actual fun EunGabiNavHost(
@@ -121,6 +138,9 @@ actual fun EunGabiNavHost(
     )
 }
 
+/**
+ * the default predictive back transition state for iOS
+ */
 val defaultPredictiveBack = EunGabiPredictiveState(
     popEnter = {
         slideInHorizontally(
@@ -136,6 +156,9 @@ val defaultPredictiveBack = EunGabiPredictiveState(
     }
 )
 
+/**
+ * the default transition state for iOS
+ */
 val defaultTransition = EunGabiTransitionState(
     enter = {
         slideInHorizontally(
@@ -164,6 +187,9 @@ val defaultTransition = EunGabiTransitionState(
     }
 )
 
+/**
+ * The Anchors to be snapped on the screen.
+ */
 enum class DragAnchors {
     Start,
     End,
