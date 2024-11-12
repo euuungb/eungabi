@@ -17,4 +17,7 @@ package com.easternkite.eungabi.utils
 
 import platform.Foundation.NSUUID
 
+/**
+ * get platform specific unique identifier.
+ */
 actual val randomUuid: String get() = NSUUID.UUID().UUIDString

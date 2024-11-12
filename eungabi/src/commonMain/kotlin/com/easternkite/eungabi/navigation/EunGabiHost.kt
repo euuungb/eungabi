@@ -42,6 +42,21 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import kotlinx.coroutines.launch
 
+/**
+ * The navigation container composable.
+ *
+ * It is the entry point of the navigation.
+ *
+ * It retrieves the current destination from the [EunGabiController.backStack].
+ * and also process the transition between the destinations as well.
+ *
+ * @param modifier The modifier to apply to this layout.
+ * @param controller The controller to control the navigation.
+ * @param startDestination The route of the start destination.
+ * @param transitionState The state of the transition.
+ * @param predictiveBackTransition The state of the predictive back transition. it is invoked when the user swipes back.
+ * @param builder The builder to build the navigation graph. users can add destinations to the graph with this builder.
+ */
 @Composable
 expect fun EunGabiNavHost(
     modifier: Modifier = Modifier,
@@ -52,6 +67,26 @@ expect fun EunGabiNavHost(
     builder: EunGabiGraphBuilder.() -> Unit
 )
 
+/**
+ * The internal navigation container composable.
+ *
+ * It is the entry point of the navigation.
+ *
+ * It retrieves the current destination from the [EunGabiController.backStack].
+ * and also process the transition between the destinations as well.
+ *
+ * this function describes the method how to transition between the destinations as well as how to handle the predictive back transition.
+ *
+ * @param modifier The modifier to apply to this layout.
+ * @param navTransition The state of the transition.
+ * @param predictiveBackTransition The state of the predictive back transition. it is invoked when the user swipes back.
+ * @param progress The progress of the predictive back transition animation.
+ * @param inPredictiveBack Whether the user is in the predictive back transition.
+ * @param startDestination The route of the start destination.
+ * @param controller The controller to control the navigation.
+ * @param onTransitionRunning The callback to invoke when the transition is running.
+ * @param builder The builder to build the navigation graph. users can add destinations to the graph with this builder.
+ */
 @Composable
 internal fun EunGabiNavHostInternal(
     modifier: Modifier = Modifier,

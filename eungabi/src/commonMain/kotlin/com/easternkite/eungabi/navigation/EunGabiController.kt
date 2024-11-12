@@ -25,8 +25,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
+/**
+ * A Controller for EunGabi Navigation.
+ */
 class EunGabiController {
 
+    /**
+     * The current navigation graph, that holds destinations registered with [EunGabiGraphBuilder].
+     */
     private var _graph: EunGabiGraph? = null
     var graph: EunGabiGraph
         get() {
@@ -44,13 +50,29 @@ class EunGabiController {
         _graph = value
     }
 
+    /**
+     * Whether the current navigation is a pop operation.
+     */
     internal val isPop = mutableStateOf(false)
 
+    /**
+     * The back queue of the navigation.
+     * it holds the history of the navigation entries as Stack data structure.
+     */
     private var backQueue = ArrayDeque<EunGabiEntry>()
 
+    /**
+     * The back stack of the navigation.
+     * It holds the history of the navigation entries emitted by [backQueue].
+     */
     private val _backStack = MutableStateFlow<List<EunGabiEntry>>(listOf())
     val backStack: StateFlow<List<EunGabiEntry>>  = _backStack.asStateFlow()
 
+    /**
+     * Navigates up in the back stack.
+     * It uses [findPreviousEntity] to find the previous entity in the back stack.
+     * then removes all the entries after the previous entity.
+     */
     fun navigateUp(): Boolean {
         if (backQueue.size <= 1) return false
         var currentEntity = backQueue.lastOrNull() ?: return false
@@ -67,6 +89,12 @@ class EunGabiController {
         return removedEntry != null
     }
 
+    /**
+     * Navigates to the given route.
+     *
+     * @param route The route to navigate to.
+     * @param navOptionsBuilder A builder function to configure the navigation options.
+     */
     fun navigate(
         route: String,
         navOptionsBuilder: NavOptionsBuilder.() -> Unit = {}
@@ -78,6 +106,12 @@ class EunGabiController {
         isPop.value = false
     }
 
+    /**
+     * Finds the previous entity in the back stack via [NavOptions] of the given entity.
+     *
+     * @param entity The entity to find the previous entity for.
+     * @return The previous [EunGabiEntry] of the given [EunGabiEntry] in the back stack.
+     */
     internal fun findPreviousEntity(entity: EunGabiEntry): EunGabiEntry {
         val targetRoute = entity.navOptions.popUpToRoute
         val inclusive = entity.navOptions.inclusive
@@ -99,6 +133,14 @@ class EunGabiController {
         return backQueue[targetIndex]
     }
 
+    /**
+     * Creates a new navigation entry with the given parameters.
+     *
+     * @param index The index of the navigation entry in the [backQueue].
+     * @param route The route of the navigation entry.
+     * @param navOptions The navigation options for the navigation entry.
+     * @param graph The current navigation graph being used.
+     */
     private fun createEntry(
         index: Int,
         route: String,
@@ -116,23 +158,39 @@ class EunGabiController {
         )
     }
 
+    /**
+     * Saves the current state of the navigation.
+     * It saves the [backQueue] of the navigation.
+     */
     fun saveState(): Boolean {
         EunGabiState.save(backQueue)
         return true
     }
 
+    /**
+     * Restores the state of the navigation.
+     * It restores the [backQueue] of the navigation.
+     */
     fun restoreState() {
         val result = EunGabiState.restore()
         backQueue = result
     }
 }
 
+/**
+ * remember an [EunGabiController] instance with [rememberSaveable].
+ * It saves and restores the state of the navigation when the configuration changes.
+ */
 @Composable
 fun rememberEunGabiController(): EunGabiController
     = rememberSaveable(saver = eunGabiControllerSaver()) {
             EunGabiController()
     }
 
+/**
+ * A [Saver] for [EunGabiController].
+ * It provides a custom saver for the navigation controller which saves and restores the [EunGabiController.backQueue] of the navigation.
+ */
 private fun eunGabiControllerSaver() = Saver<EunGabiController, Boolean>(
     save = { it.saveState() },
     restore = { EunGabiController().apply(EunGabiController::restoreState) }

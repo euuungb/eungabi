@@ -15,6 +15,12 @@
  */
 package com.easternkite.eungabi.navigation
 
+/**
+ * The builder class to set popUp option.
+ */
 class PopUpToBuilder {
+    /**
+     * Whether the route to be popped up is inclusive.
+     */
     var inclusive: Boolean = false
 }
