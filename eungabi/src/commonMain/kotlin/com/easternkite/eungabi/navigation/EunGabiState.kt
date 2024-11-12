@@ -15,13 +15,28 @@
  */
 package com.easternkite.eungabi.navigation
 
+/**
+ * the Savable object of the [EunGabiController].
+ * It holds the all backStack entities of the [EunGabiController].
+ *
+ * It provides two method how to save and restore the backStack state.
+ */
 internal object EunGabiState {
+    /**
+     * The backStack to be save and restore.
+     */
     private var backQueue = ArrayDeque<EunGabiEntry>()
 
+    /**
+     * Saves the backStack state.
+     */
     fun save(backQueue: ArrayDeque<EunGabiEntry>) {
         EunGabiState.backQueue.addAll(backQueue)
     }
 
+    /**
+     * Restores the backStack state.
+     */
     fun restore(): ArrayDeque<EunGabiEntry> {
         val result = ArrayDeque(backQueue.toList())
         return result.also { backQueue.clear() }

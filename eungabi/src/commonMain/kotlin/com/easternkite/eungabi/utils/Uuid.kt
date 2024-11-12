@@ -15,4 +15,7 @@
  */
 package com.easternkite.eungabi.utils
 
+/**
+ * get platform specific unique identifier.
+ */
 expect val randomUuid: String

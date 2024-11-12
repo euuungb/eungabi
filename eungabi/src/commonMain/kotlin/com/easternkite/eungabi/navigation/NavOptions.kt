@@ -15,18 +15,58 @@
  */
 package com.easternkite.eungabi.navigation
 
+/**
+ * The EunGabi Navigation Options.
+ * It holds the route to be popped up.
+ */
 data class NavOptions(
+    /**
+     * The backing property for [popUpToRoute].
+     *
+     * The route to be popped up.
+     * In the [EunGabiController.navigateUp], this is used to get previous entity.
+     */
     private var _popUpToRoute: String = "",
+
+    /**
+     * The backing property for [inclusive].
+     *
+     * Whether the route to be popped up is inclusive.
+     */
     private var _inclusive: Boolean = false
 ) {
+    /**
+     * The route to be popped up.
+     * In the [EunGabiController.navigateUp], this is used to get previous entity.
+     */
     val popUpToRoute get() = _popUpToRoute
+
+    /**
+     * Whether the route to be popped up is inclusive.
+     */
     val inclusive get() = _inclusive
 }
 
+/**
+ * Builder for [NavOptions].
+ */
 class NavOptionsBuilder {
+    /**
+     * The route to be popped up.
+     * In the [EunGabiController.navigateUp], this is used to get previous entity.
+     */
     private var popUpToRoute = ""
+
+    /**
+     * Whether the route to be popped up is inclusive.
+     */
     private var inclusive = false
 
+    /**
+     * Sets the route to be popped up.
+     * @param route The route to be popped up.
+     * @param popUpToBuilder The builder class to set popUp option.
+     */
     fun popUpTo(
         route: String,
         popUpToBuilder: PopUpToBuilder.() -> Unit
@@ -36,6 +76,9 @@ class NavOptionsBuilder {
         inclusive = builder.inclusive
     }
 
+    /**
+     * Builds the [NavOptions].
+     */
     fun build() = NavOptions(popUpToRoute, inclusive)
 }
 

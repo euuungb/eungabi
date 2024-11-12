@@ -19,6 +19,14 @@ import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.runtime.Composable
 import com.eygraber.uri.Uri
 
+/**
+ * Represents a destination for EunGabi navigation.
+ *
+ * @param name The name of the destination.
+ *
+ * @param content The composable content of the destination,
+ * which uses [AnimatedVisibilityScope] for SharedElementTransition, and also uses [EunGabiEntry] holds the current entry state.
+ */
 data class EunGabiDestination(
     private val name: String,
     internal val content: @Composable AnimatedVisibilityScope.(EunGabiEntry) -> Unit = {}
