@@ -88,22 +88,30 @@ android {
 
 val androidSourceJar by tasks.registering(Jar::class) {
     archiveClassifier.set("sources")
-    from(project.extensions.getByType<BaseExtension>().sourceSets.getByName("main").java.srcDirs)
+    from(
+        project.extensions
+            .getByType<BaseExtension>()
+            .sourceSets
+            .getByName("main")
+            .java.srcDirs
+    )
 }
 
 (project as ExtensionAware).extensions.configure<LibraryExtension>("android") {
     publishing.singleVariant("release")
 }
 
-val GROUP_ID = "io.github.easternkite"
-val ARTIFACT_ID = "eungabi"
-val VERSION = "0.2.1"
+val groupId = "io.github.easternkite"
+val artifactId = "eungabi"
+val version = "0.2.1"
 
 mavenPublishing {
-    coordinates(GROUP_ID, ARTIFACT_ID, VERSION)
+    coordinates(groupId, artifactId, version)
     pom {
         name.set("Eungabi")
-        description.set("A Compose Multiplatform Navigation Library which support Platform Native Features like Predictive Back Gesture in Android and Swipe-To-Back Gesture in iOS.")
+        description.set(
+            "A Compose Multiplatform Navigation Library which support Platform Native Features like Predictive Back Gesture in Android and Swipe-To-Back Gesture in iOS."
+        )
         url.set("https://github.com/easternkite/eungabi")
         licenses {
             license {
@@ -127,4 +135,3 @@ mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, true)
     signAllPublications()
 }
-

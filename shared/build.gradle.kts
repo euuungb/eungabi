@@ -13,7 +13,7 @@ kotlin {
             }
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -29,7 +29,6 @@ kotlin {
     }
 
     jvm("desktop")
-
 
     sourceSets {
         val desktopMain by getting

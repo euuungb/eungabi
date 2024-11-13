@@ -103,41 +103,49 @@ internal fun EunGabiNavHostInternal(
     val entity = remember(backStack) { backStack.lastOrNull() }
     val updatedTransitionRunning by rememberUpdatedState(onTransitionRunning)
 
-    val currentTransition = remember(
-        predictiveBackTransition,
-        navTransition,
-        inPredictiveBack,
-        controller.isPop.value
-    ) {
-        val isPop = controller.isPop.value
-        val (enter, exit) = when {
-            inPredictiveBack -> predictiveBackTransition.popEnter to predictiveBackTransition.popExit
-            isPop -> navTransition.popEnter to navTransition.popExit
-            else -> (navTransition.enter to navTransition.exit)
+    val currentTransition =
+        remember(
+            predictiveBackTransition,
+            navTransition,
+            inPredictiveBack,
+            controller.isPop.value,
+        ) {
+            val isPop = controller.isPop.value
+            val (enter, exit) =
+                when {
+                    inPredictiveBack -> predictiveBackTransition.popEnter to predictiveBackTransition.popExit
+                    isPop -> navTransition.popEnter to navTransition.popExit
+                    else -> (navTransition.enter to navTransition.exit)
+                }
+            enter to exit
         }
-        enter to exit
-    }
 
     remember(
         controller,
-        startDestination
+        startDestination,
     ) {
-        controller.graph = EunGabiGraphBuilder()
-            .apply(builder)
-            .also { it.startDestination = startDestination }
-            .build()
+        controller.graph =
+            EunGabiGraphBuilder()
+                .apply(builder)
+                .also { it.startDestination = startDestination }
+                .build()
     }
 
     if (entity == null) return
 
-    val transitionState = remember {
-        SeekableTransitionState(entity)
-    }
+    val transitionState =
+        remember {
+            SeekableTransitionState(entity)
+        }
 
     val transition = rememberTransition(transitionState, label = "entity")
     val isTransitionRunning by derivedStateOf {
-        val targetProgress = if (inPredictiveBack) { progress }
-        else { transitionState.fraction }
+        val targetProgress =
+            if (inPredictiveBack) {
+                progress
+            } else {
+                transitionState.fraction
+            }
 
         targetProgress > 0 && targetProgress < 1
     }
@@ -169,7 +177,7 @@ internal fun EunGabiNavHostInternal(
                 animate(
                     transitionState.fraction,
                     0f,
-                    animationSpec = tween((transitionState.fraction * totalDuration).toInt())
+                    animationSpec = tween((transitionState.fraction * totalDuration).toInt()),
                 ) { value, _ ->
                     launch {
                         if (value > 0) {
@@ -187,12 +195,13 @@ internal fun EunGabiNavHostInternal(
     }
 
     val dimAlpha by animateFloatAsState(
-        targetValue = 0.07f * (1 - if (inPredictiveBack) progress else transitionState.fraction) // progress가 1일 때 0f, 0일 때 0.05f
+        targetValue = 0.07f * (1 - if (inPredictiveBack) progress else transitionState.fraction), // progress가 1일 때 0f, 0일 때 0.05f
     )
     transition.AnimatedContent(
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
         contentKey = {
             // Ordering-Based Keying Strategy to assume screen is currently pushing or popping.
             if (it.index > entity.index) {
@@ -206,21 +215,22 @@ internal fun EunGabiNavHostInternal(
         transitionSpec = {
             val (enter, exit) = currentTransition
             ContentTransform(enter(this), exit(this), targetState.index.toFloat())
-        }
+        },
     ) { targetState ->
         InputBlockingLayer(isTransitionRunning) {
             Surface(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .drawWithContent {
-                        drawContent()
-                        // Enable background dimming when the transition is running. This will apply to the previous screen.
-                        // it currently supports only predictive back gesturing.
-                        if (!inPredictiveBack) return@drawWithContent
-                        if (targetState.index < entity.index || targetState.index < transition.currentState.index) {
-                            drawRect(color = Color.Black.copy(dimAlpha))
-                        }
-                    }
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .drawWithContent {
+                            drawContent()
+                            // Enable background dimming when the transition is running. This will apply to the previous screen.
+                            // it currently supports only predictive back gesturing.
+                            if (!inPredictiveBack) return@drawWithContent
+                            if (targetState.index < entity.index || targetState.index < transition.currentState.index) {
+                                drawRect(color = Color.Black.copy(dimAlpha))
+                            }
+                        },
             ) {
                 controller
                     .graph
@@ -242,10 +252,11 @@ internal fun EunGabiNavHostInternal(
         content()
         if (isTransitionRunning) {
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clickable(enabled = false, onClick = {})
-                    .background(Color.Transparent),
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .clickable(enabled = false, onClick = {})
+                        .background(Color.Transparent),
             )
         }
     }

@@ -48,6 +48,6 @@ actual fun EunGabiNavHost(
         navTransition = transitionState,
         predictiveBackTransition = predictiveBackTransition,
         controller = controller,
-        builder = builder
+        builder = builder,
     )
 }

@@ -1,14 +1,13 @@
-root = true
-
-[*]
-charset = utf-8
-end_of_line = lf
-indent_style = space
-trim_trailing_whitespace = true
-insert_final_newline = true
-max_line_length = 120
-
 [*.{kt,kts}]
-indent_size = 4
-tab_width = 4
-disabled_rules = no-wildcard-imports, import-ordering, comment-spacing, trailing-comma-on-call-site, function-signature
+ktlint_code_style = ktlint_official
+
+ktlint_standard = enabled
+ktlint_experimental = disabled
+
+# composable 함수에 대해 예외적으로 PascalCase 허용  
+ktlint_function_naming_ignore_when_annotated_with = Composable, ViewController
+ktlint_standard_trailing-comma-on-call-site = disabled
+ktlint_standard_trailing-comma-on-declaration-site = disabled
+# 띄어쓰기 여러번 허용하도록 수정. Contants 등에서 가독성을 위해 띄어쓰기 여러번 한 구간 존재.
+ktlint_standard_no-multi-spaces = disabled
+ktlint_standard_multiline-expression-wrapping = disabled

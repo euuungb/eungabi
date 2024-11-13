@@ -27,7 +27,6 @@ data class NavOptions(
      * In the [EunGabiController.navigateUp], this is used to get previous entity.
      */
     private var _popUpToRoute: String = "",
-
     /**
      * The backing property for [inclusive].
      *
@@ -81,4 +80,3 @@ class NavOptionsBuilder {
      */
     fun build() = NavOptions(popUpToRoute, inclusive)
 }
-
