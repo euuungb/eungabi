@@ -148,7 +148,8 @@ fun SharedTransitionScope.MainComponent(
     Column(Modifier.fillMaxSize()) {
         TopAppBar(
             title = { Text("Main Component") },
-            colors = TopAppBarDefaults.topAppBarColors()
+            colors = TopAppBarDefaults
+                .topAppBarColors()
                 .copy(containerColor = MaterialTheme.colorScheme.primaryContainer)
         )
         Text(text = text)
@@ -182,7 +183,8 @@ fun SharedTransitionScope.DetailsComponent(
                 }
             },
             title = { Text("Detail Component") },
-            colors = TopAppBarDefaults.topAppBarColors()
+            colors = TopAppBarDefaults
+                .topAppBarColors()
                 .copy(containerColor = MaterialTheme.colorScheme.primaryContainer)
         )
         MainImage(
@@ -209,8 +211,7 @@ fun SharedTransitionScope.MainImage(
             .sharedElement(
                 rememberSharedContentState(key = "image"),
                 animatedVisibilityScope = animatedVisibilityScope
-            )
-            .clip(CircleShape),
+            ).clip(CircleShape),
         contentScale = ContentScale.Crop
     )
 }

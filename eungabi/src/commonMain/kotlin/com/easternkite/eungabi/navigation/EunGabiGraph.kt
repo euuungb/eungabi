@@ -29,12 +29,11 @@ const val SCHEME = "navhost://"
  * The navigation graph.
  * It holds destinations to navigate and find them by route.
  */
-class EunGabiGraph (
+class EunGabiGraph(
     /**
      * The start destination. It is added to the backStack of the [EunGabiController] initially.
      */
     val startDestination: String,
-
     /**
      * The destinations of the graph. It holds all the destinations of the graph.
      * It is used to find a destination by route.
@@ -76,7 +75,9 @@ class EunGabiGraphBuilder {
     var startDestination: String get() {
         return _startDestination ?: error("Start destination is not set")
     }
-        set(value) { _startDestination = value }
+        set(value) {
+            _startDestination = value
+        }
 
     /**
      * It adds a destination to the graph.

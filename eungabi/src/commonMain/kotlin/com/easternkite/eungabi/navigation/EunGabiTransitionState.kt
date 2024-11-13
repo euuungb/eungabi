@@ -27,13 +27,13 @@ import androidx.compose.animation.fadeOut
  *
  */
 data class EunGabiTransitionState(
-    val enter: AnimatedContentTransitionScope<EunGabiEntry>.() -> EnterTransition = { fadeIn(animationSpec = tween(700))},
+    val enter: AnimatedContentTransitionScope<EunGabiEntry>.() -> EnterTransition = { fadeIn(animationSpec = tween(700)) },
     val exit: AnimatedContentTransitionScope<EunGabiEntry>.() -> ExitTransition = { fadeOut(animationSpec = tween(700)) },
     val popEnter: AnimatedContentTransitionScope<EunGabiEntry>.() -> EnterTransition = enter,
     val popExit: AnimatedContentTransitionScope<EunGabiEntry>.() -> ExitTransition = exit,
 )
 
 data class EunGabiPredictiveState(
-    val popEnter: AnimatedContentTransitionScope<EunGabiEntry>.() -> EnterTransition = { fadeIn(animationSpec = tween(700))},
+    val popEnter: AnimatedContentTransitionScope<EunGabiEntry>.() -> EnterTransition = { fadeIn(animationSpec = tween(700)) },
     val popExit: AnimatedContentTransitionScope<EunGabiEntry>.() -> ExitTransition = { fadeOut(animationSpec = tween(700)) },
 )

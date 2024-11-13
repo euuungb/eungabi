@@ -77,27 +77,30 @@ actual fun EunGabiNavHost(
     val backStack by controller.backStack.collectAsState()
     val density = LocalDensity.current
     var isSwipeToBackEnabled by remember { mutableStateOf(false) }
-    val anchoredDraggableState = remember {
-        val anchors = DraggableAnchors {
-            DragAnchors.Start at 0f
-            DragAnchors.End at screenWidth.dp.value
+    val anchoredDraggableState =
+        remember {
+            val anchors =
+                DraggableAnchors {
+                    DragAnchors.Start at 0f
+                    DragAnchors.End at screenWidth.dp.value
+                }
+            AnchoredDraggableState(
+                anchors = anchors,
+                initialValue = DragAnchors.Start,
+                positionalThreshold = { distance: Float -> distance },
+                velocityThreshold = { with(density) { 100.dp.toPx() } },
+                snapAnimationSpec = tween(),
+                decayAnimationSpec =
+                    exponentialDecay(
+                        // Optional parameters to customize the decay behavior:
+                        frictionMultiplier = 0.8f, // Adjusts the friction
+                        absVelocityThreshold = 0.1f, // Minimum velocity for decay
+                    ),
+                confirmValueChange = { true },
+            )
         }
-        AnchoredDraggableState(
-            anchors = anchors,
-            initialValue = DragAnchors.Start,
-            positionalThreshold = { distance: Float -> distance},
-            velocityThreshold = { with(density) { 100.dp.toPx() } },
-            snapAnimationSpec = tween(),
-            decayAnimationSpec = exponentialDecay(
-                // Optional parameters to customize the decay behavior:
-                frictionMultiplier = 0.8f, // Adjusts the friction
-                absVelocityThreshold = 0.1f // Minimum velocity for decay
-            ),
-            confirmValueChange = { true }
-        )
-    }
     val progress = (anchoredDraggableState.requireOffset() / screenWidth).coerceIn(0f..1f)
-    val inPredictiveBack by derivedStateOf { progress > 0 && progress < 1f}
+    val inPredictiveBack by derivedStateOf { progress > 0 && progress < 1f }
 
     LaunchedEffect(progress) {
         if (progress >= 1f) {
@@ -120,72 +123,74 @@ actual fun EunGabiNavHost(
                 isSwipeToBackEnabled = !it
             },
             controller = controller,
-            builder = builder
+            builder = builder,
         )
     }
 
     // Swipe-To-Back Edge Area
     Box(
-        modifier = Modifier
-            .fillMaxHeight()
-            .width(20.dp)
-            .background(Color.Transparent)
-            .anchoredDraggable(
-                state = anchoredDraggableState,
-                orientation = Orientation.Horizontal,
-                enabled = isSwipeToBackEnabled
-            )
+        modifier =
+            Modifier
+                .fillMaxHeight()
+                .width(20.dp)
+                .background(Color.Transparent)
+                .anchoredDraggable(
+                    state = anchoredDraggableState,
+                    orientation = Orientation.Horizontal,
+                    enabled = isSwipeToBackEnabled,
+                ),
     )
 }
 
 /**
  * the default predictive back transition state for iOS
  */
-val defaultPredictiveBack = EunGabiPredictiveState(
-    popEnter = {
-        slideInHorizontally(
-            animationSpec = tween(1000, easing = LinearEasing),
-            initialOffsetX = { fullWidth -> -fullWidth / 4 }
-        )
-    },
-    popExit = {
-        slideOutHorizontally(
-            tween(durationMillis = 1000, easing = LinearEasing),
-            targetOffsetX = { fullWidth -> fullWidth }
-        )
-    }
-)
+val defaultPredictiveBack =
+    EunGabiPredictiveState(
+        popEnter = {
+            slideInHorizontally(
+                animationSpec = tween(1000, easing = LinearEasing),
+                initialOffsetX = { fullWidth -> -fullWidth / 4 },
+            )
+        },
+        popExit = {
+            slideOutHorizontally(
+                tween(durationMillis = 1000, easing = LinearEasing),
+                targetOffsetX = { fullWidth -> fullWidth },
+            )
+        },
+    )
 
 /**
  * the default transition state for iOS
  */
-val defaultTransition = EunGabiTransitionState(
-    enter = {
-        slideInHorizontally(
-            animationSpec = tween(300,),
-            initialOffsetX = { fullWidth -> fullWidth }
-        )
-    },
-    exit = {
-        slideOutHorizontally(
-            tween(durationMillis = 300),
-            targetOffsetX = { fullWidth -> -fullWidth / 4 }
-        )
-    },
-
-    popEnter = {
-        slideInHorizontally(
-            animationSpec = tween(300),
-            initialOffsetX = { fullWidth -> -fullWidth / 4 }
-        )
-    },
-    popExit = {
-        slideOutHorizontally(
-            tween(durationMillis = 300),
-            targetOffsetX = { fullWidth -> fullWidth }
-        )
-    }
-)
+val defaultTransition =
+    EunGabiTransitionState(
+        enter = {
+            slideInHorizontally(
+                animationSpec = tween(300),
+                initialOffsetX = { fullWidth -> fullWidth },
+            )
+        },
+        exit = {
+            slideOutHorizontally(
+                tween(durationMillis = 300),
+                targetOffsetX = { fullWidth -> -fullWidth / 4 },
+            )
+        },
+        popEnter = {
+            slideInHorizontally(
+                animationSpec = tween(300),
+                initialOffsetX = { fullWidth -> -fullWidth / 4 },
+            )
+        },
+        popExit = {
+            slideOutHorizontally(
+                tween(durationMillis = 300),
+                targetOffsetX = { fullWidth -> fullWidth },
+            )
+        },
+    )
 
 /**
  * The Anchors to be snapped on the screen.

@@ -28,22 +28,18 @@ data class EunGabiEntry(
      * The destination of the entry.
      */
     val eunGabiDestination: EunGabiDestination,
-
     /**
      * The unique identifier of the entry.
      */
     val id: String = randomUuid,
-
     /**
      * The navigation options of the entry.
      */
     val navOptions: NavOptions,
-
     /**
      * The arguments of the entry ot be passed to the target destination.
      */
     val arguments: NavArguments,
-
     /**
      * The index of the entry in the backStack.
      * it is used as a zIndex in the [EunGabiNavHost] for transition between entries.
@@ -55,7 +51,9 @@ data class EunGabiEntry(
  * The EunGabi navigation arguments.
  * It parses the query parameters of the destination then holds them in a [arguments].
  */
-class NavArguments(route: String) {
+class NavArguments(
+    route: String
+) {
     /**
      * The [Uri] converted from the route.
      */
@@ -64,8 +62,10 @@ class NavArguments(route: String) {
     /**
      * The actual arguments parsed from query parameters of [routeUri].
      */
-    private val arguments get() = routeUri.getQueryParameterNames()
-        .associateWith { routeUri.getQueryParameter(it) }
+    private val arguments get() =
+        routeUri
+            .getQueryParameterNames()
+            .associateWith { routeUri.getQueryParameter(it) }
 
     /**
      * Returns the [String] value of the argument with the given [key].
@@ -97,4 +97,3 @@ class NavArguments(route: String) {
      */
     fun getBoolean(key: String) = runCatching { arguments[key]?.toBoolean() }.getOrNull()
 }
-

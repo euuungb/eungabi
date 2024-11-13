@@ -34,4 +34,3 @@ data class EunGabiDestination(
     val route get() = Uri.parse(name).host ?: name
     internal val fullRoute get() = name
 }
-

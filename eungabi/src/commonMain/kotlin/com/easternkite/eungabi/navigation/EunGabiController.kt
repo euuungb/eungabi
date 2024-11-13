@@ -29,26 +29,26 @@ import kotlinx.coroutines.flow.update
  * A Controller for EunGabi Navigation.
  */
 class EunGabiController {
-
     /**
      * The current navigation graph, that holds destinations registered with [EunGabiGraphBuilder].
      */
     private var _graph: EunGabiGraph? = null
     var graph: EunGabiGraph
         get() {
-        return _graph ?: error("Graph is not set")
-    } set(value) {
-        if (backQueue.isEmpty()) {
-            val initialEntity = createEntry(
-                index = 0,
-                route = value.startDestination,
-                graph = value
-            )
-            backQueue = ArrayDeque(listOf(initialEntity))
+            return _graph ?: error("Graph is not set")
+        } set(value) {
+            if (backQueue.isEmpty()) {
+                val initialEntity =
+                    createEntry(
+                        index = 0,
+                        route = value.startDestination,
+                        graph = value,
+                    )
+                backQueue = ArrayDeque(listOf(initialEntity))
+            }
+            _backStack.update { backQueue.toList() }
+            _graph = value
         }
-        _backStack.update { backQueue.toList() }
-        _graph = value
-    }
 
     /**
      * Whether the current navigation is a pop operation.
@@ -116,19 +116,21 @@ class EunGabiController {
         val targetRoute = entity.navOptions.popUpToRoute
         val inclusive = entity.navOptions.inclusive
 
-        val index = backQueue
-            .map { it.eunGabiDestination.route }
-            .indexOf(targetRoute)
+        val index =
+            backQueue
+                .map { it.eunGabiDestination.route }
+                .indexOf(targetRoute)
 
         if (index == -1) {
-            return backQueue[backQueue.lastIndex -1]
+            return backQueue[backQueue.lastIndex - 1]
         }
 
-        val targetIndex = if (inclusive) {
-            index.minus(1).coerceAtLeast(0)
-        } else {
-            index
-        }
+        val targetIndex =
+            if (inclusive) {
+                index.minus(1).coerceAtLeast(0)
+            } else {
+                index
+            }
 
         return backQueue[targetIndex]
     }
@@ -154,7 +156,7 @@ class EunGabiController {
             eunGabiDestination = destination,
             arguments = navArguments,
             navOptions = navOptions,
-            index = index
+            index = index,
         )
     }
 
@@ -182,16 +184,17 @@ class EunGabiController {
  * It saves and restores the state of the navigation when the configuration changes.
  */
 @Composable
-fun rememberEunGabiController(): EunGabiController
-    = rememberSaveable(saver = eunGabiControllerSaver()) {
-            EunGabiController()
+fun rememberEunGabiController(): EunGabiController =
+    rememberSaveable(saver = eunGabiControllerSaver()) {
+        EunGabiController()
     }
 
 /**
  * A [Saver] for [EunGabiController].
  * It provides a custom saver for the navigation controller which saves and restores the [EunGabiController.backQueue] of the navigation.
  */
-private fun eunGabiControllerSaver() = Saver<EunGabiController, Boolean>(
-    save = { it.saveState() },
-    restore = { EunGabiController().apply(EunGabiController::restoreState) }
-)
+private fun eunGabiControllerSaver() =
+    Saver<EunGabiController, Boolean>(
+        save = { it.saveState() },
+        restore = { EunGabiController().apply(EunGabiController::restoreState) },
+    )
