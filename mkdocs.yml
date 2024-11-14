@@ -1,0 +1,5 @@
+site_name: Eungabi
+site_url: https://easternkite.github.io/Eungabi
+
+theme:
+  name: material

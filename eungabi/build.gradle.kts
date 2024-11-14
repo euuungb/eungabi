@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.nexus.publish)
+    alias(libs.plugins.dokka)
 }
 
 kotlin {

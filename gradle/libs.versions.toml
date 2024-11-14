@@ -13,6 +13,7 @@ uiTestJunit4Android = "1.7.5"
 uri-kmp = "0.0.18"
 napier = "2.7.1"
 kotlinx-coroutines = "1.9.0"
+dokka = "1.9.20"
 
 [libraries]
 androidx-ui-test-junit4-android = { module = "androidx.compose.ui:ui-test-junit4-android", version.ref = "uiTestJunit4Android" }
@@ -43,3 +44,4 @@ kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = 
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "cmp-plugin" }
 nexus-publish = { id = "com.vanniktech.maven.publish", version.ref = "nexus-publish" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
