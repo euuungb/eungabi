@@ -1,5 +1,46 @@
 site_name: Eungabi
 site_url: https://easternkite.github.io/Eungabi
+site_author: easternkite
+site_description: A Compose Multiplatform Library which supports Plaform Native Features like Predictive Back Gestures in android and Swipe-to-Back Gesture in iOS.
 
+# Repository
+repo_name: easternkite/eungabi
+repo_url: https://github.com/easternkite/eungabi
+edit_uri: ""
+
+# Copyright
+copyright: Copyright &copy; 2024 easternkite
+
+nav:
+  - Getting started:
+      - Overview: index.md
+
+  # Configuration
 theme:
-  name: material
+  name: 'material'
+
+  # Don't include MkDocs' JavaScript
+  include_search_page: false
+  search_index_only: true
+
+  # Default values, taken from mkdocs_theme.yml
+  language: en
+  features:
+    - navigation.tabs
+    - navigation.expand
+  palette:
+    # Palette toggle for light mode
+    - scheme: default
+      primary: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - scheme: slate
+      primary: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
