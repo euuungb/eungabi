@@ -11,7 +11,7 @@ eungabi = "0.2.1"
 eungabi = { module = "io.github.easternkite:eungabi", version.ref = "eungabi" }
 ```
 
-## How to use
+## Quick Start
 > You can write code simply, in a style similar to the Jetpack Navigation Compose. A detailed guide has scheduled. (comming soon 🤗 )
 ```kotlin
 val controller = rememberEunGabiController()
@@ -33,6 +33,21 @@ EunGabiNavHost(
             egController.navigate("detailA")
         }
     }
+}
+```
+## Passing Arguments
+you can simply pass arguments by adding quary parameter when calling `navigate` function. For example :
+```kotlin
+controller.navigate("ScreenA?id=111")
+```
+
+Then, you can access the passed arguments within a composable function defined in `EungabiGraphBuilder`. For example :
+```kotlin
+fun EunGabiGraphBuilder.aScreenRoute() {
+    composable("ScreenA") {
+        val id = it.arguments.getString("id")
+		Screen(id = id)
+	}
 }
 ```
 
