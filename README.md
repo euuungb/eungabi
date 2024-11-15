@@ -46,8 +46,8 @@ Then, you can access the passed arguments within a composable function defined i
 fun EunGabiGraphBuilder.aScreenRoute() {
     composable("ScreenA") {
         val id = it.arguments.getString("id")
-		Screen(id = id)
-	}
+        Screen(id = id)
+    }
 }
 ```
 
