@@ -3,6 +3,7 @@ import com.android.build.gradle.LibraryExtension
 import com.vanniktech.maven.publish.SonatypeHost
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 
 plugins {
@@ -39,6 +40,15 @@ kotlin {
             baseName = "eungabi"
             isStatic = true
         }
+    }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    listOf(
+        js(IR),
+        wasmJs()
+    ).forEach {
+        it.browser()
+        it.binaries.executable()
     }
 
     sourceSets {
