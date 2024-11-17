@@ -15,7 +15,13 @@
  */
 package com.easternkite.eungabi.utils
 
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
+
 /**
- * get platform specific unique identifier.
+ * get unique identifier.
  */
-expect val randomUuid: String
+@OptIn(ExperimentalUuidApi::class)
+val randomUuid: String get() = Uuid
+    .random()
+    .toString()
