@@ -44,3 +44,8 @@ theme:
   font:
     text: Roboto
     code: Roboto Mono
+
+  favicon: media/logo/eungabi_logo.png
+  logo: media/logo/eungabi_logo.png
+  icon:
+    logo: logo
