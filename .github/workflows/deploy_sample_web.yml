@@ -23,11 +23,11 @@ jobs:
 
       - name: Prepare for deployment
         run: |
-          mkdir -p deploy/sampleApp
-          cp -r shared/build/dist/js/productionExecutable/* deploy/sampleApp
+          mkdir -p sampleApp/
+          cp -r shared/build/dist/js/productionExecutable/* sampleApp/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.TOKEN_GITHUB }}
-          publish_dir: ./deploy
+          publish_dir: .
