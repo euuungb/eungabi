@@ -1,4 +1,6 @@
-# EunGabi
+
+![eungabi_readme_2](https://github.com/user-attachments/assets/d5204427-b2e9-4285-bee4-2495ce31bb83)
+
 A Compose Multiplatform Navigation library which support Platform Native Features like Predictive Back Gesture(Android), Swipe-Back Gesture(iOS), Shared Element Transition(Common).
 It currently supports Android, iOS, Desktop(jvm, macOs), Web(Wasm, IR).
 
