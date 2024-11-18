@@ -18,7 +18,9 @@ jobs:
           distribution: 'temurin'
 
       - name: Build Compose Multiplatform Web App
-        run: ./gradlew :shared:jsBrowserDistribution
+        run: |
+          ls
+          ./gradlew :shared:jsBrowserDistribution
 
       - name: Prepare for deployment
         run: |
