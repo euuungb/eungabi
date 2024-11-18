@@ -1,4 +1,4 @@
-name: ci
+name: deploy web
 on:
   push:
     branches:
@@ -28,29 +28,23 @@ jobs:
       - run: pip install mkdocs-material
       - run: mkdocs build
 
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build Compose Multiplatform Web App targeting JS(IR)
+        run: |
+          ./gradlew :shared:jsBrowserDistribution
+
+      - name: Prepare for deployment
+        run: |
+          mkdir -p site/sampleApp
+          cp -r shared/build/dist/js/productionExecutable/* site/sampleApp
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.TOKEN_GITHUB }}
           publish_dir: ./site
-
-#      - name: Set up JDK 17
-#        uses: actions/setup-java@v4
-#        with:
-#          java-version: '17'
-#          distribution: 'temurin'
-#
-#      - name: Build Compose Multiplatform Web App targeting JS(IR)
-#        run: |
-#          ./gradlew :shared:jsBrowserDistribution
-#
-#      - name: Prepare for deployment
-#        run: |
-#          mkdir -p deploy/sampleApp
-#          cp -r shared/build/dist/js/productionExecutable/* deploy/sampleApp
-#
-#      - name: Deploy to GitHub Pages
-#        uses: peaceiris/actions-gh-pages@v3
-#        with:
-#          github_token: ${{ secrets.TOKEN_GITHUB }}
-#          publish_dir: ./deploy
