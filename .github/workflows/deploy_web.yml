@@ -44,7 +44,7 @@ jobs:
           cp -r shared/build/dist/js/productionExecutable/* site/sampleApp
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.TOKEN_GITHUB }}
           publish_dir: ./site
