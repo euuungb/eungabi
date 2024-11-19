@@ -95,7 +95,7 @@ compose.resources {
 
 android {
     namespace = "com.easternkite.eungabi"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         minSdk = 24
     }

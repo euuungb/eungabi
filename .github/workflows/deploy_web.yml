@@ -45,7 +45,7 @@ jobs:
       - name: Prepare for deployment
         run: |
           mkdir -p site/api
-          cp -r eungabi/build/dokka/* site/api
+          cp -r eungabi/build/dokka/html/* site/api
           mkdir -p site/sampleApp
           cp -r shared/build/dist/js/productionExecutable/* site/sampleApp
 
