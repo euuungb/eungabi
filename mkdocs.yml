@@ -14,6 +14,8 @@ copyright: Copyright &copy; 2024 easternkite
 nav:
   - Getting started:
       - Overview: index.md
+  - API Docs: 'https://easternkite.github.io/eungabi/api/'
+  - Sample App: 'https://easternkite.github.io/eungabi/sampleApp/'
 
   # Configuration
 theme:
