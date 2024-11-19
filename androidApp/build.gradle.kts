@@ -6,11 +6,11 @@ plugins {
 
 android {
     namespace = "com.easternkite.eungabi"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         applicationId = "com.easternkite.eungabi"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
     }
