@@ -676,7 +676,7 @@
 </code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>you must use EunGabiController with EunGabiNavHost described next section by passing with parameter.</p>
+<p>You must use <code>EunGabiController</code> with <code>EunGabiNavHost</code>, as described in the next section, by passing it as a parameter.</p>
 </div>
 <p>There are two key methods you should know: <code>navigate</code>, <code>navigateUp</code>
 <code>navigate</code> allows you to navigate to the next screen by adding the provided route to the back stack.
@@ -707,10 +707,10 @@ By using this, you can define and control your desired routes.</p>
 <span class="w">    </span><span class="c1">//...</span>
 <span class="p">}</span>
 </code></pre></div>
-1. The call to the <code>EunGabiNavHost</code> composable passes a <code>EunGabiController</code> and a route for the start destination.
-2. The lambda passed to the <code>EunGabiNavHost</code> creates <code>EunGabiGraph</code> and set the graph to the <code>EunGabiController.graph</code>
-3. Each route is supplied as a <code>EunGabiDestination</code> by calling <code>EunGabiGraphBuilder.composable()</code> which adds the destination to the resulting <code>EunGabiGraph</code> described at 2.
-4. The lambda passed to <code>composable</code> is what the <code>EunGabiNavHost</code> displays for that destination.</p>
+1. The call to the <code>EunGabiNavHost</code> composable passes a <code>EunGabiController</code> and a route for the start destination.<br />
+2. The lambda passed to the <code>EunGabiNavHost</code> creates <code>EunGabiGraph</code> and set the graph to the <code>EunGabiController.graph</code><br />
+3. Each route is supplied as a <code>EunGabiDestination</code> by calling <code>EunGabiGraphBuilder.composable()</code> which adds the destination to the resulting <code>EunGabiGraph</code> described at 2.<br />
+4. The lambda passed to <code>composable</code> is what the <code>EunGabiNavHost</code> displays for that destination.  </p>
 
 
 
