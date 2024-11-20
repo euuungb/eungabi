@@ -13,8 +13,8 @@ val controller = rememberEunGabiController()
 !!! warning
     You must use `EunGabiController` with `EunGabiNavHost`, as described in the next section, by passing it as a parameter.
 
-There are two key methods you should know: `navigate`, `navigateUp`
-`navigate` allows you to navigate to the next screen by adding the provided route to the back stack.
+There are two key methods you should know: `navigate`, `navigateUp`  
+`navigate` allows you to navigate to the next screen by adding the provided route to the back stack.  
 `navigateUp` allows you to navigate to the previous screen by removing a latest entry(or entries) from the back stack.
 
 ## 2. Create a Navigation Host Composable
