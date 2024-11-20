@@ -11,7 +11,7 @@ val controller = rememberEunGabiController()
 ```
 
 !!! warning
-    you must use EunGabiController with EunGabiNavHost described next section by passing with parameter.
+    You must use `EunGabiController` with `EunGabiNavHost`, as described in the next section, by passing it as a parameter.
 
 There are two key methods you should know: `navigate`, `navigateUp`
 `navigate` allows you to navigate to the next screen by adding the provided route to the back stack.
@@ -44,10 +44,11 @@ EunGabiNavHost(
 	}
 	//...
 }
+
 ```
-1. The call to the `EunGabiNavHost` composable passes a `EunGabiController` and a route for the start destination.
-2. The lambda passed to the `EunGabiNavHost` creates `EunGabiGraph` and set the graph to the `EunGabiController.graph`
-3. Each route is supplied as a `EunGabiDestination` by calling `EunGabiGraphBuilder.composable()` which adds the destination to the resulting `EunGabiGraph` described at 2.
-4. The lambda passed to `composable` is what the `EunGabiNavHost` displays for that destination.
+1. The call to the `EunGabiNavHost` composable passes a `EunGabiController` and a route for the start destination.  
+2. The lambda passed to the `EunGabiNavHost` creates `EunGabiGraph` and set the graph to the `EunGabiController.graph`  
+3. Each route is supplied as a `EunGabiDestination` by calling `EunGabiGraphBuilder.composable()` which adds the destination to the resulting `EunGabiGraph` described at 2.  
+4. The lambda passed to `composable` is what the `EunGabiNavHost` displays for that destination.  
 
 
