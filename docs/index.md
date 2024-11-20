@@ -1,41 +1,14 @@
-# EunGabi
-A Compose Multiplatform Navigation library which support Platform Native Features like Predictive Back Gesture(Android), Swipe-Back Gesture(iOS), Shared Element Transition(Common).
-It currently support Android, iOS, Desktop(jvm, macOs), Web(Wasm, IR).
+# Overview
 
+## What is Eungabi?
+Eungabi is a Compose Multiplatform Navigation library which support Platform Native Features like Predictive Back Gesture(Android), Swipe-Back Gesture(iOS), Shared Element Transition(Common).
+This library adopts a screen transition pattern based on NavHost, similar to the Jetpack Navigation library. A key difference is that it allows for customization of the Predictive Back animation separately."
 
-## Installation
-```toml
-[versions]
-eungabi = "0.3.0"
-
-[libraries]
-eungabi = { module = "io.github.easternkite:eungabi", version.ref = "eungabi" }
-```
-
-## How to use
-> You can write code simply, in a style similar to the Jetpack Navigation Compose. A detailed guide has scheduled. (comming soon 🤗 )
-```kotlin
-val controller = rememberEunGabiController()
-EunGabiNavHost(
-    modifier = Modifier,
-    controller = egController,
-    startDestination = "main",
-) {
-    composable("main") {
-        MainComponent("main") {
-            egController.navigate("details")
-        }
-    }
-    composable("details") {
-        DetailsComponent(
-            "details",
-            onNavigateBack = egController::navigateUp
-        ) {
-            egController.navigate("detailA")
-        }
-    }
-}
-```
+## Supported targets
+* `android`
+* `ios`
+* `web` (`IR` and `Wasm`)
+* `desktop` (`jvm` and `macOS`)
 
 ## License
 ```

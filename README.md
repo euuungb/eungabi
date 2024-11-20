@@ -2,7 +2,15 @@
 ![eungabi_readme_2](https://github.com/user-attachments/assets/d5204427-b2e9-4285-bee4-2495ce31bb83)
 
 A Compose Multiplatform Navigation library which support Platform Native Features like Predictive Back Gesture(Android), Swipe-Back Gesture(iOS), Shared Element Transition(Common).
-It currently supports Android, iOS, Desktop(jvm, macOs), Web(Wasm, IR).
+This library adopts a screen transition pattern based on NavHost, similar to the Jetpack Navigation library. A key difference is that it allows for customization of the Predictive Back animation separately."
+
+## Supported targets
+* `android`
+* `ios`
+* `web` (`IR` and `Wasm`)
+* `desktop` (`jvm` and `macOS`)
+
+Check out the [project website]("https://easternkite.github.io/eungabi") for detailed guides.
 
 ## Installation
 ```toml
@@ -38,7 +46,7 @@ EunGabiNavHost(
 }
 ```
 ## Passing Arguments
-you can simply pass arguments by adding quary parameter when calling `navigate` function. For example :
+you can simply pass arguments by adding query parameter when calling `navigate` function. For example :
 ```kotlin
 controller.navigate("ScreenA?id=111")
 ```
