@@ -10,7 +10,7 @@ This library adopts a screen transition pattern based on NavHost, similar to the
 * `web` (`IR` and `Wasm`)
 * `desktop` (`jvm` and `macOS`)
 
-Check out the [project website]("https://easternkite.github.io/eungabi") for detailed guides.
+Check out the [project website](https://easternkite.github.io/eungabi) for detailed guides.
 
 ## Installation
 ```toml
