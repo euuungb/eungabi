@@ -16,9 +16,11 @@
       
       
       
+        <link rel="next" href="getting-started/installation/">
+      
       
       <link rel="icon" href="media/logo/eungabi_logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.44">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.45">
     
     
       
@@ -74,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#eungabi" class="md-skip">
+        <a href="#overview" class="md-skip">
           Skip to content
         </a>
       
@@ -222,6 +224,24 @@
           
   
   Getting started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="navigation/passing_arguments/" class="md-tabs__link">
+          
+  
+  Navigation
 
         </a>
       </li>
@@ -403,18 +423,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
+  <a href="#what-is-eungabi" class="md-nav__link">
     <span class="md-ellipsis">
-      Installation
+      What is Eungabi?
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#how-to-use" class="md-nav__link">
+  <a href="#supported-targets" class="md-nav__link">
     <span class="md-ellipsis">
-      How to use
+      Supported targets
     </span>
   </a>
   
@@ -433,6 +453,116 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="getting-started/installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="getting-started/quick_start/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quick start
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Navigation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Navigation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="navigation/passing_arguments/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Passing arguments
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -512,18 +642,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
+  <a href="#what-is-eungabi" class="md-nav__link">
     <span class="md-ellipsis">
-      Installation
+      What is Eungabi?
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#how-to-use" class="md-nav__link">
+  <a href="#supported-targets" class="md-nav__link">
     <span class="md-ellipsis">
-      How to use
+      Supported targets
     </span>
   </a>
   
@@ -553,43 +683,19 @@
                   
 
 
-<h1 id="eungabi">EunGabi</h1>
-<p>A Compose Multiplatform Navigation library which support Platform Native Features like Predictive Back Gesture(Android), Swipe-Back Gesture(iOS), Shared Element Transition(Common).
-It currently support Android, iOS, Desktop(jvm, macOs), Web(Wasm, IR).</p>
-<h2 id="installation">Installation</h2>
-<pre><code class="language-toml">[versions]
-eungabi = &quot;0.3.0&quot;
-
-[libraries]
-eungabi = { module = &quot;io.github.easternkite:eungabi&quot;, version.ref = &quot;eungabi&quot; }
-</code></pre>
-<h2 id="how-to-use">How to use</h2>
-<blockquote>
-<p>You can write code simply, in a style similar to the Jetpack Navigation Compose. A detailed guide has scheduled. (comming soon 🤗 )</p>
-</blockquote>
-<pre><code class="language-kotlin">val controller = rememberEunGabiController()
-EunGabiNavHost(
-    modifier = Modifier,
-    controller = egController,
-    startDestination = &quot;main&quot;,
-) {
-    composable(&quot;main&quot;) {
-        MainComponent(&quot;main&quot;) {
-            egController.navigate(&quot;details&quot;)
-        }
-    }
-    composable(&quot;details&quot;) {
-        DetailsComponent(
-            &quot;details&quot;,
-            onNavigateBack = egController::navigateUp
-        ) {
-            egController.navigate(&quot;detailA&quot;)
-        }
-    }
-}
-</code></pre>
-<h2 id="license">License</h2>
-<pre><code>Copyright 2024 easternkite
+<h1 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h1>
+<h2 id="what-is-eungabi">What is Eungabi?<a class="headerlink" href="#what-is-eungabi" title="Permanent link">&para;</a></h2>
+<p>Eungabi is a Compose Multiplatform Navigation library which support Platform Native Features like Predictive Back Gesture(Android), Swipe-Back Gesture(iOS), Shared Element Transition(Common).
+This library adopts a screen transition pattern based on NavHost, similar to the Jetpack Navigation library. A key difference is that it allows for customization of the Predictive Back animation separately."</p>
+<h2 id="supported-targets">Supported targets<a class="headerlink" href="#supported-targets" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>android</code></li>
+<li><code>ios</code></li>
+<li><code>web</code> (<code>IR</code> and <code>Wasm</code>)</li>
+<li><code>desktop</code> (<code>jvm</code> and <code>macOS</code>)</li>
+</ul>
+<h2 id="license">License<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Copyright 2024 easternkite
 
 Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
 you may not use this file except in compliance with the License.
@@ -602,7 +708,7 @@ distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-</code></pre>
+</code></pre></div>
 
 
 
