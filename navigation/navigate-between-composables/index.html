@@ -12,11 +12,13 @@
         <meta name="author" content="easternkite">
       
       
-        <link rel="canonical" href="https://easternkite.github.io/Eungabi/navigation/passing_arguments/">
+        <link rel="canonical" href="https://easternkite.github.io/Eungabi/navigation/navigate-between-composables/">
       
       
         <link rel="prev" href="../../getting-started/quick_start/">
       
+      
+        <link rel="next" href="../passing-arguments/">
       
       
       <link rel="icon" href="../../media/logo/eungabi_logo.png">
@@ -24,7 +26,7 @@
     
     
       
-        <title>Passing arguments - Eungabi</title>
+        <title>Navigate between composables - Eungabi</title>
       
     
     
@@ -76,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#passing-arguments" class="md-skip">
+        <a href="#navigate-between-composables" class="md-skip">
           Skip to content
         </a>
       
@@ -109,7 +111,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Passing arguments
+              Navigate between composables
             
           </span>
         </div>
@@ -500,7 +502,7 @@
           
   
   <span class="md-ellipsis">
-    Passing arguments
+    Navigate between composables
   </span>
   
 
@@ -511,7 +513,7 @@
         
   
   <span class="md-ellipsis">
-    Passing arguments
+    Navigate between composables
   </span>
   
 
@@ -533,9 +535,36 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#passing-arguments_1" class="md-nav__link">
+  <a href="#use-a-eungabicontroller" class="md-nav__link">
     <span class="md-ellipsis">
-      Passing Arguments
+      Use a EunGabiController
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#navigate-to-a-composable" class="md-nav__link">
+    <span class="md-ellipsis">
+      Navigate to a Composable
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pop-up-to-a-destination" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pop up to a destination
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#navigate-back" class="md-nav__link">
+    <span class="md-ellipsis">
+      Navigate back
     </span>
   </a>
   
@@ -545,6 +574,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../passing-arguments/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Passing arguments
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -624,9 +674,36 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#passing-arguments_1" class="md-nav__link">
+  <a href="#use-a-eungabicontroller" class="md-nav__link">
     <span class="md-ellipsis">
-      Passing Arguments
+      Use a EunGabiController
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#navigate-to-a-composable" class="md-nav__link">
+    <span class="md-ellipsis">
+      Navigate to a Composable
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pop-up-to-a-destination" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pop up to a destination
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#navigate-back" class="md-nav__link">
+    <span class="md-ellipsis">
+      Navigate back
     </span>
   </a>
   
@@ -647,18 +724,34 @@
                   
 
 
-<h1 id="passing-arguments">Passing Arguments<a class="headerlink" href="#passing-arguments" title="Permanent link">&para;</a></h1>
-<h2 id="passing-arguments_1">Passing Arguments<a class="headerlink" href="#passing-arguments_1" title="Permanent link">&para;</a></h2>
-<p>you can simply pass arguments by adding query parameter when calling <code>navigate</code> function. For example :
-<div class="highlight"><pre><span></span><code><span class="n">controller</span><span class="p">.</span><span class="na">navigate</span><span class="p">(</span><span class="s">&quot;ScreenA?id=111&quot;</span><span class="p">)</span>
-</code></pre></div></p>
-<p>Then, you can access the passed arguments within a composable function defined in <code>EungabiGraphBuilder</code>. For example :
-<div class="highlight"><pre><span></span><code><span class="kd">fun</span><span class="w"> </span><span class="n">EunGabiGraphBuilder</span><span class="p">.</span><span class="nf">aScreenRoute</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">composable</span><span class="p">(</span><span class="s">&quot;ScreenA&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">arguments</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">)</span>
-<span class="w">        </span><span class="n">Screen</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="p">)</span>
+<h1 id="navigate-between-composables">Navigate between composables<a class="headerlink" href="#navigate-between-composables" title="Permanent link">&para;</a></h1>
+<h2 id="use-a-eungabicontroller">Use a EunGabiController<a class="headerlink" href="#use-a-eungabicontroller" title="Permanent link">&para;</a></h2>
+<p>The <a href="https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-controller/index.html"><code>EunGabiController</code></a> provides ways to navigate between composables. See the <a href="https://easternkite.github.io/eungabi/getting-started/quick_start/#1-create-navigation-controller">Create Navigation Controller</a> section for instructions on instantiating the <a href="https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-controller/index.html"><code>EunGabiController</code></a>.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">controller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberEunGabiController</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="navigate-to-a-composable">Navigate to a Composable<a class="headerlink" href="#navigate-to-a-composable" title="Permanent link">&para;</a></h2>
+<p>To navigate to a composable, you should call the <a href="https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-controller/index.html#1758206243%2FFunctions%2F-1883328705"><code>EunGabiController.navigate</code></a>. <code>navigate()</code> takes a route defined in the <a href="https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-graph-builder/index.html"><code>EunGabiGraphBuilder</code></a> of <a href="https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-nav-host.html"><code>EunGabiNavHost</code></a>.  See <a href="https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-nav-host.html">Create a Navigation Host Composable</a> section for instructions on creating a <a href="https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-graph/index.html"><code>EunGabiGraph</code></a>.</p>
+<div class="highlight"><pre><span></span><code><span class="n">controller</span><span class="p">.</span><span class="na">navigate</span><span class="p">(</span><span class="s">&quot;ScreenA&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>By calling this, you can navigate to the <code>ScreenA</code> route.</p>
+<h2 id="pop-up-to-a-destination">Pop up to a destination<a class="headerlink" href="#pop-up-to-a-destination" title="Permanent link">&para;</a></h2>
+<p>To remove destinations from the back stack when navigating from one destination to another, add a <a href="https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-nav-options-builder/index.html#-1031005298%2FFunctions%2F-1883328705"><code>popUpTo()</code></a> argument to the associated <code>navigate()</code> function call.</p>
+<p>You can include an argument for the <a href="https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-pop-up-to-builder/index.html#696458280%2FProperties%2F-1883328705"><code>inclusive</code></a> option with a value of <code>true</code> to also pop up a destination you have specified in <code>popUpTo()</code>.</p>
+<p>Let's assume we have screens <strong>A, B, C, and D</strong> in the back stack.<br />
+The following snippets demonstrate how to pop up to the <code>ScreenA</code> when navigating up from <code>ScreenD</code>:
+<div class="highlight"><pre><span></span><code><span class="n">controller</span><span class="p">.</span><span class="na">navigate</span><span class="p">(</span><span class="s">&quot;ScreenD&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">popUpTo</span><span class="p">(</span><span class="s">&quot;ScreenB&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">inclusive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
+</code></pre></div></p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If the <code>inclusive</code> option were <code>false</code>, the result would be a pop-up to <code>ScreenB</code>.</p>
+</div>
+<h2 id="navigate-back">Navigate back<a class="headerlink" href="#navigate-back" title="Permanent link">&para;</a></h2>
+<p>You can navigate to the previous screen by calling <a href="https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-controller/index.html#-2071943207%2FFunctions%2F-1883328705"><code>NavController.navigateUp</code></a>. It returns a <code>Boolean</code> value  indicating the success of the back navigation.
+<div class="highlight"><pre><span></span><code><span class="n">controller</span><span class="p">.</span><span class="na">navigateUp</span><span class="p">()</span>
 </code></pre></div></p>
 
 
