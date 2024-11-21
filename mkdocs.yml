@@ -17,7 +17,8 @@ nav:
       - Installation: getting-started/installation.md
       - Quick start: getting-started/quick_start.md
   - Navigation:
-      - Passing arguments: navigation/passing_arguments.md
+      - Navigate between composables: navigation/navigate-between-composables.md
+      - Passing arguments: navigation/passing-arguments.md
   - API Docs: 'https://easternkite.github.io/eungabi/api/'
   - Sample App: 'https://easternkite.github.io/eungabi/sampleApp/'
 
