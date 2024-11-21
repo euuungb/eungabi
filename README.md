@@ -1,8 +1,17 @@
 
 ![eungabi_readme_2](https://github.com/user-attachments/assets/d5204427-b2e9-4285-bee4-2495ce31bb83)
 
-A Compose Multiplatform Navigation library which support Platform Native Features like Predictive Back Gesture(Android), Swipe-Back Gesture(iOS), Shared Element Transition(Common).
-This library adopts a screen transition pattern based on NavHost, similar to the Jetpack Navigation library. A key difference is that it allows for customization of the Predictive Back animation separately."
+![GitHub branch check runs](https://img.shields.io/github/check-runs/easternkite/eungabi/main)
+![Dynamic TOML Badge](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Feasternkite%2Feungabi%2Frefs%2Fheads%2Fmain%2Fgradle%2Flibs.versions.toml&query=%24.versions.kotlin&logo=Kotlin&label=Kotlin&color=purple)
+![Dynamic TOML Badge](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Feasternkite%2Feungabi%2Frefs%2Fheads%2Fmain%2Fgradle%2Flibs.versions.toml&query=%24.versions.cmp-plugin&logo=Jetpack%20Compose&label=Compose%20Multiplatform&color=blue)
+![Maven Central Version](https://img.shields.io/maven-central/v/io.github.easternkite/eungabi?link=https%3A%2F%2Fcentral.sonatype.com%2Fartifact%2Fio.github.easternkite%2Feungabi&link=https%3A%2F%2Fcentral.sonatype.com%2Fartifact%2Fio.github.easternkite%2Feungabi)
+
+
+A Compose Multiplatform Navigation library which support Platform Native Features like Predictive Back Gesture(Android), Swipe-Back Gesture(iOS), Shared Element Transition(Common).  
+
+This library adopts a screen transition pattern based on NavHost, similar to the Jetpack Navigation library. A key difference is that it allows for customization of the Predictive Back animation separately. 
+
+Check out the [project website](https://easternkite.github.io/eungabi) for detailed guides.
 
 ## Supported targets
 * `android`
@@ -10,12 +19,10 @@ This library adopts a screen transition pattern based on NavHost, similar to the
 * `web` (`IR` and `Wasm`)
 * `desktop` (`jvm` and `macOS`)
 
-Check out the [project website](https://easternkite.github.io/eungabi) for detailed guides.
-
 ## Installation
 ```toml
 [versions]
-eungabi = "0.3.0"
+eungabi = "<version>"
 
 [libraries]
 eungabi = { module = "io.github.easternkite:eungabi", version.ref = "eungabi" }
@@ -27,20 +34,20 @@ eungabi = { module = "io.github.easternkite:eungabi", version.ref = "eungabi" }
 val controller = rememberEunGabiController()
 EunGabiNavHost(
     modifier = Modifier,
-    controller = egController,
+    controller = controller,
     startDestination = "main",
 ) {
     composable("main") {
         MainComponent("main") {
-            egController.navigate("details")
+            controller.navigate("details")
         }
     }
     composable("details") {
         DetailsComponent(
             "details",
-            onNavigateBack = egController::navigateUp
+            onNavigateBack = controller::navigateUp
         ) {
-            egController.navigate("detailA")
+            controller.navigate("detailA")
         }
     }
 }
