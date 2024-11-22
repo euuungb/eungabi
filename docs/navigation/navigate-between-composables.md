@@ -2,14 +2,14 @@
 
 ## Use a EunGabiController
 
-The [`EunGabiController`](https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-controller/index.html) provides ways to navigate between composables. See the [Create Navigation Controller](https://easternkite.github.io/eungabi/getting-started/quick_start/#1-create-navigation-controller) section for instructions on instantiating the [`EunGabiController`](https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-controller/index.html).
+The [`EunGabiController`](https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-controller/index.html) provides ways to navigate between composables. See the [Create Navigation Controller](https://easternkite.github.io/eungabi/getting-started/quick-start/#1-create-navigation-controller) section for instructions on instantiating the [`EunGabiController`](https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-controller/index.html).
 
 ```kotlin
 val controller = rememberEunGabiController()
 ```
 
 ## Navigate to a Composable
-To navigate to a composable, you should call the [`EunGabiController.navigate`](https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-controller/index.html#1758206243%2FFunctions%2F-1883328705). `navigate()` takes a route defined in the [`EunGabiGraphBuilder`](https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-graph-builder/index.html) of [`EunGabiNavHost`](https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-nav-host.html).  See [Create a Navigation Host Composable](https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-nav-host.html) section for instructions on creating a [`EunGabiGraph`](https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-graph/index.html).
+To navigate to a composable, you should call the [`EunGabiController.navigate`](https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-controller/index.html#1758206243%2FFunctions%2F-1883328705). `navigate()` takes a route defined in the [`EunGabiGraphBuilder`](https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-graph-builder/index.html) of [`EunGabiNavHost`](https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-nav-host.html).  See [Create a Navigation Host Composable](https://easternkite.github.io/eungabi/getting-started/quick-start/#2-create-a-navigation-host-composable) section for instructions on creating a [`EunGabiGraph`](https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-graph/index.html).
 
 ```kotlin
 controller.navigate("ScreenA")

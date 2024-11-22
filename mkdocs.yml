@@ -15,7 +15,7 @@ nav:
   - Getting started:
       - Overview: index.md
       - Installation: getting-started/installation.md
-      - Quick start: getting-started/quick_start.md
+      - Quick start: getting-started/quick-start.md
   - Navigation:
       - Navigate between composables: navigation/navigate-between-composables.md
       - Passing arguments: navigation/passing-arguments.md
