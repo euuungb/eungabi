@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://easternkite.github.io/Eungabi/navigation/navigate-between-composables/">
       
       
-        <link rel="prev" href="../../getting-started/quick_start/">
+        <link rel="prev" href="../../getting-started/quick-start/">
       
       
         <link rel="next" href="../passing-arguments/">
@@ -418,7 +418,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/quick_start/" class="md-nav__link">
+      <a href="../../getting-started/quick-start/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -726,11 +726,11 @@
 
 <h1 id="navigate-between-composables">Navigate between composables<a class="headerlink" href="#navigate-between-composables" title="Permanent link">&para;</a></h1>
 <h2 id="use-a-eungabicontroller">Use a EunGabiController<a class="headerlink" href="#use-a-eungabicontroller" title="Permanent link">&para;</a></h2>
-<p>The <a href="https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-controller/index.html"><code>EunGabiController</code></a> provides ways to navigate between composables. See the <a href="https://easternkite.github.io/eungabi/getting-started/quick_start/#1-create-navigation-controller">Create Navigation Controller</a> section for instructions on instantiating the <a href="https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-controller/index.html"><code>EunGabiController</code></a>.</p>
+<p>The <a href="https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-controller/index.html"><code>EunGabiController</code></a> provides ways to navigate between composables. See the <a href="https://easternkite.github.io/eungabi/getting-started/quick-start/#1-create-navigation-controller">Create Navigation Controller</a> section for instructions on instantiating the <a href="https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-controller/index.html"><code>EunGabiController</code></a>.</p>
 <div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">controller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberEunGabiController</span><span class="p">()</span>
 </code></pre></div>
 <h2 id="navigate-to-a-composable">Navigate to a Composable<a class="headerlink" href="#navigate-to-a-composable" title="Permanent link">&para;</a></h2>
-<p>To navigate to a composable, you should call the <a href="https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-controller/index.html#1758206243%2FFunctions%2F-1883328705"><code>EunGabiController.navigate</code></a>. <code>navigate()</code> takes a route defined in the <a href="https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-graph-builder/index.html"><code>EunGabiGraphBuilder</code></a> of <a href="https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-nav-host.html"><code>EunGabiNavHost</code></a>.  See <a href="https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-nav-host.html">Create a Navigation Host Composable</a> section for instructions on creating a <a href="https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-graph/index.html"><code>EunGabiGraph</code></a>.</p>
+<p>To navigate to a composable, you should call the <a href="https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-controller/index.html#1758206243%2FFunctions%2F-1883328705"><code>EunGabiController.navigate</code></a>. <code>navigate()</code> takes a route defined in the <a href="https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-graph-builder/index.html"><code>EunGabiGraphBuilder</code></a> of <a href="https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-nav-host.html"><code>EunGabiNavHost</code></a>.  See <a href="https://easternkite.github.io/eungabi/getting-started/quick-start/#2-create-a-navigation-host-composable">Create a Navigation Host Composable</a> section for instructions on creating a <a href="https://easternkite.github.io/eungabi/api/eungabi/com.easternkite.eungabi.navigation/-eun-gabi-graph/index.html"><code>EunGabiGraph</code></a>.</p>
 <div class="highlight"><pre><span></span><code><span class="n">controller</span><span class="p">.</span><span class="na">navigate</span><span class="p">(</span><span class="s">&quot;ScreenA&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p>By calling this, you can navigate to the <code>ScreenA</code> route.</p>
