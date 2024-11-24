@@ -16,6 +16,8 @@ jobs:
           filters: |
             shared: 
               - 'shared/**'
+            eungabi:
+              - 'eungabi/**'
 
       - name: Restore cached gradle
         id: cache-gradle-restore
@@ -57,10 +59,9 @@ jobs:
           ./gradlew :shared:jsBrowserDistribution
 
       - name: Generate API Docs
+        if: steps.changes.outputs.eungabi == 'true' || steps.cache-gradle-save.outputs.cache-hit != 'true'
         run: |
           ./gradlew :eungabi:dokkaHtml
-          mkdir -p site/api
-          cp -r eungabi/build/dokka/html/* site/api
 
       - name: Cache gradle caches
         id: cache-gradle-save
@@ -78,6 +79,8 @@ jobs:
         run: |
           mkdir -p site/sampleApp
           cp -r shared/build/dist/js/productionExecutable/* site/sampleApp
+          mkdir -p site/api
+          cp -r eungabi/build/dokka/html/* site/api
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
