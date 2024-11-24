@@ -52,12 +52,9 @@ jobs:
           distribution: 'temurin'
 
       - name: Build Compose Multiplatform Web App targeting JS(IR)
-        if: steps.changes.outputs.shared == 'true'
+        if: steps.changes.outputs.shared == 'true' || steps.cache-gradle-save.outputs.cache-hit != 'true'
         run: |
           ./gradlew :shared:jsBrowserDistribution
-      - run: |
-          mkdir -p site/sampleApp
-          cp -r shared/build/dist/js/productionExecutable/* site/sampleApp
 
       - name: Generate API Docs
         run: |
@@ -66,6 +63,7 @@ jobs:
           cp -r eungabi/build/dokka/html/* site/api
 
       - name: Cache gradle caches
+        id: cache-gradle-save
         uses: actions/cache@v4
         with:
           path: |
@@ -74,6 +72,12 @@ jobs:
             eungabi/build
             shared/build
           keys: ${{ steps.cache-gradle-restore.outputs.cache-primary-key }}
+
+      - name: Load files from cache
+        if: steps.cache-gradle-save.outputs.cache-hit == 'true'
+        run: |
+          mkdir -p site/sampleApp
+          cp -r shared/build/dist/js/productionExecutable/* site/sampleApp
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
