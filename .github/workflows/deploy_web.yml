@@ -20,6 +20,7 @@ jobs:
       - name: Cache Compose Js excutable
         if: steps.changes.outputs.shared == 'false'
         run: |
+          git fetch
           git checkout gh-pages
           mkdir ~/cache/sampleApp
           cp -r sampleApp/* ~/cache/sampleApp
