@@ -2,7 +2,6 @@ name: deploy web
 on:
   push:
     branches:
-      - master
       - main
 permissions:
   contents: write
@@ -11,6 +10,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            shared: 
+              - 'shared/**'
+
+      - name: Cache Compose Js excutable
+        if: steps.changes.outputs.src == 'false'
+        run: |
+          git checkout gh-pages
+          mkdir ~/cache/sampleApp
+          cp -r sampleApp/* ~/cache/sampleApp
+          git checkout main
+
       - name: Configure Git Credentials
         run: |
           git config user.name github-actions[bot]
@@ -34,20 +48,25 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Create Sample App Directory
+        run: mkdir site/sampleApp
+
       - name: Build Compose Multiplatform Web App targeting JS(IR)
+        if: steps.changes.outputs.src == 'true'
         run: |
           ./gradlew :shared:jsBrowserDistribution
+          cp -r shared/build/dist/js/productionExecutable/* site/sampleApp
+
+      - name: Load existing Compose Js Excutable from cache
+        if: steps.changes.outputs.src == 'false'
+        run: |
+          cp -r ~/cache_eungabi/* site/sampleApp
 
       - name: Generate API Docs
         run: |
           ./gradlew :eungabi:dokkaHtml
-
-      - name: Prepare for deployment
-        run: |
           mkdir -p site/api
           cp -r eungabi/build/dokka/html/* site/api
-          mkdir -p site/sampleApp
-          cp -r shared/build/dist/js/productionExecutable/* site/sampleApp
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
