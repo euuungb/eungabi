@@ -54,12 +54,12 @@ jobs:
           distribution: 'temurin'
 
       - name: Build Compose Multiplatform Web App targeting JS(IR)
-        if: steps.changes.outputs.shared == 'true' || steps.cache-gradle-save.outputs.cache-hit != 'true'
+        if: steps.changes.outputs.shared == 'true' || steps.cache-gradle-restore.outputs.cache-hit != 'true'
         run: |
           ./gradlew :shared:jsBrowserDistribution
 
       - name: Generate API Docs
-        if: steps.changes.outputs.eungabi == 'true' || steps.cache-gradle-save.outputs.cache-hit != 'true'
+        if: steps.changes.outputs.eungabi == 'true' || steps.cache-gradle-restore.outputs.cache-hit != 'true'
         run: |
           ./gradlew :eungabi:dokkaHtml
 
