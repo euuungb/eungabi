@@ -22,8 +22,8 @@ jobs:
         run: |
           git fetch
           git checkout gh-pages
-          mkdir -p ~/cache/sampleApp
-          cp -r sampleApp/* ~/cache/sampleApp
+          mkdir -p ~/cache_eungabi/sampleApp
+          cp -r sampleApp/* ~/cache_eungabi/sampleApp
           git checkout main
 
       - name: Configure Git Credentials
