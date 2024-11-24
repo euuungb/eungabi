@@ -71,7 +71,7 @@ jobs:
             ~/.gradle/wrapper
             eungabi/build
             shared/build
-          keys: ${{ steps.cache-gradle-restore.outputs.cache-primary-key }}
+          key: ${{ steps.cache-gradle-restore.outputs.cache-primary-key }}
 
       - name: Load files from cache
         if: steps.cache-gradle-save.outputs.cache-hit == 'true'
