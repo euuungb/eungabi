@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dorny/paths-filter@v2
+      - uses: dorny/paths-filter@v3
         id: changes
         with:
           filters: |
@@ -18,7 +18,7 @@ jobs:
               - 'shared/**'
 
       - name: Cache Compose Js excutable
-        if: steps.changes.outputs.src == 'false'
+        if: steps.changes.outputs.shared == 'false'
         run: |
           git checkout gh-pages
           mkdir ~/cache/sampleApp
@@ -52,13 +52,13 @@ jobs:
         run: mkdir site/sampleApp
 
       - name: Build Compose Multiplatform Web App targeting JS(IR)
-        if: steps.changes.outputs.src == 'true'
+        if: steps.changes.outputs.shared == 'true'
         run: |
           ./gradlew :shared:jsBrowserDistribution
           cp -r shared/build/dist/js/productionExecutable/* site/sampleApp
 
       - name: Load existing Compose Js Excutable from cache
-        if: steps.changes.outputs.src == 'false'
+        if: steps.changes.outputs.shared == 'false'
         run: |
           cp -r ~/cache_eungabi/* site/sampleApp
 
