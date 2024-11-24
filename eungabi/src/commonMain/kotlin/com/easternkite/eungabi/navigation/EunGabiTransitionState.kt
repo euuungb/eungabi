@@ -24,7 +24,6 @@ import androidx.compose.animation.fadeOut
 
 /**
  * The animation state holder class for EunGabi navigaion.
- *
  */
 data class EunGabiTransitionState(
     val enter: AnimatedContentTransitionScope<EunGabiEntry>.() -> EnterTransition = { fadeIn(animationSpec = tween(700)) },
