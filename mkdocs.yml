@@ -21,7 +21,6 @@ nav:
       - Passing arguments: navigation/passing-arguments.md
       - Animate transitions between destinations: navigation/animate-transitions-between-destinations.md
   - API Docs: 'https://easternkite.github.io/eungabi/api/'
-  - Sample App: 'https://easternkite.github.io/eungabi/sampleApp/'
 
   # Configuration
 theme:
