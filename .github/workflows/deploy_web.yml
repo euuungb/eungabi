@@ -17,14 +17,16 @@ jobs:
             shared: 
               - 'shared/**'
 
-      - name: Cache Compose Js excutable
-        if: steps.changes.outputs.shared == 'false'
-        run: |
-          git fetch
-          git checkout gh-pages
-          mkdir -p ~/cache_eungabi/sampleApp
-          cp -r sampleApp/* ~/cache_eungabi/sampleApp
-          git checkout main
+      - name: Restore cached gradle
+        id: cache-gradle-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            eungabi/build
+            shared/build
+          key: ${{ runner.os }}-gradle-caches
 
       - name: Configure Git Credentials
         run: |
@@ -49,25 +51,29 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Create Sample App Directory
-        run: mkdir -p site/sampleApp
-
       - name: Build Compose Multiplatform Web App targeting JS(IR)
         if: steps.changes.outputs.shared == 'true'
         run: |
           ./gradlew :shared:jsBrowserDistribution
+      - run: |
+          mkdir -p site/sampleApp
           cp -r shared/build/dist/js/productionExecutable/* site/sampleApp
-
-      - name: Load existing Compose Js Excutable from cache
-        if: steps.changes.outputs.shared == 'false'
-        run: |
-          cp -r ~/cache_eungabi/sampleApp/* site/sampleApp
 
       - name: Generate API Docs
         run: |
           ./gradlew :eungabi:dokkaHtml
           mkdir -p site/api
           cp -r eungabi/build/dokka/html/* site/api
+
+      - name: Cache gradle caches
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            eungabi/build
+            shared/build
+          keys: ${{ steps.cache-gradle-restore.outputs.cache-primary-key }}
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
