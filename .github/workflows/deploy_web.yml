@@ -22,7 +22,7 @@ jobs:
         run: |
           git fetch
           git checkout gh-pages
-          mkdir ~/cache/sampleApp
+          mkdir -p ~/cache/sampleApp
           cp -r sampleApp/* ~/cache/sampleApp
           git checkout main
 
@@ -50,7 +50,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Create Sample App Directory
-        run: mkdir site/sampleApp
+        run: mkdir -p site/sampleApp
 
       - name: Build Compose Multiplatform Web App targeting JS(IR)
         if: steps.changes.outputs.shared == 'true'
