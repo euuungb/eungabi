@@ -67,7 +67,7 @@ See [Transition with Animations](https://easternkite.github.io/eungabi/navigatio
 
 ## Predictive Back Animation
 **Eungabi** now supports The Coolest customizable Predictive Back Animation Feature on both Android and iOS!  
-See [Predictive Back Animation](https://github.com/user-attachments/assets/75885be8-cf0b-43f3-ba16-bbef3c1bfb5d) section of our project website for detailed guides.
+See [Predictive Back Animation](https://easternkite.github.io/eungabi/navigation/animate-transitions-between-destinations/#predictive-back-swipe-back-gesture) section of our project website for detailed guides.
 
 |Android|iOS|
 |------|---|
