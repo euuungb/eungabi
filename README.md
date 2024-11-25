@@ -29,44 +29,51 @@ eungabi = { module = "io.github.easternkite:eungabi", version.ref = "eungabi" }
 ```
 
 ## Quick Start
-> You can write code simply, in a style similar to the Jetpack Navigation Compose. A detailed guide has scheduled. (comming soon 🤗 )
+You can create Navigation graph the most simplest way.  
+See [Quick Start](https://easternkite.github.io/eungabi/getting-started/quick-start/) section of our project website.
+
 ```kotlin
 val controller = rememberEunGabiController()
 EunGabiNavHost(
     modifier = Modifier,
     controller = controller,
-    startDestination = "main",
+    startDestination = "routeA",
 ) {
-    composable("main") {
-        MainComponent("main") {
-            controller.navigate("details")
+    composable("routeA") {
+        MainComponent("routeA") {
+            controller.navigate("routeB")
         }
     }
-    composable("details") {
+    composable("routeB") {
         DetailsComponent(
-            "details",
+            "routeB",
             onNavigateBack = controller::navigateUp
         ) {
-            controller.navigate("detailA")
+            egController.navigate("routeC")
         }
     }
+    //...
 }
 ```
 ## Passing Arguments
-you can simply pass arguments by adding query parameter when calling `navigate` function. For example :
-```kotlin
-controller.navigate("ScreenA?id=111")
-```
+**Eungabi** also provides a way to pass arguments during navigation.  
+See [Passing Arguments](https://easternkite.github.io/eungabi/navigation/passing-arguments/) section of our project website.
 
-Then, you can access the passed arguments within a composable function defined in `EungabiGraphBuilder`. For example :
-```kotlin
-fun EunGabiGraphBuilder.aScreenRoute() {
-    composable("ScreenA") {
-        val id = it.arguments.getString("id")
-        Screen(id = id)
-    }
-}
-```
+## Transition with animations
+You can simply customize transition animations during animation.  
+See [Transition with Animations](https://easternkite.github.io/eungabi/navigation/animate-transitions-between-destinations/) section of our project website.
+
+<img src="https://github.com/user-attachments/assets/75885be8-cf0b-43f3-ba16-bbef3c1bfb5d" width="300"/>
+
+## Predictive Back Animation
+**Eungabi** now supports The Coolest customizable Predictive Back Animation Feature on both Android and iOS!  
+See [Predictive Back Animation](https://github.com/user-attachments/assets/75885be8-cf0b-43f3-ba16-bbef3c1bfb5d) section of our project website for detailed guides.
+
+|Android|iOS|
+|------|---|
+|<img src="https://github.com/user-attachments/assets/01397f37-30f3-4e4b-8d84-b1a9f2931ef7" width="300"/>|<img src="https://github.com/user-attachments/assets/438223c1-7d7e-488f-89c9-2cd433431ab4" width="300"/>|
+
+
 
 ## License
 ```
