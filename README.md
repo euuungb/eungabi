@@ -63,7 +63,7 @@ See [Passing Arguments](https://easternkite.github.io/eungabi/navigation/passing
 You can simply customize transition animations during animation.  
 See [Transition with Animations](https://easternkite.github.io/eungabi/navigation/animate-transitions-between-destinations/) section of our project website.
 
-<img src="https://github.com/user-attachments/assets/75885be8-cf0b-43f3-ba16-bbef3c1bfb5d" width="300"/>
+<img src="https://github.com/user-attachments/assets/3fff1c0a-1db8-4227-b765-e36e1661c2b4" width="300"/>
 
 ## Predictive Back Animation
 **Eungabi** now supports The Coolest customizable Predictive Back Animation Feature on both Android and iOS!  
@@ -71,9 +71,7 @@ See [Predictive Back Animation](https://github.com/user-attachments/assets/75885
 
 |Android|iOS|
 |------|---|
-|<img src="https://github.com/user-attachments/assets/01397f37-30f3-4e4b-8d84-b1a9f2931ef7" width="300"/>|<img src="https://github.com/user-attachments/assets/438223c1-7d7e-488f-89c9-2cd433431ab4" width="300"/>|
-
-
+|<img src="https://github.com/user-attachments/assets/d29d6927-75f0-4c8b-826a-3b130941f78a" width="300"/>|<img src="https://github.com/user-attachments/assets/80602ba6-1ed9-4d50-88ae-602dacca76e5" width="300"/>|
 
 ## License
 ```
