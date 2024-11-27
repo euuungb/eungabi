@@ -53,10 +53,16 @@ actual fun EunGabiNavHost(
     val backStack by controller.backStack.collectAsState()
 
     var inPredictiveBack by remember { mutableStateOf(false) }
+    var isTransitionRunning by remember { mutableStateOf(false) }
     var progress by remember { mutableFloatStateOf(0f) }
 
     PredictiveBackHandler(backStack.size > 1) { backEvent ->
         try {
+            if (isTransitionRunning) {
+                // prevent back event when transition is running.
+                backEvent.collect { throw CancellationException("can't go back when transition is running") }
+                return@PredictiveBackHandler
+            }
             backEvent.collect {
                 inPredictiveBack = true
                 progress = it.progress
@@ -74,6 +80,7 @@ actual fun EunGabiNavHost(
         inPredictiveBack = inPredictiveBack,
         navTransition = transitionState,
         predictiveBackTransition = predictiveBackTransition,
+        onTransitionRunning = { isTransitionRunning = it },
         progress = progress,
         controller = controller,
         builder = builder
