@@ -13,6 +13,7 @@ plugins {
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.nexus.publish)
     alias(libs.plugins.dokka)
+    alias(libs.plugins.kotlinxKover)
 }
 
 kotlin {
@@ -77,6 +78,16 @@ kotlin {
             implementation(compose.desktop.currentOs)
         }
     }
+}
+
+kover {
+    reports.verify.rule {
+        minBound(80)
+    }
+}
+
+tasks.register("jacocoTestReport", JacocoReport::class) {
+    dependsOn(tasks.withType(Test::class))
 }
 
 dependencies {
