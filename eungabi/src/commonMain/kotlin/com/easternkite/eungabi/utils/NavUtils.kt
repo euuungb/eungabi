@@ -23,4 +23,27 @@ import com.easternkite.eungabi.navigation.SCHEME
  * @param route The route to add the prefix to.
  * @return The route with the prefix added.
  */
-fun withScheme(route: String) = if (route.startsWith(SCHEME)) route else "$SCHEME$route"
+fun withScheme(route: String): String {
+    val availableCharacters = ('a'..'z') + ('A'..'Z')
+
+    // if route is empty, return blank route.
+    if (route.isEmpty()) return "${SCHEME}blank"
+
+    // if first character is invalid, trim invalid characters and return.
+    if (route.firstOrNull() !in availableCharacters) {
+        val trimIndex = route.indexOfFirst { it in availableCharacters }
+        if (trimIndex == -1) return "${SCHEME}blank"
+        return "$SCHEME${route.substring(trimIndex)}"
+    }
+
+    // if route is already schemed, return it.
+    if (route.startsWith(SCHEME)) return route
+
+    // if route contains scheme separator, remove scheme separator then concat with navhost://.
+    if (route.contains("://")) {
+        val trimIndex = route.lastIndexOf("://") + 3
+        return "${SCHEME}${route.substring(trimIndex)}"
+    }
+
+    return "$SCHEME$route"
+}
