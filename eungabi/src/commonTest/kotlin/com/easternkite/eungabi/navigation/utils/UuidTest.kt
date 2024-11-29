@@ -19,6 +19,7 @@ import com.easternkite.eungabi.utils.randomUuid
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
+@Suppress("ktlint:standard:function-naming")
 class UuidTest {
     @Test
     fun GIVEN_1000_random_uuid_when_call_randomUuid_then_return_1000_uuid() {
