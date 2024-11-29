@@ -19,7 +19,7 @@ jobs:
 
       - name: Generate coverage output
         run: |
-          echo "COVERAGE=$(${{github.workspace}}/gradlew -q printLineCoverage)" >> $GITHUB_ENV
+          echo "COVERAGE=$(${{github.workspace}}/gradlew -q printCoverage)" >> $GITHUB_ENV
 
       - name: Update dynamic badge gist
         uses: schneegans/dynamic-badges-action@v1.7.0
