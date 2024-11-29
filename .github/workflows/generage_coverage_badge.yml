@@ -28,7 +28,7 @@ jobs:
 
       - name: Generate coverage output
         run: |
-          echo "COVERAGE=$(${{github.workspace}}/gradlew -q printCoverage --no-configuration-cache)" >> $GITHUB_ENV
+          echo "COVERAGE=$(${{github.workspace}}/gradlew printCoverage --no-configuration-cache)" >> $GITHUB_ENV
 
       - name: Update dynamic badge gist
         uses: schneegans/dynamic-badges-action@v1.7.0
@@ -40,3 +40,12 @@ jobs:
           message: ${{env.COVERAGE}}%
           minColorRange: 0
           maxColorRange: 100
+
+      - name: Cache gradle caches
+        id: cache-gradle-save
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ steps.cache-gradle-restore.outputs.cache-primary-key }}
