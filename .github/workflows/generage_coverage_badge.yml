@@ -26,9 +26,6 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - run :
-      - run :
-
       - name: Generate coverage output
         run: |
           ./gradlew :eungabi:printCoverage --no-configuration-cache >> coverage.txt
