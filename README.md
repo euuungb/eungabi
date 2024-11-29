@@ -5,8 +5,7 @@
 ![Dynamic TOML Badge](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Feasternkite%2Feungabi%2Frefs%2Fheads%2Fmain%2Fgradle%2Flibs.versions.toml&query=%24.versions.kotlin&logo=Kotlin&label=Kotlin&color=purple)
 ![Dynamic TOML Badge](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Feasternkite%2Feungabi%2Frefs%2Fheads%2Fmain%2Fgradle%2Flibs.versions.toml&query=%24.versions.cmp-plugin&logo=Jetpack%20Compose&label=Compose%20Multiplatform&color=blue)
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.easternkite/eungabi?link=https%3A%2F%2Fcentral.sonatype.com%2Fartifact%2Fio.github.easternkite%2Feungabi&link=https%3A%2F%2Fcentral.sonatype.com%2Fartifact%2Fio.github.easternkite%2Feungabi)
-![coverage badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/easternkite/9699425e3de326e1772351520d991821/raw/6230bd7d943d2209d8f9d40bdc95b8c562cd274b/eungabi-coverage-badge.json)
-
+![coverage badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/easternkite/9699425e3de326e1772351520d991821/raw/723d96577469774a11185f2bb087eb9ba130acbc/eungabi-coverage-badge.json)
 
 A Compose Multiplatform Navigation library which support Platform Native Features like Predictive Back Gesture(Android), Swipe-Back Gesture(iOS), Shared Element Transition(Common).  
 
