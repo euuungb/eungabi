@@ -26,11 +26,13 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - run : ./gradlew :eungabi:printCoverage --no-configuration-cache
+      - run :
+      - run :
 
       - name: Generate coverage output
         run: |
-          echo "COVERAGE=14.5" >> $GITHUB_ENV
+          ./gradlew :eungabi:printCoverage --no-configuration-cache >> coverage.txt
+          echo "COVERAGE=$(<coverage.txt)"
 
       - name: Update dynamic badge gist
         uses: schneegans/dynamic-badges-action@v1.7.0
