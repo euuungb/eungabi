@@ -38,7 +38,7 @@ jobs:
           gistID: 9699425e3de326e1772351520d991821
           filename: eungabi-coverage-badge.json
           label: coverage
-          message: ${{ github.workspace/cover-result.txt }}
+          message: $(${{github.workspace}}/cover-result.txt)
           minColorRange: 0
           maxColorRange: 100
 
