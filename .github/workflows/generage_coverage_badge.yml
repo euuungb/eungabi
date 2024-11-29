@@ -29,7 +29,7 @@ jobs:
       - name: Generate coverage output
         run: |
           ./gradlew -q :eungabi:printCoverage --no-configuration-cache >> coverage.txt
-          echo "COVERAGE=$(<coverage.txt)" >> $GITHUB_ENV
+          echo "COVERAGE=$(<coverage.txt)"
 
       - name: Update dynamic badge gist
         uses: schneegans/dynamic-badges-action@v1.7.0
