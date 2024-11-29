@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.easternkite.eungabi.navigation.utils
+package com.easternkite.eungabi.utils
 
 import com.easternkite.eungabi.utils.randomUuid
 import kotlin.test.Test
