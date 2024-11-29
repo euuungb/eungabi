@@ -5,6 +5,7 @@ import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
+import javax.xml.parsers.DocumentBuilderFactory
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -15,6 +16,10 @@ plugins {
     alias(libs.plugins.dokka)
     alias(libs.plugins.kotlinxKover)
 }
+
+val groupId = "io.github.easternkite"
+val artifactId = "eungabi"
+val version = "0.3.1"
 
 kotlin {
     androidTarget {
@@ -123,10 +128,6 @@ val androidSourceJar by tasks.registering(Jar::class) {
     publishing.singleVariant("release")
 }
 
-val groupId = "io.github.easternkite"
-val artifactId = "eungabi"
-val version = "0.3.1"
-
 mavenPublishing {
     coordinates(groupId, artifactId, version)
     pom {
@@ -156,4 +157,46 @@ mavenPublishing {
     }
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, true)
     signAllPublications()
+}
+
+tasks.register("printCoverage") {
+    group = "verification"
+    dependsOn("koverXmlReport")
+    doLast {
+        val report = file("$projectDir/build/reports/kover/report.xml")
+
+        val doc = DocumentBuilderFactory
+            .newInstance()
+            .newDocumentBuilder()
+            .parse(report)
+
+        val rootNode = doc.firstChild
+        var childNode = rootNode.firstChild
+
+        var coveragePercent = 0.0
+
+        while (childNode != null) {
+            if (childNode.nodeName != "counter") {
+                childNode = childNode.nextSibling
+                continue
+            }
+
+            val attribute = childNode.attributes.getNamedItem("type")
+            if (attribute.nodeValue != "INSTRUCTION") continue
+
+            val missed = childNode.attributes
+                .getNamedItem("missed")
+                .textContent
+                .toInt()
+
+            val covered = childNode.attributes
+                .getNamedItem("covered")
+                .textContent
+                .toInt()
+            coveragePercent = (covered * 100.0) / (missed + covered)
+
+            break
+        }
+        println("%.1f".format(coveragePercent))
+    }
 }

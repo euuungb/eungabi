@@ -1,0 +1,33 @@
+name: Generate coverage badge
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Java
+        uses: actions/setup-java@4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Generate coverage output
+        run: |
+          echo "COVERAGE=$(${{github.workspace}}/gradlew -q printLineCoverage)" >> $GITHUB_ENV
+
+      - name: Update dynamic badge gist
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.TOKEN_GITHUB }}
+          gistID: 9699425e3de326e1772351520d991821
+          filename: eungabi-coverage-badge.json
+          label: coverage
+          message: ${{env.COVERAGE}}%
+          minColorRange: 0
+          maxColorRange: 100
