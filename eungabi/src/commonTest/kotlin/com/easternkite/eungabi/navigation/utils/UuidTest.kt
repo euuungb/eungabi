@@ -13,15 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.easternkite.eungabi.utils
+package com.easternkite.eungabi.navigation.utils
 
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
+import com.easternkite.eungabi.utils.randomUuid
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-/**
- * get unique identifier.
- */
-@OptIn(ExperimentalUuidApi::class)
-val randomUuid: String get() = Uuid
-    .random()
-    .toString()
+@Suppress("ktlint:standard:function-naming")
+class UuidTest {
+    @Test
+    fun GIVEN_1000_random_uuid_when_call_randomUuid_then_return_1000_uuid() {
+        val uuidSet = mutableSetOf<String>()
+
+        repeat(1000) {
+            uuidSet.add(randomUuid)
+        }
+
+        assertEquals(expected = 1000, actual = uuidSet.size)
+    }
+}
