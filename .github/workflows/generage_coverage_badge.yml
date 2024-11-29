@@ -11,6 +11,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Restore cached gradle
+        id: cache-gradle-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-caches
+
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -19,7 +28,7 @@ jobs:
 
       - name: Generate coverage output
         run: |
-          echo "COVERAGE=$(${{github.workspace}}/gradlew -q printCoverage)" >> $GITHUB_ENV
+          echo "COVERAGE=$(${{github.workspace}}/gradlew -q printCoverage --no-configuration-cache)" >> $GITHUB_ENV
 
       - name: Update dynamic badge gist
         uses: schneegans/dynamic-badges-action@v1.7.0
