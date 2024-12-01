@@ -5,7 +5,7 @@ ktlint_standard = enabled
 ktlint_experimental = disabled
 
 # composable 함수에 대해 예외적으로 PascalCase 허용  
-ktlint_function_naming_ignore_when_annotated_with = Composable, ViewController
+ktlint_function_naming_ignore_when_annotated_with = Composable, ViewController, Test
 ktlint_standard_trailing-comma-on-call-site = disabled
 ktlint_standard_trailing-comma-on-declaration-site = disabled
 # 띄어쓰기 여러번 허용하도록 수정. Contants 등에서 가독성을 위해 띄어쓰기 여러번 한 구간 존재.
