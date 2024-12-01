@@ -39,11 +39,5 @@ fun withScheme(route: String): String {
     // if route is already schemed, return it.
     if (route.startsWith(SCHEME)) return route
 
-    // if route contains scheme separator, remove scheme separator then concat with navhost://.
-    if (route.contains("://")) {
-        val trimIndex = route.lastIndexOf("://") + 3
-        return "${SCHEME}${route.substring(trimIndex)}"
-    }
-
     return "$SCHEME$route"
 }

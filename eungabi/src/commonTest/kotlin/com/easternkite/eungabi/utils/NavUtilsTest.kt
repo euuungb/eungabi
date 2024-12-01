@@ -51,20 +51,6 @@ class NavUtilsTest {
     }
 
     @Test
-    fun GIVEN_a_custom_schemed_route_WHEN_call_withScheme_THEN_replace_the_scheme_with_navhost() {
-        val expected = "${SCHEME}eungabi"
-        val actual = withScheme("easternkite://eungabi")
-        assertEquals(expected = expected, actual = actual)
-    }
-
-    @Test
-    fun GIVEN_a_route_with_multiple_scheme_separator_WHEN_call_withScheme_THEN_remove_the_scheme_separator() {
-        val expected = "${SCHEME}eungabi"
-        val actual = withScheme("github://easternkite://eungabi")
-        assertEquals(expected = expected, actual = actual)
-    }
-
-    @Test
     fun GIVEN_a_route_contains_invalid_charactor_WHEN_call_withScheme_THEN_remove_the_invalid_charactor() {
         val expected = "${SCHEME}blank"
         val actual = withScheme("//://://://///")
