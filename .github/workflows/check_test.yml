@@ -8,6 +8,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Restore cached gradle
+        id: cache-gradle-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-caches
+
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -19,3 +28,12 @@ jobs:
 
       - name: Check Desktop Test
         run: ./gradlew :eungabi:desktopTest
+
+      - name: Cache gradle caches
+        id: cache-gradle-save
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ steps.cache-gradle-restore.outputs.cache-primary-key }}
