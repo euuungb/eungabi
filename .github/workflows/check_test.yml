@@ -1,0 +1,15 @@
+name: Check Test
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check Unit Test
+        run: ./gradlew :eungabi:testDebugUnitTest
+
+      - name: Check Desktop Test
+        run: ./gradlew :eungabi:desktopTest
