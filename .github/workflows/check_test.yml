@@ -8,6 +8,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
       - name: Check Unit Test
         run: ./gradlew :eungabi:testDebugUnitTest
 
