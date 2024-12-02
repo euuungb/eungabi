@@ -163,7 +163,7 @@ internal fun EunGabiNavHostInternal(
     if (inPredictiveBack) {
         LaunchedEffect(entity) {
             println("entity changed: ${entity.eunGabiDestination.route}")
-            previousEntry = controller.findPreviousEntity(entity)
+            previousEntry = controller.findPreviousEntry(entity)
         }
         LaunchedEffect(progress) {
             previousEntry?.also { transitionState.seekTo(progress, it) }

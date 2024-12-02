@@ -36,7 +36,8 @@ class EunGabiController {
     var graph: EunGabiGraph
         get() {
             return _graph ?: error("Graph is not set")
-        } set(value) {
+        }
+        set(value) {
             if (backQueue.isEmpty()) {
                 val initialEntity =
                     createEntry(
@@ -66,27 +67,26 @@ class EunGabiController {
      * It holds the history of the navigation entries emitted by [backQueue].
      */
     private val _backStack = MutableStateFlow<List<EunGabiEntry>>(listOf())
-    val backStack: StateFlow<List<EunGabiEntry>>  = _backStack.asStateFlow()
+    val backStack: StateFlow<List<EunGabiEntry>> = _backStack.asStateFlow()
 
     /**
      * Navigates up in the back stack.
-     * It uses [findPreviousEntity] to find the previous entity in the back stack.
+     * It uses [findPreviousEntry] to find the previous entity in the back stack.
      * then removes all the entries after the previous entity.
      */
     fun navigateUp(): Boolean {
         if (backQueue.size <= 1) return false
-        var currentEntity = backQueue.lastOrNull() ?: return false
-        var removedEntry: EunGabiEntry?
-        val targetRoute = findPreviousEntity(currentEntity).eunGabiDestination.route
+        var currentEntry = backQueue.last()
+        val targetRoute = findPreviousEntry(currentEntry)
 
         do {
-            removedEntry = backQueue.removeLastOrNull()
-            backQueue.lastOrNull()?.also { currentEntity = it }
-        } while (currentEntity.eunGabiDestination.route != targetRoute)
+            backQueue.removeLast()
+            currentEntry = backQueue.last()
+        } while (currentEntry.id != targetRoute.id)
 
         _backStack.update { backQueue.toList() }
         isPop.value = true
-        return removedEntry != null
+        return backQueue.last() == targetRoute
     }
 
     /**
@@ -109,12 +109,12 @@ class EunGabiController {
     /**
      * Finds the previous entity in the back stack via [NavOptions] of the given entity.
      *
-     * @param entity The entity to find the previous entity for.
+     * @param entry The entity to find the previous entity for.
      * @return The previous [EunGabiEntry] of the given [EunGabiEntry] in the back stack.
      */
-    internal fun findPreviousEntity(entity: EunGabiEntry): EunGabiEntry {
-        val targetRoute = entity.navOptions.popUpToRoute
-        val inclusive = entity.navOptions.inclusive
+    internal fun findPreviousEntry(entry: EunGabiEntry): EunGabiEntry {
+        val targetRoute = entry.navOptions.popUpToRoute
+        val inclusive = entry.navOptions.inclusive
 
         val index =
             backQueue
@@ -176,6 +176,7 @@ class EunGabiController {
     fun restoreState() {
         val result = EunGabiState.restore()
         backQueue = result
+        _backStack.update { backQueue.toList() }
     }
 }
 
