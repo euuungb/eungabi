@@ -102,7 +102,7 @@ dependencies {
 
 android {
     namespace = "com.easternkite.eungabi"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         minSdk = 24
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
