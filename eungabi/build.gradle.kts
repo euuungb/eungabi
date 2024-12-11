@@ -19,7 +19,7 @@ plugins {
 
 val groupId = "io.github.easternkite"
 val artifactId = "eungabi"
-val version = "0.3.1"
+val version = "0.3.2"
 
 kotlin {
     androidTarget {
