@@ -100,7 +100,7 @@ internal fun EunGabiNavHostInternal(
     builder: EunGabiGraphBuilder.() -> Unit
 ) {
     val backStack by controller.backStack.collectAsState()
-    val entity = remember(backStack) { backStack.lastOrNull() }
+    val entry = remember(backStack) { backStack.lastOrNull() }
     val updatedTransitionRunning by rememberUpdatedState(onTransitionRunning)
 
     val currentTransition =
@@ -131,11 +131,11 @@ internal fun EunGabiNavHostInternal(
                 .build()
     }
 
-    if (entity == null) return
+    if (entry == null) return
 
     val transitionState =
         remember {
-            SeekableTransitionState(entity)
+            SeekableTransitionState(entry)
         }
 
     val transition = rememberTransition(transitionState, label = "entity")
@@ -161,17 +161,17 @@ internal fun EunGabiNavHostInternal(
     }
 
     if (inPredictiveBack) {
-        LaunchedEffect(entity) {
-            println("entity changed: ${entity.eunGabiDestination.route}")
-            previousEntry = controller.findPreviousEntry(entity)
+        LaunchedEffect(entry) {
+            println("entity changed: ${entry.eunGabiDestination.route}")
+            previousEntry = controller.findPreviousEntry(entry)
         }
         LaunchedEffect(progress) {
             previousEntry?.also { transitionState.seekTo(progress, it) }
         }
     } else {
-        LaunchedEffect(entity) {
-            if (transitionState.currentState != entity) {
-                transitionState.animateTo(entity)
+        LaunchedEffect(entry) {
+            if (transitionState.currentState != entry) {
+                transitionState.animateTo(entry)
             } else {
                 val totalDuration = transition.totalDurationNanos / 1_000_000
                 animate(
@@ -186,7 +186,7 @@ internal fun EunGabiNavHostInternal(
 
                         if (value == 0f) {
                             transitionState.seekTo(0f)
-                            transitionState.snapTo(entity)
+                            transitionState.snapTo(entry)
                         }
                     }
                 }
@@ -204,12 +204,12 @@ internal fun EunGabiNavHostInternal(
                 .background(MaterialTheme.colorScheme.background),
         contentKey = {
             // Ordering-Based Keying Strategy to assume screen is currently pushing or popping.
-            if (it.index > entity.index) {
+            if (it.index > entry.index) {
                 // Case1 : targetState is Higher index than currentEntry. (assuming screen is currently pushing)
-                entity.id + it.id
+                entry.id + it.id
             } else {
                 // Case2 : targetState is Lower than currentEntry. (assuming screen is currently popping)
-                it.id + entity.id
+                it.id + entry.id
             }
         },
         transitionSpec = {
@@ -227,14 +227,13 @@ internal fun EunGabiNavHostInternal(
                             // Enable background dimming when the transition is running. This will apply to the previous screen.
                             // it currently supports only predictive back gesturing.
                             if (!inPredictiveBack) return@drawWithContent
-                            if (targetState.index < entity.index || targetState.index < transition.currentState.index) {
+                            if (targetState.index < entry.index || targetState.index < transition.currentState.index) {
                                 drawRect(color = Color.Black.copy(dimAlpha))
                             }
                         },
             ) {
-                controller
-                    .graph
-                    .findDestination(targetState.eunGabiDestination.fullRoute)
+                targetState
+                    .eunGabiDestination
                     .content(this@AnimatedContent, targetState)
             }
         }
