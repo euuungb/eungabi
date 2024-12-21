@@ -15,3 +15,20 @@ fun EunGabiGraphBuilder.aScreenRoute() {
     }
 }
 ```
+
+## 4.Passing complex arguments in URLs
+You can pass complex arguments, such as multi-parameter URLs, by enclosing them within curly braces (`{`, `}`). This allows you to include special characters and multiple parameters within a single URL argument.
+
+For example:
+```kotlin
+val fullRoute =  
+    "ScreenA?url1={https://easternkite.github.io?param1=value1&param2=value2}&url2={https://easternkite.github.io?param1=value1&param2=value2}&id=123"
+controller.navigate(fullRoute)
+
+fun EunGabiGraphBuilder.aScreenRoute() {
+	composable("ScreenA") {
+		val id = it.arguments.getString("url1") // it will be "https://easternkite.github.io?param1=value1&param2=value2"
+		Screen(id = id)
+	}
+}
+```
