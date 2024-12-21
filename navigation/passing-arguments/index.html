@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../media/logo/eungabi_logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.48">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
     
     
       
@@ -547,6 +547,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#4passing-complex-arguments-in-urls" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.Passing complex arguments in URLs
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -639,6 +648,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#4passing-complex-arguments-in-urls" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.Passing complex arguments in URLs
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -663,6 +681,20 @@
 <div class="highlight"><pre><span></span><code><span class="kd">fun</span><span class="w"> </span><span class="n">EunGabiGraphBuilder</span><span class="p">.</span><span class="nf">aScreenRoute</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">composable</span><span class="p">(</span><span class="s">&quot;ScreenA&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">arguments</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">Screen</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h2 id="4passing-complex-arguments-in-urls">4.Passing complex arguments in URLs<a class="headerlink" href="#4passing-complex-arguments-in-urls" title="Permanent link">&para;</a></h2>
+<p>You can pass complex arguments, such as multi-parameter URLs, by enclosing them within curly braces (<code>{</code>, <code>}</code>). This allows you to include special characters and multiple parameters within a single URL argument.</p>
+<p>For example:
+<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">fullRoute</span><span class="w"> </span><span class="o">=</span><span class="w">  </span>
+<span class="w">    </span><span class="s">&quot;ScreenA?url1={https://easternkite.github.io?param1=value1&amp;param2=value2}&amp;url2={https://easternkite.github.io?param1=value1&amp;param2=value2}&amp;id=123&quot;</span>
+<span class="n">controller</span><span class="p">.</span><span class="na">navigate</span><span class="p">(</span><span class="n">fullRoute</span><span class="p">)</span>
+
+<span class="kd">fun</span><span class="w"> </span><span class="n">EunGabiGraphBuilder</span><span class="p">.</span><span class="nf">aScreenRoute</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">composable</span><span class="p">(</span><span class="s">&quot;ScreenA&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">arguments</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="s">&quot;url1&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">// it will be &quot;https://easternkite.github.io?param1=value1&amp;param2=value2&quot;</span>
 <span class="w">        </span><span class="n">Screen</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
@@ -720,7 +752,7 @@
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.expand"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
       
     
   </body>
