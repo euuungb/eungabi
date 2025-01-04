@@ -75,7 +75,7 @@ See [Predictive Back Animation](https://easternkite.github.io/eungabi/navigation
 
 ## License
 ```
-Copyright 2024 easternkite
+Copyright 2024-2025 easternkite
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
