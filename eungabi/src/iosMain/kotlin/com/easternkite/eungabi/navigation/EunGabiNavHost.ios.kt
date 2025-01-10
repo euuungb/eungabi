@@ -109,7 +109,7 @@ actual fun EunGabiNavHost(
         }
     }
 
-    Box(Modifier.fillMaxSize().background(Color.Red)) {
+    Box(Modifier.fillMaxSize()) {
         EunGabiNavHostInternal(
             modifier = modifier,
             progress = progress,
