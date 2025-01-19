@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:Suppress("ktlint:standard:filename")
+
 package com.easternkite.eungabi.navigation
 
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
@@ -25,11 +27,9 @@ internal actual class EunGabiSavedStateFactory actual constructor(
     owner: SavedStateRegistryOwner
 ) : AbstractSavedStateViewModelFactory(owner, null) {
     @Suppress("UNCHECKED_CAST")
-     override fun <T : ViewModel> create(
+    override fun <T : ViewModel> create(
         key: String,
         modelClass: KClass<T>,
         handle: SavedStateHandle
-    ): T {
-         return SavedStateViewModel(handle) as T
-     }
- }
+    ): T = SavedStateViewModel(handle) as T
+}
