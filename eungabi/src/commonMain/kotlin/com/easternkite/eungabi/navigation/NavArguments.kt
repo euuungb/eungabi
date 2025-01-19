@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 easternkite
+ * Copyright 2024-2025 easternkite
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package com.easternkite.eungabi.navigation
 
+import androidx.core.bundle.Bundle
 import com.easternkite.eungabi.utils.RouteEncoder
 import com.easternkite.eungabi.utils.decodeArgumentValue
 import com.easternkite.eungabi.utils.encodeFullRoute
@@ -36,10 +37,11 @@ class NavArguments(
     /**
      * The actual arguments parsed from query parameters of [routeUri].
      */
-    private val arguments get() =
-        routeUri
-            .getQueryParameterNames()
-            .associateWith { routeUri.getQueryParameter(it) }
+    internal val arguments
+        get() =
+            routeUri
+                .getQueryParameterNames()
+                .associateWith { routeUri.getQueryParameter(it) }
 
     /**
      * Returns the [String] value of the argument with the given [key].
@@ -70,4 +72,10 @@ class NavArguments(
      * Returns the [Boolean] value of the argument with the given [key].
      */
     fun getBoolean(key: String) = runCatching { arguments[key]?.toBoolean() }.getOrNull()
+}
+
+fun NavArguments.toBundle(): Bundle {
+    val bundle = Bundle()
+    arguments.forEach { (key, value) -> bundle.putString(key, value) }
+    return bundle
 }

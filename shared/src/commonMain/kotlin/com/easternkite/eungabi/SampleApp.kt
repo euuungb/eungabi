@@ -37,6 +37,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.easternkite.eungabi.navigation.EunGabiController
 import com.easternkite.eungabi.navigation.EunGabiNavHost
+import com.easternkite.eungabi.navigation.eunGabiViewModel
 import com.easternkite.eungabi.navigation.rememberEunGabiController
 import com.easternkite.sample.resources.Res
 import com.easternkite.sample.resources.ic_dy
@@ -62,8 +63,8 @@ fun SampleApp() {
             }
             composable("details") {
                 DetailsComponent(
-                    "details",
-                    animatedVisibilityScope = this,
+                    text = "details",
+                    animatedVisibilityScope = this@composable,
                     onNavigateBack = egController::navigateUp
                 ) {
                     egController.navigate("detailA")
@@ -72,9 +73,9 @@ fun SampleApp() {
 
             composable("detailA") {
                 DetailsComponent(
-                    "detailA",
-                    "navigate to B",
-                    this,
+                    text = "detailA",
+                    buttonText = "navigate to B",
+                    animatedVisibilityScope = this@composable,
                     onNavigateBack = egController::navigateUp
                 ) {
                     egController.navigate("detailB?name=screenB&id=123")
@@ -88,9 +89,9 @@ fun SampleApp() {
                     println("backStack = ${it.id}, id = $id, name = $name")
                 }
                 DetailsComponent(
-                    "detailB",
-                    "navigate to C",
-                    this,
+                    text = "detailB",
+                    buttonText = "navigate to C",
+                    animatedVisibilityScope = this@composable,
                     onNavigateBack = egController::navigateUp
                 ) {
                     egController.navigate("detailC")
@@ -99,9 +100,9 @@ fun SampleApp() {
 
             composable("detailC") {
                 DetailsComponent(
-                    "detailsC",
-                    "navigate to D",
-                    this,
+                    text = "detailsC",
+                    buttonText = "navigate to D",
+                    animatedVisibilityScope = this@composable,
                     onNavigateBack = egController::navigateUp
                 ) {
                     egController.navigate("detailD") {
@@ -112,9 +113,9 @@ fun SampleApp() {
 
             composable("detailD") {
                 DetailsComponent(
-                    "detailD",
-                    "Finish",
-                    this,
+                    text = "detailD",
+                    buttonText = "Finish",
+                    animatedVisibilityScope = this@composable,
                     onNavigateBack = egController::navigateUp
                 ) {
                     egController.navigateUp()
@@ -166,12 +167,17 @@ fun SharedTransitionScope.MainComponent(
 @OptIn(ExperimentalSharedTransitionApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun SharedTransitionScope.DetailsComponent(
+    viewModel: SampleViewModel = eunGabiViewModel { SampleViewModel(it) },
     text: String,
     buttonText: String = "Navigate To A",
     animatedVisibilityScope: AnimatedVisibilityScope,
     onNavigateBack: () -> Unit,
     onButtonClicked: () -> Unit
 ) {
+    val id by viewModel
+        .name
+        .collectAsState()
+
     Column(Modifier.fillMaxSize()) {
         TopAppBar(
             navigationIcon = {
@@ -192,6 +198,7 @@ fun SharedTransitionScope.DetailsComponent(
             Modifier.size(100.dp)
         )
         Text(text = text)
+        Text(text = "id = $id")
         Button(onClick = onButtonClicked) {
             Text(text = buttonText)
         }

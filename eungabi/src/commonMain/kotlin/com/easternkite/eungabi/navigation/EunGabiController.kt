@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 easternkite
+ * Copyright 2024-2025 easternkite
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.lifecycle.ViewModelStore
 import com.easternkite.eungabi.utils.withScheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -50,6 +51,8 @@ class EunGabiController {
             _backStack.update { backQueue.toList() }
             _graph = value
         }
+
+    private var viewModel: EunGabiControllerViewModel? = null
 
     /**
      * Whether the current navigation is a pop operation.
@@ -157,7 +160,8 @@ class EunGabiController {
             arguments = navArguments,
             navOptions = navOptions,
             index = index,
-        )
+            viewModelStoreProvider = viewModel
+        ).also(EunGabiEntry::updateState)
     }
 
     /**
@@ -165,7 +169,8 @@ class EunGabiController {
      * It saves the [backQueue] of the navigation.
      */
     fun saveState(): Boolean {
-        EunGabiState.save(backQueue)
+        val state = ControllerState(backQueue, viewModel)
+        EunGabiState.save(state)
         return true
     }
 
@@ -175,8 +180,30 @@ class EunGabiController {
      */
     fun restoreState() {
         val result = EunGabiState.restore()
-        backQueue = result
+        viewModel = result.viewModel
+        backQueue = result.backQueue
         _backStack.update { backQueue.toList() }
+    }
+
+    /**
+     * Sets the [ViewModelStore] for the [EunGabiControllerViewModel].
+     *
+     * This function is responsible for initializing and setting the [ViewModelStore] that will be used by the [EunGabiControllerViewModel].
+     * It ensures that the ViewModelStore is set before any graph navigation is performed.
+     *
+     * @param viewModelStore The [ViewModelStore] instance to be used.
+     *
+     * @throws IllegalStateException If the back queue is not empty when this function is called, indicating that the ViewModelStore should have been set earlier.
+     *
+     * @see ViewModelStore
+     * @see EunGabiControllerViewModel
+     */
+    fun setViewModelStore(viewModelStore: ViewModelStore) {
+        if (viewModel == EunGabiControllerViewModel.getInstance(viewModelStore)) {
+            return
+        }
+        check(backQueue.isEmpty()) { "ViewModelStore should be set before setGraph call" }
+        viewModel = EunGabiControllerViewModel.getInstance(viewModelStore)
     }
 }
 

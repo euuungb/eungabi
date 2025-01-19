@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 easternkite
+ * Copyright 2024-2025 easternkite
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,10 +36,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import kotlinx.coroutines.launch
 
 /**
@@ -96,12 +98,17 @@ internal fun EunGabiNavHostInternal(
     inPredictiveBack: Boolean = false,
     startDestination: String = "",
     controller: EunGabiController = rememberEunGabiController(),
-    onTransitionRunning: (Boolean) -> Unit  = {},
+    onTransitionRunning: (Boolean) -> Unit = {},
     builder: EunGabiGraphBuilder.() -> Unit
 ) {
+    val viewModelStoreOwner = LocalViewModelStoreOwner.current ?: rememberViewModelStoreOwner()
+    controller.setViewModelStore(viewModelStoreOwner.viewModelStore)
+
     val backStack by controller.backStack.collectAsState()
     val entry = remember(backStack) { backStack.lastOrNull() }
     val updatedTransitionRunning by rememberUpdatedState(onTransitionRunning)
+
+    val saveableStateHolder = rememberSaveableStateHolder()
 
     val currentTransition =
         remember(
@@ -162,7 +169,6 @@ internal fun EunGabiNavHostInternal(
 
     if (inPredictiveBack) {
         LaunchedEffect(entry) {
-            println("entity changed: ${entry.eunGabiDestination.route}")
             previousEntry = controller.findPreviousEntry(entry)
         }
         LaunchedEffect(progress) {
@@ -232,10 +238,15 @@ internal fun EunGabiNavHostInternal(
                             }
                         },
             ) {
-                controller
-                    .graph
-                    .findDestination(targetState.eunGabiDestination.fullRoute)
-                    .content(this@AnimatedContent, targetState)
+                targetState.LocalOwnersProvider(
+                    id = targetState.id,
+                    saveableStateHolder = saveableStateHolder
+                ) {
+                    controller
+                        .graph
+                        .findDestination(targetState.eunGabiDestination.fullRoute)
+                        .content(this@AnimatedContent, targetState)
+                }
             }
         }
     }
@@ -244,7 +255,8 @@ internal fun EunGabiNavHostInternal(
 /**
  * Prevent User Input when transition is running.
  */
-@Composable fun InputBlockingLayer(
+@Composable
+fun InputBlockingLayer(
     isTransitionRunning: Boolean,
     content: @Composable () -> Unit
 ) {

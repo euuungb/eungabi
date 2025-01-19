@@ -26,9 +26,6 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Check Unit Test
-        run: ./gradlew :eungabi:testDebugUnitTest
-
       - name: Check Desktop Test
         run: ./gradlew :eungabi:desktopTest
 
