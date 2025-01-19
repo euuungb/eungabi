@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 easternkite
+ * Copyright 2024-2025 easternkite
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,19 +26,40 @@ internal object EunGabiState {
      * The backStack to be save and restore.
      */
     private var backQueue = ArrayDeque<EunGabiEntry>()
+    private var viewModel: EunGabiControllerViewModel? = null
 
     /**
      * Saves the backStack state.
      */
-    fun save(backQueue: ArrayDeque<EunGabiEntry>) {
-        EunGabiState.backQueue.addAll(backQueue)
+    fun save(state: ControllerState) {
+        backQueue.addAll(state.backQueue)
+        viewModel = state.viewModel
     }
 
     /**
      * Restores the backStack state.
      */
-    fun restore(): ArrayDeque<EunGabiEntry> {
-        val result = ArrayDeque(backQueue.toList())
-        return result.also { backQueue.clear() }
+    fun restore(): ControllerState {
+        val backQueue = ArrayDeque(backQueue.toList())
+        val result = ControllerState(backQueue, viewModel)
+        return result.also {
+            this.backQueue.clear()
+            viewModel = null
+        }
     }
 }
+
+/**
+ * Represents the state of the EunGabi navigation controller.
+ *
+ * This class holds the current back queue of navigation entries and the associated
+ * [EunGabiControllerViewModel].
+ *
+ * @property backQueue An [ArrayDeque] representing the stack of previous navigation entries.
+ *                     Each element in the queue represents a single step in the navigation history.
+ * @property viewModel The associated [EunGabiControllerViewModel] which can be null if no ViewModel is used.
+ */
+internal data class ControllerState(
+    val backQueue: ArrayDeque<EunGabiEntry>,
+    val viewModel: EunGabiControllerViewModel?
+)

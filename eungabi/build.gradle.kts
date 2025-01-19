@@ -70,6 +70,11 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.material3)
 
+            api(libs.jetbrains.lifecycle.runtime)
+            api(libs.jetbrains.lifecycle.viewModel)
+            api(libs.jetbrains.lifecycle.viewModel.compose)
+            api(libs.jetbrains.lifecycle.savedstate)
+
             implementation(libs.uri)
             implementation(libs.napier)
         }
