@@ -232,8 +232,9 @@ internal fun EunGabiNavHostInternal(
                             }
                         },
             ) {
-                targetState
-                    .eunGabiDestination
+                controller
+                    .graph
+                    .findDestination(targetState.eunGabiDestination.fullRoute)
                     .content(this@AnimatedContent, targetState)
             }
         }
