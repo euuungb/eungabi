@@ -58,11 +58,72 @@ kotlin {
     }
 
     sourceSets {
+        val commonMain by getting
+
+        val jvmMain by creating {
+            dependsOn(commonMain)
+        }
+
+        val desktopMain by getting {
+            dependsOn(jvmMain)
+        }
+
+        val nonJvmMain by creating {
+            dependsOn(commonMain)
+        }
+
+        val webMain by creating {
+            dependsOn(nonJvmMain)
+        }
+
+        val appleMain by creating {
+            dependsOn(nonJvmMain)
+        }
+
+        val iosMain by creating {
+            dependsOn(appleMain)
+        }
+
+        val macOsMain by creating {
+            dependsOn(appleMain)
+        }
+
+        val iosArm64Main by getting {
+            dependsOn(iosMain)
+        }
+
+        val iosX64Main by getting {
+            dependsOn(iosMain)
+        }
+
+        val iosSimulatorArm64Main by getting {
+            dependsOn(iosMain)
+        }
+
+        val macosArm64Main by getting {
+            dependsOn(macOsMain)
+        }
+
+        val macosX64Main by getting {
+            dependsOn(macOsMain)
+        }
+
+        jsMain {
+            dependsOn(webMain)
+        }
+
+        wasmJsMain {
+            dependsOn(webMain)
+        }
+
         val desktopTest by getting
 
-        androidMain.dependencies {
-            implementation(libs.androidx.activity.compose)
-            implementation(libs.androidx.core.ktx)
+        androidMain {
+            dependsOn(jvmMain)
+            dependencies {
+                implementation(libs.androidx.activity.compose)
+                implementation(libs.androidx.core.ktx)
+            }
         }
         commonMain.dependencies {
             implementation(compose.ui)
@@ -83,7 +144,6 @@ kotlin {
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
         }
-
         desktopTest.dependencies {
             implementation(compose.desktop.currentOs)
         }
