@@ -8,7 +8,6 @@ cmp-plugin = "1.7.3"
 androidx-activityCompose = "1.10.0"
 lifecycleRuntimeKtx = "2.8.7"
 jetbrains-lifecycle = "2.8.4"
-jetbrains-navigation = "2.8.0-alpha11"
 nexus-publish = "0.30.0"
 uiTestJunit4Android = "1.7.6"
 uri-kmp = "0.0.19"
@@ -38,7 +37,6 @@ jetbrains-lifecycle-runtime = { group = "org.jetbrains.androidx.lifecycle", name
 jetbrains-lifecycle-viewModel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "jetbrains-lifecycle" }
 jetbrains-lifecycle-viewModel-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "jetbrains-lifecycle" }
 jetbrains-lifecycle-savedstate = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-savedstate", version.ref = "jetbrains-lifecycle" }
-jetbrains-navigation = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref = "jetbrains-navigation" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
