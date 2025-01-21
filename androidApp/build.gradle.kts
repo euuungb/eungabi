@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.hilt)
+    id("kotlin-kapt")
 }
 
 android {
@@ -13,6 +15,7 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+        testInstrumentationRunner = "com.easternkite.eungabi.android.HiltTestRunner"
     }
     buildFeatures {
         compose = true
@@ -43,4 +46,17 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.androidx.activity.compose)
     debugImplementation(libs.compose.ui.tooling)
+
+    implementation(libs.hilt.common)
+    kapt(libs.hilt.compiler)
+    implementation(libs.hilt.navigation)
+    implementation(libs.hilt.navigation.compose)
+
+    androidTestImplementation(libs.hilt.test.common)
+    kaptAndroidTest(libs.hilt.test.compiler)
+    testImplementation(libs.junit)
+
+    androidTestImplementation(libs.androidx.ui.test.junit4.android)
+    androidTestImplementation(libs.junit.ext)
+    androidTestImplementation(libs.androidx.test.runner)
 }
