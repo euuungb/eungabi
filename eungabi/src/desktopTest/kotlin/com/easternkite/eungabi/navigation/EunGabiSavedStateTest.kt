@@ -48,13 +48,13 @@ fun HiltNavHost(modifier: Modifier = Modifier) {
             }
         }
         composable("Second") {
-            HiltView()
+            SavedStateView()
         }
     }
 }
 
 @Composable
-fun HiltView(viewModel: TestSavedStateViewModel = eunGabiViewModel { TestSavedStateViewModel(it) }) {
+fun SavedStateView(viewModel: TestSavedStateViewModel = eunGabiViewModel { TestSavedStateViewModel(it) }) {
     val state by viewModel.state.collectAsState()
     Text(text = state, modifier = Modifier.testTag("state"))
 }
