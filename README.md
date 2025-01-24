@@ -7,7 +7,7 @@
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.easternkite/eungabi?link=https%3A%2F%2Fcentral.sonatype.com%2Fartifact%2Fio.github.easternkite%2Feungabi&link=https%3A%2F%2Fcentral.sonatype.com%2Fartifact%2Fio.github.easternkite%2Feungabi)
 ![coverage badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/easternkite/9699425e3de326e1772351520d991821/raw/eungabi-coverage-badge.json)
 
-A Compose Multiplatform Navigation library which support Platform Native Features like Predictive Back Gesture(Android), Swipe-Back Gesture(iOS), Shared Element Transition(Common).  
+A Compose Multiplatform Navigation library which supports Platform Native Features like Predictive Back Gesture(Android), Swipe-Back Gesture(iOS), Shared Element Transition(Common).  
 
 This library adopts a screen transition pattern based on NavHost, similar to the Jetpack Navigation library. A key difference is that it allows for customization of the Predictive Back animation separately. 
 
