@@ -19,6 +19,7 @@ hilt-androidx = "1.2.0"
 junit = "4.13.2"
 junit-ext = "1.2.1"
 runner = "1.6.2"
+koin = "4.0.0"
 
 [libraries]
 androidx-ui-test-junit4-android = { module = "androidx.compose.ui:ui-test-junit4-android", version.ref = "uiTestJunit4Android" }
@@ -50,6 +51,13 @@ hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation", version.r
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-androidx" }
 hilt-test-common = { group = "com.google.dagger", "name" = "hilt-android-testing", version.ref = "hilt-dagger"}
 hilt-test-compiler = { group = "com.google.dagger", "name" = "hilt-android-compiler", version.ref = "hilt-dagger"}
+
+koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koin" }
+koin-core = { group = "io.insert-koin", name = "koin-core" }
+koin-compose-viewModel = { group = "io.insert-koin", name = "koin-compose-viewmodel" }
+koin-compose-viewModel-navigation = { group = "io.insert-koin", name = "koin-compose-viewmodel-navigation" }
+koin-test = { group = "io.insert-koin", name = "koin-test" }
+koin-test-junit4 = { group = "io.insert-koin", name = "koin-test-junit4" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

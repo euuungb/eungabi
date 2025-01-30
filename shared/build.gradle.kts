@@ -1,3 +1,4 @@
+import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
@@ -58,6 +59,7 @@ kotlin {
 
     sourceSets {
         val desktopMain by getting
+        val desktopTest by getting
 
         commonMain.dependencies {
             api(projects.eungabi)
@@ -70,6 +72,17 @@ kotlin {
         desktopMain.dependencies {
             implementation(compose.desktop.macos_arm64)
             implementation(libs.kotlinx.coroutines.swing)
+        }
+        desktopTest.dependencies {
+            implementation(compose.desktop.currentOs)
+            @OptIn(ExperimentalComposeLibrary::class)
+            implementation(compose.uiTest)
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose.viewModel)
+            implementation(libs.koin.compose.viewModel.navigation)
+            implementation(libs.koin.test)
+            implementation(libs.koin.test.junit4)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
