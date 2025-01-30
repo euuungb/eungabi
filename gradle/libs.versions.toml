@@ -19,7 +19,7 @@ hilt-androidx = "1.2.0"
 junit = "4.13.2"
 junit-ext = "1.2.1"
 runner = "1.6.2"
-koin = "4.0.0"
+koin = "4.0.2"
 
 [libraries]
 androidx-ui-test-junit4-android = { module = "androidx.compose.ui:ui-test-junit4-android", version.ref = "uiTestJunit4Android" }
