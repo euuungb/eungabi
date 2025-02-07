@@ -1,7 +1,8 @@
 name: deploy web
 on:
   push:
-    branches: [main]
+    tags:
+      - '[0-9]+\.[0-9]+\.[0-9]+'
 permissions:
   contents: write
 jobs:
@@ -58,6 +59,7 @@ jobs:
           ./gradlew :shared:jsBrowserDistribution
 
       - name: Generate API Docs
+        if: steps.changes.outputs.eungabi == 'true' || steps.cache-gradle-restore.outputs.cache-hit != 'true'
         run: |
           ./gradlew :eungabi:dokkaHtml
 
