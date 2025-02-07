@@ -1,0 +1,929 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A Compose Multiplatform Library which supports Plaform Native Features like Predictive Back Gestures in android and Swipe-to-Back Gesture in iOS.">
+      
+      
+        <meta name="author" content="easternkite">
+      
+      
+        <link rel="canonical" href="https://easternkite.github.io/Eungabi/navigation/saved-state-handle-integration/">
+      
+      
+        <link rel="prev" href="../passing-arguments/">
+      
+      
+        <link rel="next" href="../animate-transitions-between-destinations/">
+      
+      
+      <link rel="icon" href="../../media/logo/eungabi_logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.3">
+    
+    
+      
+        <title>SavedStateHandle Integration - Eungabi</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.d7758b05.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#savedstatehandle-integration" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Eungabi" class="md-header__button md-logo" aria-label="Eungabi" data-md-component="logo">
+      
+  <img src="../../media/logo/eungabi_logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Eungabi
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              SavedStateHandle Integration
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/easternkite/eungabi" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    easternkite/eungabi
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  Getting started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../navigate-between-composables/" class="md-tabs__link">
+          
+  
+  Navigation
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="https://easternkite.github.io/eungabi/api/" class="md-tabs__link">
+        
+  
+    
+  
+  API Docs
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Eungabi" class="md-nav__button md-logo" aria-label="Eungabi" data-md-component="logo">
+      
+  <img src="../../media/logo/eungabi_logo.png" alt="logo">
+
+    </a>
+    Eungabi
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/easternkite/eungabi" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    easternkite/eungabi
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Getting started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Getting started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/quick-start/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quick start
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Navigation
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Navigation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../navigate-between-composables/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Navigate between composables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../passing-arguments/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Passing arguments
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    SavedStateHandle Integration
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    SavedStateHandle Integration
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#using-savedstatehandle-in-eungabi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using SavedStateHandle in EunGabi
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using SavedStateHandle in EunGabi">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-accessing-savedstatehandle-via-eungabicontroller" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Accessing SavedStateHandle via EunGabiController
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-accessing-savedstatehandle-within-navgraphbuildercomposable" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Accessing SavedStateHandle within NavGraphBuilder.composable()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-using-parameter-default-values-with-eungabiviewmodel" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Using Parameter Default Values with eunGabiViewModel()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hilt-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hilt Integration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#koin-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Koin Integration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../animate-transitions-between-destinations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Animate transitions between destinations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://easternkite.github.io/eungabi/api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API Docs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#using-savedstatehandle-in-eungabi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using SavedStateHandle in EunGabi
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using SavedStateHandle in EunGabi">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-accessing-savedstatehandle-via-eungabicontroller" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Accessing SavedStateHandle via EunGabiController
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-accessing-savedstatehandle-within-navgraphbuildercomposable" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Accessing SavedStateHandle within NavGraphBuilder.composable()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-using-parameter-default-values-with-eungabiviewmodel" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Using Parameter Default Values with eunGabiViewModel()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hilt-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hilt Integration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#koin-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Koin Integration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="savedstatehandle-integration">SavedStateHandle Integration<a class="headerlink" href="#savedstatehandle-integration" title="Permanent link">&para;</a></h1>
+<p><strong>eungabi 0.4.0</strong> introduces a powerful SavedState mechanism, enabling seamless state preservation and data transfer in conjunction with ViewModels. With this new feature, each ViewModel can now access a <code>SavedStateHandle</code> object, a key-value map that allows you to store and retrieve data directly within the ViewModel.
+Crucially, the data within the ViewModelSavedState persists even through process termination and configuration changes, ensuring that your ViewModel's state remains intact.</p>
+<h2 id="using-savedstatehandle-in-eungabi">Using SavedStateHandle in EunGabi<a class="headerlink" href="#using-savedstatehandle-in-eungabi" title="Permanent link">&para;</a></h2>
+<p>EunGabi provides several convenient ways to utilize <code>SavedStateHandle</code> for managing state across navigation events. Here are the primary methods:</p>
+<h3 id="1-accessing-savedstatehandle-via-eungabicontroller">1. Accessing SavedStateHandle via <code>EunGabiController</code><a class="headerlink" href="#1-accessing-savedstatehandle-via-eungabicontroller" title="Permanent link">&para;</a></h3>
+<p>You can access the <code>SavedStateHandle</code> of a specific <code>EunGabiEntry</code> by leveraging the <code>EunGabiController.backStack</code>. This allows you to retrieve the <code>SavedStateHandle</code> from any entry within the navigation back stack.
+<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">controller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberEunGabiController</span><span class="p">()</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">backStack</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">controller</span><span class="p">.</span><span class="na">backStack</span><span class="p">.</span><span class="w"> </span><span class="n">collectAsState</span><span class="p">()</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">backStack</span><span class="p">.</span><span class="na">last</span><span class="p">().</span><span class="na">savedStateHandle</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">viewModel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModel</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Explanation:</strong>
+*   <code>rememberEunGabiController()</code>: Retrieves the current <code>EunGabiController</code> instance.
+*   <code>controller.backStack.collectAsState()</code>: Collects the current state of the back stack as a <code>State</code> object.
+*   <code>backStack.last().savedStateHandle</code>: Accesses the <code>SavedStateHandle</code> of the most recent entry in the back stack.
+* <code>viewModel { ViewModel(handle) }</code>: Creates a ViewModel instance with the SavedStateHandle.</p>
+<h3 id="2-accessing-savedstatehandle-within-navgraphbuildercomposable">2. Accessing SavedStateHandle within <code>NavGraphBuilder.composable()</code><a class="headerlink" href="#2-accessing-savedstatehandle-within-navgraphbuildercomposable" title="Permanent link">&para;</a></h3>
+<p>Within the content block of <code>NavGraphBuilder.composable()</code>, you can directly access the <code>SavedStateHandle</code> of the current <code>EunGabiEntry</code>.
+<div class="highlight"><pre><span></span><code><span class="n">NavHost</span><span class="p">(...)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="n">composable</span><span class="p">(...)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">entry</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">entry</span><span class="p">.</span><span class="na">savedStateHandle</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">viewModel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModel</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"> </span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li><code>composable(...) { entry -&gt; ... }</code>: The <code>composable</code> function provides the current <code>EunGabiEntry</code> as a parameter.</li>
+<li><code>entry.savedStateHandle</code>: Directly accesses the <code>SavedStateHandle</code> associated with the current entry.</li>
+<li><code>viewModel { ViewModel(handle) }</code>: Creates a ViewModel instance with the SavedStateHandle.</li>
+</ul>
+<h3 id="3-using-parameter-default-values-with-eungabiviewmodel">3. Using Parameter Default Values with <code>eunGabiViewModel()</code><a class="headerlink" href="#3-using-parameter-default-values-with-eungabiviewmodel" title="Permanent link">&para;</a></h3>
+<p>For a more streamlined approach, you can use the <code>eunGabiViewModel(...)</code> function to inject the <code>SavedStateHandle</code> directly into your composable function's parameters.</p>
+<p><code>eunGabiViewModel</code> automatically recognizes the currently active <code>EunGabiEntry</code> and provides the corresponding <code>SavedStateHandle</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Composable</span><span class="w"> </span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">EunGabiScreen</span><span class="p">(</span><span class="w"> </span>
+<span class="w">    </span><span class="n">viewModel</span><span class="p">:</span><span class="w"> </span><span class="n">EunGabiViewModel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">eunGabiViewModel</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">handle</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">EunGabiViewModel</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="w">  </span><span class="p">}</span>
+<span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li><code>eunGabiViewModel { handle -&gt; EunGabiViewModel(handle) }</code>: This function automatically provides the correct <code>SavedStateHandle</code> to the lambda, which you can then use to create your <code>EunGabiViewModel</code>.</li>
+<li><code>EunGabiViewModel(handle)</code>: Creates a EunGabiViewModel instance with the SavedStateHandle.</li>
+</ul>
+<h3 id="hilt-integration">Hilt Integration<a class="headerlink" href="#hilt-integration" title="Permanent link">&para;</a></h3>
+<p>When using Hilt in your Android target, you can seamlessly inject the appropriate <code>SavedStateHandle</code> using <code>hiltViewModel()</code>.</p>
+<p><div class="highlight"><pre><span></span><code><span class="nd">@Composable</span><span class="w">  </span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">HiltView</span><span class="p">(</span><span class="n">viewModel</span><span class="p">:</span><span class="w"> </span><span class="n">HiltViewModel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hiltViewModel</span><span class="p">())</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">state</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">viewModel</span><span class="p">.</span><span class="na">state</span><span class="p">.</span><span class="na">collectAsState</span><span class="p">()</span><span class="w">  </span>
+<span class="w">    </span><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">,</span><span class="w"> </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">testTag</span><span class="p">(</span><span class="s">&quot;state&quot;</span><span class="p">))</span><span class="w">  </span>
+<span class="p">}</span>
+</code></pre></div>
+<strong>Explanation:</strong></p>
+<ul>
+<li><code>hiltViewModel()</code>: This Hilt function automatically provides the correct <code>SavedStateHandle</code> to your <code>HiltViewModel</code>.</li>
+<li><code>viewModel.state.collectAsState()</code>: Collects the current state of the ViewModel.</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>For a practical example of Hilt integration, refer to the <a href="https://github.com/easternkite/eungabi/blob/main/androidApp/src/androidTest/kotlin/com/easternkite/eungabi/android/EunGabiHiltTest.kt">EunGabiHiltTest.kt</a> file in the EunGabi repository.</p>
+</div>
+<h3 id="koin-integration">Koin Integration<a class="headerlink" href="#koin-integration" title="Permanent link">&para;</a></h3>
+<p>Similarly, when using Koin in your KMP project, you can easily inject the <code>SavedStateHandle</code> using <code>koinViewModel()</code>. Koin, like Hilt, internally recognizes the current entry and provides the correct <code>SavedStateHandle</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Composable</span><span class="w">  </span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">KoinView</span><span class="p">(</span><span class="w">  </span>
+<span class="w">    </span><span class="n">viewModel</span><span class="p">:</span><span class="w"> </span><span class="n">KoinViewModel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">koinViewModel</span><span class="p">()</span><span class="w">  </span>
+<span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">state</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">viewModel</span><span class="p">.</span><span class="na">state</span><span class="p">.</span><span class="na">collectAsState</span><span class="p">()</span><span class="w">  </span>
+<span class="w">    </span><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">,</span><span class="w"> </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">testTag</span><span class="p">(</span><span class="s">&quot;state&quot;</span><span class="p">))</span><span class="w">  </span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li><code>koinViewModel()</code>: This Koin function automatically provides the correct <code>SavedStateHandle</code> to your <code>KoinViewModel</code>.</li>
+<li><code>viewModel.state.collectAsState()</code>: Collects the current state of the ViewModel.</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>For a practical example of Koin integration, refer to the <a href="https://github.com/easternkite/eungabi/blob/main/shared/src/desktopTest/kotlin/com/easternkite/eungabi/KoinViewModelTest.kt">KoinViewModelTest.kt</a> file in the EunGabi repository.  </p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 easternkite
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.expand"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+    
+  </body>
+</html>
