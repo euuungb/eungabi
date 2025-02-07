@@ -58,7 +58,6 @@ jobs:
           ./gradlew :shared:jsBrowserDistribution
 
       - name: Generate API Docs
-        if: steps.cache-gradle-restore.outputs.cache-hit != 'true'
         run: |
           ./gradlew :eungabi:dokkaHtml
 
