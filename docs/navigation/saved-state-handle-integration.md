@@ -17,11 +17,11 @@ val handle = backStack.last().savedStateHandle
 val viewModel = viewModel { ViewModel(handle) }
 ```
 
-**Explanation:**
-* `rememberEunGabiController()`: Retrieves the current `EunGabiController` instance.
-* `controller.backStack.collectAsState()`: Collects the current state of the back stack as a `State` object.
-* `backStack.last().savedStateHandle`: Accesses the `SavedStateHandle` of the most recent entry in the back stack.
-* `viewModel { ViewModel(handle) }`: Creates a ViewModel instance with the SavedStateHandle.
+**Explanation:**  
+* `rememberEunGabiController()`: Retrieves the current `EunGabiController` instance.  
+* `controller.backStack.collectAsState()`: Collects the current state of the back stack as a `State` object.  
+* `backStack.last().savedStateHandle`: Accesses the `SavedStateHandle` of the most recent entry in the back stack.  
+* `viewModel { ViewModel(handle) }`: Creates a ViewModel instance with the SavedStateHandle.  
 
 
 
