@@ -801,11 +801,11 @@ Crucially, the data within the ViewModelSavedState persists even through process
 <span class="kd">val</span><span class="w"> </span><span class="nv">handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">backStack</span><span class="p">.</span><span class="na">last</span><span class="p">().</span><span class="na">savedStateHandle</span><span class="w"> </span>
 <span class="kd">val</span><span class="w"> </span><span class="nv">viewModel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModel</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div></p>
-<p><strong>Explanation:</strong>
-* <code>rememberEunGabiController()</code>: Retrieves the current <code>EunGabiController</code> instance.
-* <code>controller.backStack.collectAsState()</code>: Collects the current state of the back stack as a <code>State</code> object.
-* <code>backStack.last().savedStateHandle</code>: Accesses the <code>SavedStateHandle</code> of the most recent entry in the back stack.
-* <code>viewModel { ViewModel(handle) }</code>: Creates a ViewModel instance with the SavedStateHandle.</p>
+<p><strong>Explanation:</strong><br />
+* <code>rememberEunGabiController()</code>: Retrieves the current <code>EunGabiController</code> instance.<br />
+* <code>controller.backStack.collectAsState()</code>: Collects the current state of the back stack as a <code>State</code> object.<br />
+* <code>backStack.last().savedStateHandle</code>: Accesses the <code>SavedStateHandle</code> of the most recent entry in the back stack.<br />
+* <code>viewModel { ViewModel(handle) }</code>: Creates a ViewModel instance with the SavedStateHandle.  </p>
 <h3 id="2-accessing-savedstatehandle-within-navgraphbuildercomposable">2. Accessing SavedStateHandle within <code>NavGraphBuilder.composable()</code><a class="headerlink" href="#2-accessing-savedstatehandle-within-navgraphbuildercomposable" title="Permanent link">&para;</a></h3>
 <p>Within the content block of <code>NavGraphBuilder.composable()</code>, you can directly access the <code>SavedStateHandle</code> of the current <code>EunGabiEntry</code>.
 <div class="highlight"><pre><span></span><code><span class="n">NavHost</span><span class="p">(...)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
