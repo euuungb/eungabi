@@ -13,13 +13,14 @@ You can access the `SavedStateHandle` of a specific `EunGabiEntry` by leveraging
 ```kotlin
 val controller = rememberEunGabiController()
 val backStack by controller.backStack. collectAsState()
-val handle = backStack.last().savedStateHandle val viewModel = viewModel { ViewModel(handle) }
+val handle = backStack.last().savedStateHandle 
+val viewModel = viewModel { ViewModel(handle) }
 ```
 
 **Explanation:**
-*   `rememberEunGabiController()`: Retrieves the current `EunGabiController` instance.
-*   `controller.backStack.collectAsState()`: Collects the current state of the back stack as a `State` object.
-*   `backStack.last().savedStateHandle`: Accesses the `SavedStateHandle` of the most recent entry in the back stack.
+* `rememberEunGabiController()`: Retrieves the current `EunGabiController` instance.
+* `controller.backStack.collectAsState()`: Collects the current state of the back stack as a `State` object.
+* `backStack.last().savedStateHandle`: Accesses the `SavedStateHandle` of the most recent entry in the back stack.
 * `viewModel { ViewModel(handle) }`: Creates a ViewModel instance with the SavedStateHandle.
 
 
@@ -38,8 +39,8 @@ NavHost(...) {
 
 **Explanation:**
 
-*   `composable(...) { entry -> ... }`: The `composable` function provides the current `EunGabiEntry` as a parameter.
-*   `entry.savedStateHandle`: Directly accesses the `SavedStateHandle` associated with the current entry.
+* `composable(...) { entry -> ... }`: The `composable` function provides the current `EunGabiEntry` as a parameter.
+* `entry.savedStateHandle`: Directly accesses the `SavedStateHandle` associated with the current entry.
 * `viewModel { ViewModel(handle) }`: Creates a ViewModel instance with the SavedStateHandle.
 
 ### 3. Using Parameter Default Values with `eunGabiViewModel()`
@@ -51,7 +52,7 @@ For a more streamlined approach, you can use the `eunGabiViewModel(...)` functio
 ```kotlin
 @Composable 
 fun EunGabiScreen( 
-	viewModel: EunGabiViewModel = eunGabiViewModel { handle -> EunGabiViewModel(handle)  }
+	viewModel: EunGabiViewModel = eunGabiViewModel { handle -> EunGabiViewModel(handle) }
 ) { ... }
 ```
 
