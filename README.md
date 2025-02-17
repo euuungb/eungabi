@@ -11,7 +11,7 @@ A Compose Multiplatform Navigation library which supports Platform Native Featur
 
 This library adopts a screen transition pattern based on NavHost, similar to the Jetpack Navigation library. A key difference is that it allows for customization of the Predictive Back animation separately. 
 
-Check out the [project website](https://easternkite.github.io/eungabi) for detailed guides.
+Check out the [project website](https://euuungb.github.io/eungabi) for detailed guides.
 
 ## Supported targets
 * `android`
