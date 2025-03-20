@@ -33,8 +33,12 @@ internal object RouteEncoder
  * @param fullRoute The full route to encode.
  * @return The encoded full route.
  */
+@Deprecated(
+    message = "This function is problematic when handling JSON strings as arguments. " +
+        "Refer to the issue for more details: https://github.com/euuungb/eungabi/issues/94",
+    level = DeprecationLevel.WARNING
+)
 internal fun RouteEncoder.encodeFullRoute(fullRoute: String): String {
-    // Define characters for open brace, close brace, and the encode phrase.
     val openBrace = '{'
     val closeBrace = '}'
 
@@ -70,8 +74,12 @@ internal fun RouteEncoder.encodeFullRoute(fullRoute: String): String {
  * @param value The argument value to decode.
  * @return The decoded argument value.
  */
+@Deprecated(
+    message = "This function is problematic when handling JSON strings as arguments. " +
+        "Refer to the issue for more details: https://github.com/euuungb/eungabi/issues/94",
+    level = DeprecationLevel.WARNING
+)
 internal fun RouteEncoder.decodeArgumentValue(value: String): String {
     require(value.isNotEmpty()) { "Input value cannot be empty" }
     return value.replace(ENCODED_AMPERSAND, "&")
 }
-
