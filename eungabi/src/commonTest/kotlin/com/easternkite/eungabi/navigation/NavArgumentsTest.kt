@@ -90,14 +90,9 @@ class NavArgumentsTest {
 
     @Test
     fun GIVEN_url_included_value_of_key_of_query_parameter_WHEN_call_getString_THEN_return_value_of_query_parameter() {
-        val route = "route?url={https://easternkite.github.io/eungabi}"
+        val route = "route?url=https://easternkite.github.io/eungabi"
         val expected = "https://easternkite.github.io/eungabi"
         val actual = NavArguments(route).getString("url")
         assertEquals(expected = expected, actual = actual)
-
-        val route2 = "route?url={https://easternkite.github.io/eungabi?param1=value1&param2=value2}&id=123"
-        val expected2 = "https://easternkite.github.io/eungabi?param1=value1&param2=value2"
-        val actual2 = NavArguments(route2).getString("url")
-        assertEquals(expected = expected2, actual = actual2)
     }
 }

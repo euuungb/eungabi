@@ -16,9 +16,6 @@
 package com.easternkite.eungabi.navigation
 
 import androidx.core.bundle.Bundle
-import com.easternkite.eungabi.utils.RouteEncoder
-import com.easternkite.eungabi.utils.decodeArgumentValue
-import com.easternkite.eungabi.utils.encodeFullRoute
 import com.easternkite.eungabi.utils.withScheme
 import com.eygraber.uri.Uri
 
@@ -32,7 +29,7 @@ class NavArguments(
     /**
      * The [Uri] converted from the route.
      */
-    internal val routeUri = Uri.parse(withScheme(RouteEncoder.encodeFullRoute(route)))
+    internal val routeUri = Uri.parse(withScheme(route))
 
     /**
      * The actual arguments parsed from query parameters of [routeUri].
@@ -46,7 +43,7 @@ class NavArguments(
     /**
      * Returns the [String] value of the argument with the given [key].
      */
-    fun getString(key: String) = arguments[key]?.let { RouteEncoder.decodeArgumentValue(it) }
+    fun getString(key: String) = arguments[key]
 
     /**
      * Returns the [Int] value of the argument with the given [key].
