@@ -18,7 +18,7 @@ fun EunGabiGraphBuilder.aScreenRoute() {
 
 ## 4.Passing complex arguments in URLs
 !!! warning
-    This feature has been deprecated since eungabi version 0.4.1 due to a JSON string parsing issue. For more details, please refer to GitHub Issue #94.
+    This feature has been deprecated since eungabi version 0.4.1 due to a JSON string parsing issue. For more details, please refer to GitHub Issue [#94](https://github.com/euuungb/eungabi/issues/94).
 
 You can pass complex arguments, such as multi-parameter URLs, by enclosing them within curly braces (`{`, `}`). This allows you to include special characters and multiple parameters within a single URL argument.
 
